@@ -17,3 +17,7 @@ Preset figures are examples, not live quotes.
 - **Greeks.** Central finite differences on the full model.
 
 Not modelled: rough or multi-factor volatility, inverse or quanto contracts, discrete dividends, discrete or clamped funding.
+
+## Backtest
+
+See [backtest/](backtest/) for tests against Deribit BTC option data. In short: the model fits market smiles well, but it has no trading edge and does not forecast volatility better than market prices.

@@ -1,0 +1,62 @@
+{
+ "funding": {
+  "hours": 32833,
+  "mean_annualised_pct": 6.423245634501593,
+  "median_annualised_pct": 0.7646425053238446,
+  "share_of_hours_negative_pct": 13.349374105320866,
+  "p5_p95_annualised_pct": [
+   -1.3043714848663674,
+   33.09380894598801
+  ],
+  "mean_basis_bp": 1.9175060001508797,
+  "basis_std_bp": 3.238180250708774,
+  "by_year": {
+   "2023": 6.878112553481621,
+   "2024": 10.275631981627734,
+   "2025": 5.388119123374727,
+   "2026": 2.018851753976286
+  }
+ },
+ "market_hours": {
+  "SPY": {
+   "days": 2513,
+   "weeknight_closed_hour_pct_of_open_hour": 23.132067680956172,
+   "weekend_closed_hour_pct_of_open_hour": 12.709865276243246,
+   "all_closed_hours_pct": 16.960453248177025,
+   "share_of_total_variance_while_closed_pct": 42.54625202593969
+  },
+  "QQQ": {
+   "days": 2513,
+   "weeknight_closed_hour_pct_of_open_hour": 20.532504798348445,
+   "weekend_closed_hour_pct_of_open_hour": 8.874627488294655,
+   "all_closed_hours_pct": 14.106332895338152,
+   "share_of_total_variance_while_closed_pct": 38.115493643507044
+  },
+  "NVDA": {
+   "days": 2513,
+   "weeknight_closed_hour_pct_of_open_hour": 20.812020788291075,
+   "weekend_closed_hour_pct_of_open_hour": 7.802691043298738,
+   "all_closed_hours_pct": 13.640303361864635,
+   "share_of_total_variance_while_closed_pct": 37.32629518562372
+  },
+  "AAPL": {
+   "days": 2513,
+   "weeknight_closed_hour_pct_of_open_hour": 21.717566299140103,
+   "weekend_closed_hour_pct_of_open_hour": 10.677932519952424,
+   "all_closed_hours_pct": 15.491809046724516,
+   "share_of_total_variance_while_closed_pct": 40.34858863958012
+  },
+  "TSLA": {
+   "days": 2513,
+   "weeknight_closed_hour_pct_of_open_hour": 20.15361749150935,
+   "weekend_closed_hour_pct_of_open_hour": 7.615582876630545,
+   "all_closed_hours_pct": 13.65752672282495,
+   "share_of_total_variance_while_closed_pct": 37.35582015720117
+  },
+  "gold_futures": {
+   "hourly_bars": 13736,
+   "weekend_closed_hour_pct_of_open_hour": 22.64465708018922,
+   "weekends": 125
+  }
+ }
+}
