@@ -89,4 +89,50 @@ Two cautions. The Economics and Politics pools are made of few events (eight Fed
 
 The Weather pool is instructive about decay: in 2024, takers overpaid for 65–90¢ weather favourites by 10% (makers earned 7–8¢ a contract); by 2025 the same buckets were within 2–3% of fair.
 
-(Sections on event-level risk, Polymarket, and the 2026 execution tests follow once those runs finish.)
+## Polymarket: every on-chain fill, 2023 to January 2026
+
+208 million fills, $20.8 billion staked by takers, scored the same way (gross, since most Polymarket markets charged no fee in this period; crypto takers now pay the same 7% formula as Kalshi). Categories are keyword-classified from the market slug, so "other" is large.
+
+**Takers roughly break even overall (+0.3% gross), but the favourite-longshot bias is stronger than on Kalshi.** Contracts bought under 10¢ lose 27–32% of stake; buyers of 80–95¢ favourites earn 2.6–3.4%, so makers lose there.
+
+| Taker price (¢) | Staked | Taker return (gross) |
+|---|---|---|
+| 0–5 | $75.5M | −26.8% |
+| 5–10 | $71.5M | −31.6% |
+| 10–20 | $188.5M | −11.8% |
+| 20–35 | $565.3M | −0.5% |
+| 35–50 | $1,770.7M | −11.2% (2024 election) |
+| 50–65 | $2,478.5M | +9.2% (2024 election) |
+| 65–80 | $1,388.3M | +1.7% |
+| 80–90 | $1,069.8M | +2.6% |
+| 90–95 | $913.1M | +3.4% |
+| 95–99 | $12,246.9M | +0.1% |
+
+### Where the longshot loss lives: long-dated contracts
+
+Polymarket longshots in 2025, by time to resolution:
+
+| Time to close | < 5¢ | 5–10¢ | 10–20¢ |
+|---|---|---|---|
+| < 1 h | +34% | −4% | −4% |
+| 1–6 h | +6% | +4% | 0% |
+| 6–24 h | −25% | −4% | 0% |
+| 1–7 d | −40% | −28% | −9% |
+| > 7 d | −56% ($25M) | −51% ($23M) | −35% ($59M) |
+
+Short-dated longshots (the crypto Up/Down windows, in-game sports) are priced about fairly. The money is in "will X happen by [date]" contracts weeks or months out, priced at a few cents, that almost never happen. Part of that premium is real: the seller's collateral is locked until resolution.
+
+### The repeatable pools (taker loss before fees, by year)
+
+| Pool | 2024 | 2025 | 2026 (Jan) | 2025 staked | 2025 maker gross | Concentration |
+|---|---|---|---|---|---|---|
+| Finance longshots (< 20¢: Fed decision sizes, "no change" contracts) | −43% | −78% | −75% | $20.3M | $15.8M | top family 48% (the Fed-cut ladder), 16% of markets lost |
+| Politics longshots (< 20¢) | −20% | −45% | −86% | $43.8M | $19.7M | top market 26% (NYC mayor), 14% of markets lost |
+| Entertainment longshots (< 20¢) | +30% | −37% | −26% | $4.7M | $1.7M | top market 28% (TikTok ban) |
+| Crypto longshots (< 20¢) | −11% | −13% | **+18%** | $59.0M | $7.8M | top family 19% |
+| Sports longshots (< 20¢) | **+39%** | −5% | **+11%** | $50.5M | $2.5M | top-5 markets 97% |
+| All longshots < 10¢ | −21% | −37% | −9% | $88.4M | $32.5M | top market 13% |
+
+Finance and politics longshots lose in every year; sports and crypto longshots on Polymarket flip sign between years (a few big upsets pay them), so they are not a pool to sell blindly. The crypto Up/Down families (15-minute, hourly, daily) net to zero for takers on $1.3B: those markets are efficient on average, which matches the quote-level tests in [../edge/](../edge/).
+
+(Sections on event-level risk for Kalshi and the 2026 execution tests follow once those runs finish.)
