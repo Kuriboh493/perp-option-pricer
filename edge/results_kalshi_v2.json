@@ -1,0 +1,462 @@
+{
+ "quotes": 23826,
+ "train_quotes": 10058,
+ "test_quotes": 13768,
+ "days": 577,
+ "dvol_variance_multiplier": 0.9328714526938322,
+ "blend_weights": {
+  "const": 0.06,
+  "logit_mid": 0.332,
+  "logit_emp": 1.1,
+  "logit_dvol": -0.347
+ },
+ "train_accuracy": {
+  "mid": {
+   "brier": 0.10681082223105985,
+   "logloss": 0.34961801613575966
+  },
+  "emp": {
+   "brier": 0.10342239076837931,
+   "logloss": 0.33291103993119825
+  },
+  "bates": {
+   "brier": 0.10385370880350717,
+   "logloss": 0.33595494651027785
+  },
+  "dvol": {
+   "brier": 0.10466859553139972,
+   "logloss": 0.33887409868784285
+  },
+  "dvol_norm": {
+   "brier": 0.10817992684633673,
+   "logloss": 0.3504997333339704
+  },
+  "debiased": {
+   "brier": 0.10453798695381931,
+   "logloss": 0.34005682797421904
+  },
+  "blend": {
+   "brier": 0.10309510971741573,
+   "logloss": 0.33162820290239275
+  },
+  "blend_nomkt": {
+   "brier": 0.10328422525256456,
+   "logloss": 0.3322792844956731
+  }
+ },
+ "test_accuracy": {
+  "mid": {
+   "brier": 0.07103456202789075,
+   "logloss": 0.2431552465506323
+  },
+  "emp": {
+   "brier": 0.06983620474593952,
+   "logloss": 0.23732582307624656
+  },
+  "bates": {
+   "brier": 0.07210762616420723,
+   "logloss": 0.24383780760668608
+  },
+  "dvol": {
+   "brier": 0.06991491948359359,
+   "logloss": 0.23859094278970208
+  },
+  "dvol_norm": {
+   "brier": 0.07430467693088247,
+   "logloss": 0.25361419623549114
+  },
+  "debiased": {
+   "brier": 0.06882346601088438,
+   "logloss": 0.2311717491372988
+  },
+  "blend": {
+   "brier": 0.06935722383655744,
+   "logloss": 0.23379124239460047
+  },
+  "blend_nomkt": {
+   "brier": 0.06983861547434582,
+   "logloss": 0.23676773226035397
+  }
+ },
+ "maker_fee_0_train_top": [
+  {
+   "trades": 140,
+   "days": 112,
+   "cents_per_contract": 12.907142857142857,
+   "win": 82.85714285714286,
+   "total_usd": 1807.0,
+   "t": 4.381177743395904,
+   "model": "debiased",
+   "hours": 3,
+   "mode": "join",
+   "threshold": 0.1,
+   "score": 4.381177743395904
+  },
+  {
+   "trades": 84,
+   "days": 54,
+   "cents_per_contract": 15.226190476190474,
+   "win": 73.80952380952381,
+   "total_usd": 1279.0,
+   "t": 4.1208009866400435,
+   "model": "bates",
+   "hours": 4,
+   "mode": "improve",
+   "threshold": 0.1,
+   "score": 4.1208009866400435
+  },
+  {
+   "trades": 179,
+   "days": 103,
+   "cents_per_contract": 12.139664804469275,
+   "win": 79.88826815642457,
+   "total_usd": 2173.0,
+   "t": 4.078865066449464,
+   "model": "emp",
+   "hours": 4,
+   "mode": "improve",
+   "threshold": 0.08,
+   "score": 4.078865066449464
+  },
+  {
+   "trades": 152,
+   "days": 92,
+   "cents_per_contract": 11.01315789473684,
+   "win": 65.13157894736842,
+   "total_usd": 1674.0,
+   "t": 4.067087177546547,
+   "model": "bates",
+   "hours": 3,
+   "mode": "improve",
+   "threshold": 0.08,
+   "score": 4.067087177546547
+  },
+  {
+   "trades": 213,
+   "days": 128,
+   "cents_per_contract": 11.535211267605634,
+   "win": 78.40375586854461,
+   "total_usd": 2457.0,
+   "t": 4.052958814051089,
+   "model": "emp",
+   "hours": 4,
+   "mode": "join",
+   "threshold": 0.08,
+   "score": 4.052958814051089
+  },
+  {
+   "trades": 86,
+   "days": 72,
+   "cents_per_contract": 13.55813953488372,
+   "win": 82.55813953488372,
+   "total_usd": 1166.0,
+   "t": 4.004897319133518,
+   "model": "debiased",
+   "hours": 3,
+   "mode": "improve",
+   "threshold": 0.1,
+   "score": 4.004897319133518
+  },
+  {
+   "trades": 163,
+   "days": 104,
+   "cents_per_contract": 12.938650306748468,
+   "win": 80.3680981595092,
+   "total_usd": 2109.0,
+   "t": 3.9805198086704614,
+   "model": "blend_nomkt",
+   "hours": 4,
+   "mode": "join",
+   "threshold": 0.1,
+   "score": 3.9805198086704614
+  },
+  {
+   "trades": 106,
+   "days": 62,
+   "cents_per_contract": 10.849716981132078,
+   "win": 74.52830188679245,
+   "total_usd": 1150.0700000000002,
+   "t": 3.785990992872511,
+   "model": "bates",
+   "hours": 1,
+   "mode": "taker",
+   "threshold": 0.04,
+   "score": 3.785990992872511
+  }
+ ],
+ "maker_fee_0_test_chosen": {
+  "rule": {
+   "model": "debiased",
+   "hours": 3,
+   "mode": "join",
+   "threshold": 0.1
+  },
+  "train_t": 4.381177743395904,
+  "test": {
+   "trades": 59,
+   "days": 48,
+   "cents_per_contract": 7.762711864406779,
+   "win": 81.35593220338984,
+   "total_usd": 458.0,
+   "t": 1.48093314511202
+  }
+ },
+ "maker_fee_0_test_best_per_mode": {
+  "taker": {
+   "rule": {
+    "model": "bates",
+    "hours": 1,
+    "mode": "taker",
+    "threshold": 0.04
+   },
+   "train_t": 3.785990992872511,
+   "test": {
+    "trades": 312,
+    "days": 155,
+    "cents_per_contract": -4.106217948717949,
+    "win": 28.205128205128204,
+    "total_usd": -1281.1399999999999,
+    "t": -2.08077855958572
+   }
+  },
+  "join": {
+   "rule": {
+    "model": "debiased",
+    "hours": 3,
+    "mode": "join",
+    "threshold": 0.1
+   },
+   "train_t": 4.381177743395904,
+   "test": {
+    "trades": 59,
+    "days": 48,
+    "cents_per_contract": 7.762711864406779,
+    "win": 81.35593220338984,
+    "total_usd": 458.0,
+    "t": 1.48093314511202
+   }
+  },
+  "improve": {
+   "rule": {
+    "model": "bates",
+    "hours": 4,
+    "mode": "improve",
+    "threshold": 0.1
+   },
+   "train_t": 4.1208009866400435,
+   "test": {
+    "trades": 59,
+    "days": 32,
+    "cents_per_contract": 10.694915254237287,
+    "win": 61.016949152542374,
+    "total_usd": 631.0,
+    "t": 2.292625611429935
+   }
+  }
+ },
+ "maker_fee_0_test_favourite_rule_as_maker": {
+  "trades": 1689,
+  "days": 271,
+  "cents_per_contract": 4.650088809946715,
+  "win": 96.74363528715216,
+  "total_usd": 7854.000000000001,
+  "t": 8.403098287123681
+ },
+ "maker_fee_0.0175_train_top": [
+  {
+   "trades": 140,
+   "days": 112,
+   "cents_per_contract": 12.579714285714285,
+   "win": 82.85714285714286,
+   "total_usd": 1761.1599999999999,
+   "t": 4.269284599958867,
+   "model": "debiased",
+   "hours": 3,
+   "mode": "join",
+   "threshold": 0.1,
+   "score": 4.269284599958867
+  },
+  {
+   "trades": 84,
+   "days": 54,
+   "cents_per_contract": 14.90761904761905,
+   "win": 73.80952380952381,
+   "total_usd": 1252.24,
+   "t": 4.0456693942773105,
+   "model": "bates",
+   "hours": 4,
+   "mode": "improve",
+   "threshold": 0.1,
+   "score": 4.0456693942773105
+  },
+  {
+   "trades": 179,
+   "days": 103,
+   "cents_per_contract": 11.79972067039106,
+   "win": 79.88826815642457,
+   "total_usd": 2112.15,
+   "t": 3.9742468263953614,
+   "model": "emp",
+   "hours": 4,
+   "mode": "improve",
+   "threshold": 0.08,
+   "score": 3.9742468263953614
+  },
+  {
+   "trades": 152,
+   "days": 92,
+   "cents_per_contract": 10.707828947368421,
+   "win": 65.13157894736842,
+   "total_usd": 1627.5900000000001,
+   "t": 3.96111634447658,
+   "model": "bates",
+   "hours": 3,
+   "mode": "improve",
+   "threshold": 0.08,
+   "score": 3.96111634447658
+  },
+  {
+   "trades": 213,
+   "days": 128,
+   "cents_per_contract": 11.19300469483568,
+   "win": 78.40375586854461,
+   "total_usd": 2384.1100000000006,
+   "t": 3.941924903683945,
+   "model": "emp",
+   "hours": 4,
+   "mode": "join",
+   "threshold": 0.08,
+   "score": 3.941924903683945
+  },
+  {
+   "trades": 86,
+   "days": 72,
+   "cents_per_contract": 13.233139534883723,
+   "win": 82.55813953488372,
+   "total_usd": 1138.0499999999997,
+   "t": 3.8946193444824306,
+   "model": "debiased",
+   "hours": 3,
+   "mode": "improve",
+   "threshold": 0.1,
+   "score": 3.8946193444824306
+  },
+  {
+   "trades": 163,
+   "days": 104,
+   "cents_per_contract": 12.587484662576687,
+   "win": 80.3680981595092,
+   "total_usd": 2051.76,
+   "t": 3.881607485683921,
+   "model": "blend_nomkt",
+   "hours": 4,
+   "mode": "join",
+   "threshold": 0.1,
+   "score": 3.881607485683921
+  },
+  {
+   "trades": 106,
+   "days": 62,
+   "cents_per_contract": 10.849716981132078,
+   "win": 74.52830188679245,
+   "total_usd": 1150.0700000000002,
+   "t": 3.785990992872511,
+   "model": "bates",
+   "hours": 1,
+   "mode": "taker",
+   "threshold": 0.04,
+   "score": 3.785990992872511
+  }
+ ],
+ "maker_fee_0.0175_test_chosen": {
+  "rule": {
+   "model": "debiased",
+   "hours": 3,
+   "mode": "join",
+   "threshold": 0.1
+  },
+  "train_t": 4.269284599958867,
+  "test": {
+   "trades": 59,
+   "days": 48,
+   "cents_per_contract": 7.435762711864408,
+   "win": 81.35593220338984,
+   "total_usd": 438.71,
+   "t": 1.4202822235534742
+  }
+ },
+ "maker_fee_0.0175_test_best_per_mode": {
+  "taker": {
+   "rule": {
+    "model": "bates",
+    "hours": 1,
+    "mode": "taker",
+    "threshold": 0.04
+   },
+   "train_t": 3.785990992872511,
+   "test": {
+    "trades": 312,
+    "days": 155,
+    "cents_per_contract": -4.106217948717949,
+    "win": 28.205128205128204,
+    "total_usd": -1281.1399999999999,
+    "t": -2.08077855958572
+   }
+  },
+  "join": {
+   "rule": {
+    "model": "debiased",
+    "hours": 3,
+    "mode": "join",
+    "threshold": 0.1
+   },
+   "train_t": 4.269284599958867,
+   "test": {
+    "trades": 59,
+    "days": 48,
+    "cents_per_contract": 7.435762711864408,
+    "win": 81.35593220338984,
+    "total_usd": 438.71,
+    "t": 1.4202822235534742
+   }
+  },
+  "improve": {
+   "rule": {
+    "model": "bates",
+    "hours": 4,
+    "mode": "improve",
+    "threshold": 0.1
+   },
+   "train_t": 4.0456693942773105,
+   "test": {
+    "trades": 59,
+    "days": 32,
+    "cents_per_contract": 10.410169491525421,
+    "win": 61.016949152542374,
+    "total_usd": 614.1999999999999,
+    "t": 2.2319658048712254
+   }
+  }
+ },
+ "maker_fee_0.0175_test_favourite_rule_as_maker": {
+  "trades": 1689,
+  "days": 271,
+  "cents_per_contract": 4.522658377738308,
+  "win": 96.74363528715216,
+  "total_usd": 7638.770000000002,
+  "t": 8.188146662866146
+ },
+ "test_favourite_rule_as_taker": {
+  "trades": 2227,
+  "days": 272,
+  "cents_per_contract": 2.7024113156713083,
+  "win": 97.48540637629097,
+  "total_usd": 6018.270000000002,
+  "t": 6.208610118629523
+ },
+ "fill_rates": {
+  "join_bid": 0.6548828617012343,
+  "join_ask": 0.6762532538416324,
+  "improve_bid": 0.7266353178268536
+ }
+}

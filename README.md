@@ -31,4 +31,4 @@ See [backtest/](backtest/) for tests against Deribit BTC option data. In short: 
 
 ## Edge search
 
-See [edge/](edge/) for a search for an edge in 0DTE options and Kalshi prediction markets. The model's own signals did not survive out of sample; a model-free favorite-longshot rule on Kalshi's BTC contracts did (2.7¢ per contract after fees in 2026, t = 6.2), with tail risk and unknown capacity.
+See [edge/](edge/) for a search for an edge in 0DTE options and Kalshi prediction markets. The model's own signals did not survive out of sample; a model-free favorite-longshot rule on Kalshi's BTC contracts did (2.7¢ per contract after fees in 2026 as a taker, 4.65¢ with resting orders, t = 6.2 and 8.4), with tail risk and unknown capacity. The de-biased market price forecasts outcomes better than any model that ignores it.

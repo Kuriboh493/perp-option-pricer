@@ -15,6 +15,9 @@ python -m venv .venv && .venv/bin/pip install -r requirements.txt
 .venv/bin/python dte0.py                     # 0DTE test
 .venv/bin/python kalshi_edge.py              # prediction-market test
 .venv/bin/python favorite_rule.py            # stress test of the rule that survived
+.venv/bin/python fetch_kalshi2.py fetch_dvol.py   # retry data: full candles (high/low/trades) and Deribit DVOL
+.venv/bin/python kalshi_v2.py                # retry: resting orders, de-biased market, DVOL, blend
+.venv/bin/python favorite_maker.py           # stress test of the favourite rule executed with resting orders
 ```
 
 ## Volatility forecast (`volfc.py`)
@@ -51,6 +54,36 @@ At 03:00 UTC each day, the 5-hour at-the-money straddle into the 08:00 UTC expir
 - Measured costs are about 15% of premium (median 6.2% paid over mark, plus about 9% in exchange fees), so no rule survives when paying the spread.
 - **Exploratory:** if filled at the mark price, selling only when the market is at least 30% above the model's value made +$97 per day in 2026 (t = 2.3, 107 days). Profit rose with stricter cutoffs in both halves, but the cutoff was chosen after seeing the test data and fills at the mark are not guaranteed.
 
+## Retry: resting orders and better probabilities (`kalshi_v2.py`, `favorite_maker.py`)
+
+Motivated by Burgi, Deng & Whelan (2026), who find on 300k+ Kalshi contracts that makers earn more than takers and that crypto contracts carry the strongest favourite-longshot bias. Kalshi's API flags maker-fee series as `quadratic_with_maker_fees`; the BTC daily series is plain `quadratic`, so resting orders pay no fee (results with a 0.0175·P(1−P) maker fee are in the JSON and differ by about 0.1¢).
+
+Execution is simulated from hourly candles: a resting order at the current best quote ("join") or one cent inside it ("improve") counts as filled only if a trade printed at or through that price in the following hour. This ignores queue position, so fills are optimistic. Fill rates: 65% at the bid, 68% at the ask.
+
+**Probability models on 2026 (Brier, lower is better):** de-biased market 0.0688, logistic blend 0.0694, seasonal-forecast empirical tails 0.0698, DVOL-based 0.0699, market mid 0.0710, the pricer's jump model 0.0721. The de-biased market probability is an isotonic map from the 2025 mid-price to outcome frequency; it beats every model that ignores the market, and the pricer's own model is the weakest.
+
+**Model-driven rules** (chosen on 2025, judged on 2026):
+
+| Execution | Best 2025 rule | 2026 result |
+|---|---|---|
+| Taker | jump model, 1h, 4¢ edge | −4.1¢ per contract, 312 trades, t = −2.1 |
+| Join | de-biased market, 3h, 10¢ edge | +7.8¢, 59 fills, t = 1.5 |
+| Improve | jump model, 4h, 10¢ edge | +10.7¢, 59 fills, t = 2.3 |
+
+Resting instead of crossing turns the model rules from losers into small, thinly-traded winners; 59 fills is too few to call.
+
+**Favourite rule as a maker** (4h before close, rest on the favourite side when mid is beyond 80/20):
+
+| | Taker | Join | Improve |
+|---|---|---|---|
+| Fills (2026) | 2,227 | 1,689 | 829 |
+| Per contract | 2.7¢ | **4.65¢** | 4.25¢ |
+| t-stat (daily totals) | 6.2 | 8.4 | 5.2 |
+| Total, 100 contracts/trade | $6,018 | $7,854 | $3,521 |
+| Worst day / max drawdown | −$363 / −$549 | −$327 / −$428 | −$181 / −$313 |
+
+All 20 neighbouring settings (1–6h, cutoffs 5–30¢) are profitable as join, t = 4.8 to 10.5; all nine months of 2026 are positive (0.9¢ in January to 8.8¢ in March). Adverse selection is present but mild: quotes that fill win 96.7% of the time, those that do not fill win 100%. Filtering on the de-biased probability changes nothing, because it agrees with the rule on every quote.
+
 ## Limitations
 
-The Deribit hourly index stands in for CF Benchmarks' BRTI and for Deribit's 30-minute settlement average. Kalshi quotes are hourly candle closes, without depth. Several rule grids were tested, so single results near t = 2 should be read as leads, not findings. This is research, not investment advice.
+The Deribit hourly index stands in for CF Benchmarks' BRTI and for Deribit's 30-minute settlement average. Kalshi quotes are hourly candle closes, without depth; resting-order fills ignore queue position. Several rule grids were tested, so single results near t = 2 should be read as leads, not findings. This is research, not investment advice.

@@ -1,0 +1,267 @@
+{
+ "base": {
+  "join": {
+   "trades": 1689,
+   "days": 271,
+   "cents_per_contract": 4.650088809946715,
+   "win": 96.74363528715216,
+   "total_usd": 7854.000000000001,
+   "t": 8.403098287123681,
+   "worst_day_usd": -327.0,
+   "max_drawdown_usd": 428.0
+  },
+  "improve": {
+   "trades": 829,
+   "days": 252,
+   "cents_per_contract": 4.247285886610374,
+   "win": 95.77804583835947,
+   "total_usd": 3521.0,
+   "t": 5.147763681331606,
+   "worst_day_usd": -181.0,
+   "max_drawdown_usd": 313.0
+  },
+  "taker": {
+   "trades": 2227,
+   "days": 272,
+   "cents_per_contract": 2.7024113156713083,
+   "win": 97.48540637629097,
+   "total_usd": 6018.270000000002,
+   "t": 6.208610118629523,
+   "worst_day_usd": -362.59999999999997,
+   "max_drawdown_usd": 549.27
+  }
+ },
+ "neighbouring_settings_join": {
+  "1h x=0.05": {
+   "trades": 582,
+   "days": 236,
+   "cents_per_contract": 2.3505154639175285,
+   "win": 98.96907216494846,
+   "total_usd": 1368.0000000000014,
+   "t": 4.936484845681056,
+   "worst_day_usd": -184.0,
+   "max_drawdown_usd": 186.0
+  },
+  "1h x=0.1": {
+   "trades": 786,
+   "days": 258,
+   "cents_per_contract": 3.108142493638679,
+   "win": 98.34605597964376,
+   "total_usd": 2443.0000000000014,
+   "t": 5.309756151652878,
+   "worst_day_usd": -184.0,
+   "max_drawdown_usd": 187.0
+  },
+  "1h x=0.2": {
+   "trades": 973,
+   "days": 266,
+   "cents_per_contract": 3.3720452209660863,
+   "win": 96.40287769784173,
+   "total_usd": 3281.000000000001,
+   "t": 4.792240890134523,
+   "worst_day_usd": -263.0,
+   "max_drawdown_usd": 286.0
+  },
+  "1h x=0.3": {
+   "trades": 1119,
+   "days": 269,
+   "cents_per_contract": 4.032171581769439,
+   "win": 94.45933869526363,
+   "total_usd": 4512.0,
+   "t": 5.046883827680632,
+   "worst_day_usd": -265.0,
+   "max_drawdown_usd": 315.0
+  },
+  "2h x=0.05": {
+   "trades": 852,
+   "days": 255,
+   "cents_per_contract": 2.5422535211267636,
+   "win": 99.17840375586854,
+   "total_usd": 2166.0000000000023,
+   "t": 7.0610048775648515,
+   "worst_day_usd": -189.0,
+   "max_drawdown_usd": 189.0
+  },
+  "2h x=0.1": {
+   "trades": 1165,
+   "days": 270,
+   "cents_per_contract": 2.6772532188841227,
+   "win": 97.93991416309012,
+   "total_usd": 3119.000000000002,
+   "t": 4.9829248267664505,
+   "worst_day_usd": -280.0,
+   "max_drawdown_usd": 438.0
+  },
+  "2h x=0.2": {
+   "trades": 1476,
+   "days": 272,
+   "cents_per_contract": 3.9769647696476977,
+   "win": 96.81571815718158,
+   "total_usd": 5870.000000000001,
+   "t": 6.042068269728593,
+   "worst_day_usd": -361.0,
+   "max_drawdown_usd": 531.0
+  },
+  "2h x=0.3": {
+   "trades": 1670,
+   "days": 272,
+   "cents_per_contract": 4.614970059880241,
+   "win": 95.26946107784431,
+   "total_usd": 7707.0,
+   "t": 6.348082762132925,
+   "worst_day_usd": -431.0,
+   "max_drawdown_usd": 576.0
+  },
+  "3h x=0.05": {
+   "trades": 884,
+   "days": 254,
+   "cents_per_contract": 2.750000000000003,
+   "win": 99.2081447963801,
+   "total_usd": 2431.0000000000023,
+   "t": 7.125986709972688,
+   "worst_day_usd": -189.0,
+   "max_drawdown_usd": 281.0
+  },
+  "3h x=0.1": {
+   "trades": 1227,
+   "days": 265,
+   "cents_per_contract": 3.4857375713121455,
+   "win": 98.61450692746536,
+   "total_usd": 4277.000000000002,
+   "t": 7.340209719944435,
+   "worst_day_usd": -365.0,
+   "max_drawdown_usd": 403.0
+  },
+  "3h x=0.2": {
+   "trades": 1622,
+   "days": 271,
+   "cents_per_contract": 4.448212083847104,
+   "win": 96.9173859432799,
+   "total_usd": 7215.000000000002,
+   "t": 7.169138714050779,
+   "worst_day_usd": -434.0,
+   "max_drawdown_usd": 548.0
+  },
+  "3h x=0.3": {
+   "trades": 1886,
+   "days": 271,
+   "cents_per_contract": 5.401908801696713,
+   "win": 95.22799575821846,
+   "total_usd": 10188.0,
+   "t": 7.874412813064415,
+   "worst_day_usd": -482.0,
+   "max_drawdown_usd": 529.0
+  },
+  "4h x=0.05": {
+   "trades": 838,
+   "days": 243,
+   "cents_per_contract": 3.0155131264916495,
+   "win": 99.40334128878283,
+   "total_usd": 2527.000000000002,
+   "t": 8.234554978004473,
+   "worst_day_usd": -185.0,
+   "max_drawdown_usd": 274.0
+  },
+  "4h x=0.1": {
+   "trades": 1247,
+   "days": 265,
+   "cents_per_contract": 4.01764234161989,
+   "win": 98.87730553327987,
+   "total_usd": 5010.000000000002,
+   "t": 10.494993309181512,
+   "worst_day_usd": -260.0,
+   "max_drawdown_usd": 267.0
+  },
+  "4h x=0.2": {
+   "trades": 1689,
+   "days": 271,
+   "cents_per_contract": 4.650088809946715,
+   "win": 96.74363528715216,
+   "total_usd": 7854.000000000001,
+   "t": 8.403098287123681,
+   "worst_day_usd": -327.0,
+   "max_drawdown_usd": 428.0
+  },
+  "4h x=0.3": {
+   "trades": 1998,
+   "days": 272,
+   "cents_per_contract": 5.603103103103105,
+   "win": 94.84484484484484,
+   "total_usd": 11195.0,
+   "t": 8.26202582997667,
+   "worst_day_usd": -372.0,
+   "max_drawdown_usd": 518.0
+  },
+  "6h x=0.05": {
+   "trades": 740,
+   "days": 224,
+   "cents_per_contract": 2.7351351351351383,
+   "win": 98.91891891891892,
+   "total_usd": 2024.0000000000023,
+   "t": 5.273851979692322,
+   "worst_day_usd": -192.0,
+   "max_drawdown_usd": 198.0
+  },
+  "6h x=0.1": {
+   "trades": 1218,
+   "days": 257,
+   "cents_per_contract": 3.3456486042692952,
+   "win": 97.78325123152709,
+   "total_usd": 4075.000000000002,
+   "t": 5.413043203385515,
+   "worst_day_usd": -285.0,
+   "max_drawdown_usd": 365.0
+  },
+  "6h x=0.2": {
+   "trades": 1778,
+   "days": 268,
+   "cents_per_contract": 4.723847019122611,
+   "win": 95.95050618672666,
+   "total_usd": 8399.0,
+   "t": 6.288052063341632,
+   "worst_day_usd": -454.0,
+   "max_drawdown_usd": 466.0
+  },
+  "6h x=0.3": {
+   "trades": 2180,
+   "days": 271,
+   "cents_per_contract": 4.6972477064220195,
+   "win": 92.70642201834862,
+   "total_usd": 10240.0,
+   "t": 5.561567678409379,
+   "worst_day_usd": -526.0,
+   "max_drawdown_usd": 885.0
+  }
+ },
+ "by_month_join_cents": {
+  "2026-01": 0.91,
+  "2026-02": 6.18,
+  "2026-03": 8.78,
+  "2026-04": 4.36,
+  "2026-05": 3.22,
+  "2026-06": 2.79,
+  "2026-07": 4.92,
+  "2026-08": 4.92,
+  "2026-09": 5.7
+ },
+ "adverse_selection": {
+  "filled": {
+   "n": 1689,
+   "win_rate": 0.9674363528715216,
+   "avg_price": 0.9209354647720545
+  },
+  "unfilled": {
+   "n": 538,
+   "win_rate": 0.9981412639405205,
+   "avg_price": 0.9435873605947956
+  }
+ },
+ "exploratory_only_when_debiased_agrees": {
+  "trades": 1689,
+  "days": 271,
+  "cents_per_contract": 4.650088809946715,
+  "win": 96.74363528715216,
+  "total_usd": 7854.000000000001,
+  "t": 8.403098287123681
+ }
+}
