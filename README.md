@@ -21,3 +21,7 @@ Not modelled: rough or multi-factor volatility, inverse or quanto contracts, dis
 ## Backtest
 
 See [backtest/](backtest/) for tests against Deribit BTC option data. In short: the model fits market smiles well, but it has no trading edge and does not forecast volatility better than market prices.
+
+## Edge search
+
+See [edge/](edge/) for a search for an edge in 0DTE options and Kalshi prediction markets. The model's own signals did not survive out of sample; a model-free favorite-longshot rule on Kalshi's BTC contracts did (2.7¢ per contract after fees in 2026, t = 6.2), with tail risk and unknown capacity.
