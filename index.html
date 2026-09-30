@@ -99,6 +99,7 @@ th{font:500 12px var(--f-body);color:var(--ink2)}
 .notes li b{color:var(--ink);font-weight:600}
 .notes code{font:12.5px var(--f-num);color:var(--ink);background:var(--bg);padding:1px 4px;border-radius:2px}
 .foot{color:var(--muted);font-size:12px;margin:0}
+.foot a{color:var(--accent)}
 </style>
 
 <div class="wrap">
@@ -124,7 +125,8 @@ th{font:500 12px var(--f-body);color:var(--ink2)}
         <div class="fields">
           <div class="field"><label for="K">Strike (USD)</label><input type="number" id="K" step="any" min="0"></div>
           <div class="field" id="fDays"><label for="days">Days to expiry</label><input type="number" id="days" step="any" min="0"></div>
-          <div class="field" id="fEver" hidden><label for="everH">Option funding period (h)</label><input type="number" id="everH" step="any" min="0.25" value="24"></div>
+          <div class="field" id="fEver" hidden><label for="everH">Funding period Δ (h)</label><input type="number" id="everH" step="any" min="0.25" value="24"></div>
+          <div class="field" id="fEverK" hidden><label for="everK">Premium rate κ per period</label><input type="number" id="everK" step="any" min="0.02" max="10" value="1"></div>
           <div class="field wide"><label for="sigma">Spot volatility, annualised (%)</label><input type="number" id="sigma" step="any" min="0"></div>
         </div>
       </div>
@@ -136,8 +138,11 @@ th{font:500 12px var(--f-body);color:var(--ink2)}
           <div class="field wide"><label class="check"><input type="checkbox" id="useFair" checked> Set the mark to the model's fair value</label></div>
           <div class="field"><label for="r">USD rate r (%)</label><input type="number" id="r" step="any"></div>
           <div class="field"><label for="q">Asset yield q (%)</label><input type="number" id="q" step="any"></div>
+          <div class="field wide"><label for="frule">Funding rule</label>
+            <select id="frule"><option value="clamp">Clamped premium (Binance, Deribit style)</option><option value="linear">Linear, κ(F − S) + ιS</option></select></div>
           <div class="field"><label for="fi">Funding interval (h)</label><input type="number" id="fi" step="any" min="0.01"></div>
-          <div class="field"><label for="iota">Funding interest leg (%/yr)</label><input type="number" id="iota" step="any"></div>
+          <div class="field"><label for="iota">Interest component ι (%/yr)</label><input type="number" id="iota" step="any"></div>
+          <div class="field wide" id="fGam"><label for="gam">Clamp half-width γ (% per interval)</label><input type="number" id="gam" step="any" min="0"></div>
         </div>
       </div>
       <div class="group">
@@ -219,15 +224,16 @@ th{font:500 12px var(--f-body);color:var(--ink2)}
       <section class="panel notes">
         <h2>What the model assumes</h2>
         <ol>
-          <li><b>Perp fair value.</b> Funding accrues continuously at <code>κ(F − S) + ιS</code>, with <code>κ = 1 / funding interval</code>. No arbitrage then gives <code>F = S(κ − ι)/(κ − (r − q))</code>.</li>
+          <li><b>Perp fair value.</b> Two funding rules. <i>Linear</i>: funding accrues at <code>κ(F − S) + ιS</code>, so <code>F = S(κ − ι)/(κ − (r − q))</code>, the risk-neutral spot sampled at an exponential time of mean <code>1/κ</code> (Ackerer, Hugonnier &amp; Jermann). <i>Clamped</i>: each interval longs pay <code>ι + soft(p − ι, γ)</code> on the premium <code>p = (F − S)/S</code>, flat inside the clamp, so no arbitrage puts the basis at <code>p = c ± γ</code>, <code>c</code> being the carry per interval (He, Manela, Ross &amp; von Wachter). The clamp is why a perp can sit a few basis points from spot for weeks.</li>
           <li><b>Perp drift.</b> Because the perp tracks spot, its risk-neutral forward is <code>F·e^((r−q)T)</code>. It is not a martingale like a dated future, so Black-76 with the mark as forward is slightly off.</li>
           <li><b>Stochastic volatility.</b> Heston: variance <code>v</code> follows <code>dv = κ<sub>v</sub>(θ − v)dt + ξ√v dW</code>, starting at spot vol squared, reverting to long-run vol squared, and correlated <code>ρ</code> with the price. Correlation sets the skew, vol of vol the curvature.</li>
           <li><b>Jumps.</b> Merton jumps on top (the Bates model): Poisson arrivals, lognormal sizes, drift compensated so the forward is unchanged. Jump risk is priced as if diversifiable, and variance itself does not jump.</li>
           <li><b>Pricing.</b> The characteristic function is known in closed form and prices come from one numerical integral (Lewis, 2001). Parameters are taken as already risk-neutral.</li>
           <li><b>Market hours.</b> The variance process runs on a vol clock in which a closed hour counts as a fixed fraction of an open hour, scaled so a full week equals a calendar week. Jumps arrive on calendar time. Holidays are ignored.</li>
-          <li><b>Everlasting options.</b> Daily-style funding of mark minus payoff makes the price <code>Σ 2^(−i) · C(i·Δ)</code>, a weighted basket of European options one funding period apart.</li>
-          <li><b>Settlement.</b> Linear USD-margined perp, premium paid up front in USD, European exercise against the perp mark, no fees, no liquidation or oracle risk, flat rates.</li>
+          <li><b>Everlasting options.</b> A margined contract paying <code>κ(mark − payoff)</code> every period Δ. Its no-arbitrage price is <code>Σ κ(1+κ)^−(n+1) E[payoff at nΔ]</code>, an undiscounted basket of European payoffs with geometric weights and mean horizon <code>Δ/κ</code> (Ackerer, Hugonnier &amp; Jermann, Theorem 6). <code>κ = 1</code> gives the original 2^−i weights.</li>
+          <li><b>Settlement.</b> Linear USD-margined perp. European options: premium paid up front in USD, exercise against the perp mark. No fees, no liquidation or oracle risk, flat rates.</li>
         </ol>
+        <p class="foot">References: Ackerer, Hugonnier &amp; Jermann, <a href="https://arxiv.org/abs/2310.11771">Perpetual Futures Pricing</a>, Mathematical Finance (2025). He, Manela, Ross &amp; von Wachter, <a href="https://arxiv.org/abs/2212.06888">Fundamentals of Perpetual Futures</a> (2025). Kim &amp; Park, <a href="https://arxiv.org/abs/2506.08573">Designing funding rates for perpetual futures</a> (2025). Bankman-Fried &amp; White, Everlasting Options (2021).</p>
       </section>
     </div>
   </div>
@@ -320,8 +326,8 @@ function cfGrid(p,hours,sigma){
   return g;
 }
 // European option on the perp mark F. plain=true is Black with the spot vol on calendar time.
-function euro(p,F,K,hours,sigma,cp,plain){
-  const T=hours/8760, b=p.r-p.q, df=Math.exp(-p.r*T), fwd=F*Math.exp(b*T);
+function euro(p,F,K,hours,sigma,cp,plain,nodisc){
+  const T=hours/8760, b=p.r-p.q, df=nodisc?1:Math.exp(-p.r*T), fwd=F*Math.exp(b*T);
   if(plain) return df*black(fwd,K,sigma*sigma*T,cp);
   const g=hours>0?cfGrid(p,hours,sigma):null;
   if(!g) return df*Math.max(cp*(fwd-K),0);
@@ -332,10 +338,29 @@ function euro(p,F,K,hours,sigma,cp,plain){
   return df*(cp>0?C:C-fwd+K);
 }
 function price(p,F,K,sigma,cp,plain,hoursOverride){
-  if(p.style==='ever'){ let s=0,wgt=1; for(let i=1;i<=32;i++){ wgt/=2; s+=wgt*euro(p,F,K,i*p.everH,sigma,cp,plain); } return s; }
+  if(p.style==='ever'){
+    // Ackerer, Hugonnier & Jermann, Theorem 6: f = Σ_{n≥0} κ(1+κ)^−(n+1) E[payoff at nΔ], undiscounted (margined contract)
+    const k=p.everK; let s=0, w=k/(1+k);
+    for(let n=0;n<4000&&w>1e-7;n++,w/=1+k) s+=w*euro(p,F,K,n*p.everH,sigma,cp,plain,true);
+    return s;
+  }
   return euro(p,F,K,hoursOverride!=null?hoursOverride:p.hours,sigma,cp,plain);
 }
-function fairPerp(S,r,q,iota,fiHours){ const kap=8760/fiHours; return S*(kap-iota)/(kap-(r-q)); }
+// Perp fair value. linear: funding κ(F−S)+ιS, F = S(κ−ι)/(κ−(r−q)) (Ackerer, Hugonnier & Jermann 2025).
+// clamp: longs pay ι + soft(p−ι, γ) per interval on the premium p=(F−S)/S; no arbitrage puts p at c ± γ,
+// c = carry per interval (He, Manela, Ross & von Wachter 2025, Corollary 2). gam and iota are per-interval / per-year.
+function fairPerp(S,r,q,iota,fiHours,rule,gam){
+  const n=8760/fiHours;
+  if(rule==='linear') return S*(n-iota)/(n-(r-q));
+  const c=(r-q)/n, d=c-iota/n;
+  return S*(1+c+(d>0?gam:d<0?-gam:0));
+}
+// funding paid by longs per interval at premium p=(F−S)/S
+function fundingPerInterval(p,iota,fiHours,rule,gam){
+  const n=8760/fiHours, io=iota/n;
+  if(rule==='linear') return p+io;
+  const d=p-io; return io+Math.sign(d)*Math.max(Math.abs(d)-gam,0);
+}
 // Black vol on calendar time that reproduces `px`
 function impliedVol(px,F,K,T,r,q,cp){
   const f=F*Math.exp((r-q)*T), df=Math.exp(-r*T);
@@ -348,15 +373,15 @@ function impliedVol(px,F,K,T,r,q,cp){
 <script>
 const $=id=>document.getElementById(id);
 const PRESETS={
-  btc:{S:100000,K:105000,days:30,sigma:50,r:4,q:0,fi:8,iota:10.95,sess:'247',dow:2,hour:10,w:12,lam:8,muJ:-3,dJ:7,lr:55,kv:3,sv:1.5,rho:-0.1,unit:'BTC'},
-  eth:{S:3500,K:3700,days:30,sigma:65,r:4,q:0,fi:8,iota:10.95,sess:'247',dow:2,hour:10,w:12,lam:10,muJ:-4,dJ:9,lr:70,kv:3,sv:1.8,rho:-0.15,unit:'ETH'},
-  stock:{S:200,K:205,days:7,sigma:35,r:4,q:0.5,fi:1,iota:0,sess:'equity',dow:3,hour:15,w:12,lam:4,muJ:0,dJ:6,lr:32,kv:3,sv:0.8,rho:-0.7,unit:'share'},
-  gold:{S:4000,K:4100,days:14,sigma:17,r:4,q:0,fi:1,iota:0,sess:'fx',dow:4,hour:12,w:10,lam:2,muJ:0,dJ:2,lr:16,kv:2,sv:0.5,rho:0.1,unit:'oz'}
+  btc:{S:100000,K:105000,days:30,sigma:50,r:4,q:0,fi:8,iota:0,frule:'clamp',gam:0.05,everK:1,sess:'247',dow:2,hour:10,w:12,lam:8,muJ:-3,dJ:7,lr:55,kv:3,sv:1.5,rho:-0.1,unit:'BTC'},
+  eth:{S:3500,K:3700,days:30,sigma:65,r:4,q:0,fi:8,iota:0,frule:'clamp',gam:0.05,everK:1,sess:'247',dow:2,hour:10,w:12,lam:10,muJ:-4,dJ:9,lr:70,kv:3,sv:1.8,rho:-0.15,unit:'ETH'},
+  stock:{S:200,K:205,days:7,sigma:35,r:4,q:0.5,fi:1,iota:10.95,frule:'clamp',gam:0.00625,everK:1,sess:'equity',dow:3,hour:15,w:12,lam:4,muJ:0,dJ:6,lr:32,kv:3,sv:0.8,rho:-0.7,unit:'share'},
+  gold:{S:4000,K:4100,days:14,sigma:17,r:4,q:0,fi:1,iota:10.95,frule:'clamp',gam:0.00625,everK:1,sess:'fx',dow:4,hour:12,w:10,lam:2,muJ:0,dJ:2,lr:16,kv:2,sv:0.5,rho:0.1,unit:'oz'}
 };
 let unit='BTC';
 function applyPreset(name){
   const p=PRESETS[name]; unit=p.unit;
-  for(const k of ['S','K','days','sigma','r','q','fi','iota','sess','dow','hour','w','lam','muJ','dJ','lr','kv','sv','rho']) $(k).value=p[k];
+  for(const k of ['S','K','days','sigma','r','q','fi','iota','sess','dow','hour','w','lam','muJ','dJ','lr','kv','sv','rho','frule','gam','everK']) $(k).value=p[k];
   $('useFair').checked=true;
   document.querySelectorAll('#presets button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.p===name));
   recalc();
@@ -373,8 +398,8 @@ const pct=(x,d=2)=>isFinite(x)?(x*100).toFixed(d).replace('-','−')+'%':'–';
 function read(){
   const p={
     cp:$('cpPut').checked?-1:1, style:$('stEver').checked?'ever':'euro',
-    K:num('K'), hours:Math.max(0,num('days'))*24, everH:Math.max(0.25,num('everH')), sigma:num('sigma')/100,
-    S:num('S'), r:num('r')/100, q:num('q')/100, fi:Math.max(0.01,num('fi')), iota:num('iota')/100,
+    K:num('K'), hours:Math.max(0,num('days'))*24, everH:Math.max(0.25,num('everH')), everK:Math.min(10,Math.max(0.02,num('everK'))), sigma:num('sigma')/100,
+    S:num('S'), r:num('r')/100, q:num('q')/100, fi:Math.max(0.01,num('fi')), iota:num('iota')/100, frule:$('frule').value, gam:Math.max(0,num('gam'))/100,
     sess:$('sess').value, h0:num('dow')*24+num('hour'), w:Math.min(1,Math.max(0,num('w')/100)),
     lam:num('lam'), muJ:num('muJ')/100, dJ:num('dJ')/100,
     lr:num('lr')/100, kv:Math.max(0,num('kv')), sv:Math.max(0,num('sv')), rho:num('rho'), _c:new Map()
@@ -385,9 +410,9 @@ function read(){
 function recalc(){
   const p=read();
   const ever=p.style==='ever', closedMkt=p.sess!=='247';
-  $('fDays').hidden=ever; $('fEver').hidden=!ever; $('smileCard').hidden=ever;
+  $('fDays').hidden=ever; $('fEver').hidden=!ever; $('fEverK').hidden=!ever; $('smileCard').hidden=ever; $('fGam').hidden=p.frule!=='clamp';
   document.querySelectorAll('.sessOnly').forEach(e=>e.hidden=!closedMkt);
-  const fair=fairPerp(p.S,p.r,p.q,p.iota,p.fi);
+  const fair=fairPerp(p.S,p.r,p.q,p.iota,p.fi,p.frule,p.gam);
   const useFair=$('useFair').checked; $('mark').disabled=useFair;
   if(useFair) $('mark').value=+fair.toPrecision(8);
   const F=useFair?fair:num('mark'), K=p.K, sg=p.sigma, cp=p.cp;
@@ -398,9 +423,9 @@ function recalc(){
   const delta=(up-dn)/(2*F*h), gamma1=(up-2*P+dn)/(F*h)/(h/0.01); // change in delta for a 1% move
   const vega=(price(p,F,K,sg+0.01,cp)-price(p,F,K,Math.max(0,sg-0.01),cp))/2;
   const T=p.hours/8760, kap=8760/p.fi;
-  const fundA=kap*(F/p.S-1)+p.iota;
+  const fundA=kap*fundingPerInterval(F/p.S-1,p.iota,p.fi,p.frule,p.gam);
 
-  $('qDesc').innerHTML=(ever?'Everlasting ':'European ')+(cp>0?'call':'put')+', strike '+usd(K)+(ever?', funded every '+p.everH+'h':', '+num('days')+' days')+' · per 1 '+unit;
+  $('qDesc').innerHTML=(ever?'Everlasting ':'European ')+(cp>0?'call':'put')+', strike '+usd(K)+(ever?', κ='+p.everK+' per '+p.everH+'h':', '+num('days')+' days')+' · per 1 '+unit;
   $('oPrice').textContent=usd(P); $('oPct').textContent=pct(P/F)+' of mark';
   $('oDelta').textContent=delta.toFixed(4).replace('-','−');
   $('oGamma').textContent=gamma1.toFixed(4).replace('-','−');
