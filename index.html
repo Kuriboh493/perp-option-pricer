@@ -1,0 +1,442 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body style="margin:0">
+<title>Perp Option Pricer</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@500;600&display=swap">
+<style>
+/* Layout: a pricing ticket. Inputs down a fixed left rail, the quote and its diagnostics on the right, model notes at the foot. */
+:root{
+  --bg:#eef1f4; --surface:#fcfcfd; --ink:#0f161d; --ink2:#4a5561; --muted:#77828e;
+  --line:#d9dee4; --grid:#e3e7ec; --accent:#0b5f6b; --accent-ink:#ffffff; --wash:#e3eef0;
+  --s1:#2a78d6; --s2:#eb6834;
+  --f-head:"IBM Plex Sans Condensed","Arial Narrow",system-ui,sans-serif;
+  --f-body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --f-num:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#0c1014; --surface:#161b21; --ink:#f2f5f8; --ink2:#b9c2cc; --muted:#8692a0;
+    --line:#2a323b; --grid:#252c34; --accent:#5fc3cf; --accent-ink:#06262b; --wash:#16292d;
+    --s1:#3987e5; --s2:#d95926;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#0c1014; --surface:#161b21; --ink:#f2f5f8; --ink2:#b9c2cc; --muted:#8692a0;
+  --line:#2a323b; --grid:#252c34; --accent:#5fc3cf; --accent-ink:#06262b; --wash:#16292d;
+  --s1:#3987e5; --s2:#d95926;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:14px;line-height:1.5}
+.wrap{max-width:1180px;margin:0 auto;padding-inline:20px;padding-block:24px 56px;display:flex;flex-direction:column;gap:20px}
+header{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px 24px}
+h1{font-family:var(--f-head);font-weight:600;font-size:28px;line-height:1.1;margin:0;letter-spacing:-.01em}
+header p{margin:4px 0 0;color:var(--ink2);max-width:60ch}
+h2{font-family:var(--f-head);font-weight:600;font-size:13px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink2);margin:0}
+.presets{display:flex;flex-wrap:wrap;gap:6px}
+.presets button{font:500 13px var(--f-body);color:var(--ink);background:var(--surface);border:1px solid var(--line);padding:6px 12px;border-radius:3px;cursor:pointer}
+.presets button:hover{border-color:var(--accent)}
+.presets button[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.main{display:grid;grid-template-columns:330px minmax(0,1fr);gap:20px;align-items:start}
+@media (max-width:860px){.main{grid-template-columns:minmax(0,1fr)}}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:4px}
+.rail{display:flex;flex-direction:column}
+.group{padding:14px 16px 16px;display:flex;flex-direction:column;gap:10px;border-top:1px solid var(--line)}
+.group:first-child{border-top:0}
+.fields{display:grid;grid-template-columns:1fr 1fr;gap:10px 12px}
+.field{display:flex;flex-direction:column;gap:3px;min-width:0}
+.field.wide{grid-column:1/-1}
+.field label,.field .lab{font-size:12px;color:var(--ink2)}
+.field input[type=number],.field select{width:100%;font:500 13px var(--f-num);color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:3px;padding:6px 8px;font-variant-numeric:tabular-nums}
+.field input:disabled{color:var(--muted)}
+.seg{display:flex;border:1px solid var(--line);border-radius:3px;overflow:hidden}
+.seg label{flex:1;text-align:center;padding:6px 4px;font-size:13px;font-weight:500;color:var(--ink2);cursor:pointer;background:var(--bg)}
+.seg input{position:absolute;opacity:0;pointer-events:none}
+.seg input:checked+label{background:var(--accent);color:var(--accent-ink)}
+.seg input:focus-visible+label{outline:2px solid var(--accent);outline-offset:-2px}
+.check{display:flex;gap:8px;align-items:center;font-size:12px;color:var(--ink2)}
+.right{display:flex;flex-direction:column;gap:20px;min-width:0}
+.quote{padding:18px 20px;display:flex;flex-direction:column;gap:16px}
+.quote-top{display:flex;flex-wrap:wrap;gap:8px 32px;align-items:flex-end;justify-content:space-between}
+.price{font:600 40px/1 var(--f-num);letter-spacing:-.02em}
+.price small{font:500 13px var(--f-body);color:var(--ink2);letter-spacing:0;margin-left:8px}
+.desc{color:var(--ink2);font-size:13px}
+.pill{display:inline-block;font:500 12px var(--f-body);background:var(--wash);color:var(--accent);padding:3px 8px;border-radius:3px}
+dl.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px 20px;margin:0;border-top:1px solid var(--line);padding-top:14px}
+dl.stats div{display:flex;flex-direction:column;gap:2px;min-width:0}
+dl.stats dt{font-size:12px;color:var(--ink2)}
+dl.stats dd{margin:0;font:500 15px var(--f-num);font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+dl.stats dd small{font:400 11px var(--f-body);color:var(--muted);display:block}
+.card{padding:16px 20px 18px;display:flex;flex-direction:column;gap:10px}
+.card-head{display:flex;flex-wrap:wrap;justify-content:space-between;gap:6px 16px;align-items:baseline}
+.card-head p{margin:0;color:var(--ink2);font-size:13px}
+.legend{display:flex;flex-wrap:wrap;gap:4px 16px;font-size:12px;color:var(--ink2)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:16px;height:0;border-top:2px solid var(--muted);display:inline-block}
+.legend i.s1{border-color:var(--s1)} .legend i.s2{border-color:var(--s2)} .legend i.ref{border-top-style:dashed}
+.chart{position:relative;width:100%}
+.chart svg{display:block;width:100%;height:auto;overflow:visible}
+.chart text{font:11px var(--f-num);fill:var(--muted)}
+.tip{position:absolute;top:0;left:0;pointer-events:none;background:var(--surface);border:1px solid var(--line);border-radius:3px;padding:6px 9px;font:12px var(--f-num);color:var(--ink);white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,.12)}
+.tip b{font-weight:600} .tip div{display:flex;gap:8px;align-items:center;justify-content:space-between}
+.tip div span{display:inline-flex;gap:6px;align-items:center;color:var(--ink2);font-family:var(--f-body)}
+.tip i{width:8px;height:8px;border-radius:50%;display:inline-block}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:20px}
+details summary{cursor:pointer;color:var(--ink2);font-size:12px}
+.tbl{overflow-x:auto}
+table{border-collapse:collapse;font:12px var(--f-num);font-variant-numeric:tabular-nums;width:100%}
+th,td{text-align:right;padding:4px 10px;border-bottom:1px solid var(--line)}
+th{font:500 12px var(--f-body);color:var(--ink2)}
+.notes{padding:18px 20px 20px;display:flex;flex-direction:column;gap:14px}
+.notes ol{margin:0;padding-left:20px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:12px 40px;color:var(--ink2)}
+.notes li{max-width:65ch}
+.notes li b{color:var(--ink);font-weight:600}
+.notes code{font:12.5px var(--f-num);color:var(--ink);background:var(--bg);padding:1px 4px;border-radius:2px}
+.foot{color:var(--muted);font-size:12px;margin:0}
+</style>
+
+<div class="wrap">
+  <header>
+    <div>
+      <h1>Perp Option Pricer</h1>
+      <p>Prices options written on a perpetual swap, for 24/7 crypto and for real-world assets whose reference market closes. Preset figures are examples, not live quotes.</p>
+    </div>
+    <div class="presets" id="presets" role="group" aria-label="Example presets">
+      <button type="button" data-p="btc">BTC</button>
+      <button type="button" data-p="eth">ETH</button>
+      <button type="button" data-p="stock">US stock</button>
+      <button type="button" data-p="gold">Gold</button>
+    </div>
+  </header>
+
+  <div class="main">
+    <form class="panel rail" id="form" autocomplete="off">
+      <div class="group">
+        <h2>Option</h2>
+        <div class="seg"><input type="radio" name="cp" id="cpCall" value="1" checked><label for="cpCall">Call</label><input type="radio" name="cp" id="cpPut" value="-1"><label for="cpPut">Put</label></div>
+        <div class="seg"><input type="radio" name="style" id="stEuro" value="euro" checked><label for="stEuro">European</label><input type="radio" name="style" id="stEver" value="ever"><label for="stEver">Everlasting</label></div>
+        <div class="fields">
+          <div class="field"><label for="K">Strike (USD)</label><input type="number" id="K" step="any" min="0"></div>
+          <div class="field" id="fDays"><label for="days">Days to expiry</label><input type="number" id="days" step="any" min="0"></div>
+          <div class="field" id="fEver" hidden><label for="everH">Option funding period (h)</label><input type="number" id="everH" step="any" min="0.25" value="24"></div>
+          <div class="field wide"><label for="sigma">Volatility, annualised on calendar time (%)</label><input type="number" id="sigma" step="any" min="0"></div>
+        </div>
+      </div>
+      <div class="group">
+        <h2>Perpetual swap</h2>
+        <div class="fields">
+          <div class="field"><label for="S">Spot index (USD)</label><input type="number" id="S" step="any" min="0"></div>
+          <div class="field"><label for="mark">Perp mark (USD)</label><input type="number" id="mark" step="any" min="0"></div>
+          <div class="field wide"><label class="check"><input type="checkbox" id="useFair" checked> Set the mark to the model's fair value</label></div>
+          <div class="field"><label for="r">USD rate r (%)</label><input type="number" id="r" step="any"></div>
+          <div class="field"><label for="q">Asset yield q (%)</label><input type="number" id="q" step="any"></div>
+          <div class="field"><label for="fi">Funding interval (h)</label><input type="number" id="fi" step="any" min="0.01"></div>
+          <div class="field"><label for="iota">Funding interest leg (%/yr)</label><input type="number" id="iota" step="any"></div>
+        </div>
+      </div>
+      <div class="group">
+        <h2>Reference market hours</h2>
+        <div class="fields">
+          <div class="field wide"><label for="sess">Session</label>
+            <select id="sess">
+              <option value="247">Always open (crypto)</option>
+              <option value="equity">US equities, Mon–Fri 09:30–16:00 ET</option>
+              <option value="fx">24/5, Sun 18:00 – Fri 17:00 ET</option>
+            </select></div>
+          <div class="field sessOnly"><label for="dow">Pricing day</label>
+            <select id="dow"><option value="0">Monday</option><option value="1">Tuesday</option><option value="2">Wednesday</option><option value="3">Thursday</option><option value="4">Friday</option><option value="5">Saturday</option><option value="6">Sunday</option></select></div>
+          <div class="field sessOnly"><label for="hour">Hour, ET (0–24)</label><input type="number" id="hour" step="0.25" min="0" max="24" value="10"></div>
+          <div class="field wide sessOnly"><label for="w">Variance of a closed hour, as % of an open hour</label><input type="number" id="w" step="any" min="0" max="100" value="12"></div>
+        </div>
+      </div>
+      <div class="group">
+        <h2>Jumps</h2>
+        <div class="fields">
+          <div class="field wide"><label for="lam">Jumps per year (0 turns jumps off)</label><input type="number" id="lam" step="any" min="0"></div>
+          <div class="field"><label for="muJ">Mean jump (%)</label><input type="number" id="muJ" step="any"></div>
+          <div class="field"><label for="dJ">Jump st. dev. (%)</label><input type="number" id="dJ" step="any" min="0"></div>
+        </div>
+      </div>
+    </form>
+
+    <div class="right">
+      <section class="panel quote" aria-live="polite">
+        <div class="quote-top">
+          <div>
+            <div class="desc" id="qDesc"></div>
+            <div class="price"><span id="oPrice">–</span><small id="oPct"></small></div>
+          </div>
+          <div class="desc" id="oClock"></div>
+        </div>
+        <dl class="stats">
+          <div><dt>Delta</dt><dd id="oDelta">–</dd></div>
+          <div><dt>Gamma, per 1% move</dt><dd id="oGamma">–</dd></div>
+          <div><dt>Vega, per vol point</dt><dd id="oVega">–</dd></div>
+          <div><dt>Theta, per day</dt><dd id="oTheta">–</dd></div>
+          <div><dt>Quoted-vol equivalent</dt><dd id="oIv">–</dd></div>
+          <div><dt>Plain Black price</dt><dd id="oPlain">–</dd></div>
+        </dl>
+        <dl class="stats">
+          <div><dt>Fair perp price</dt><dd id="oFair">–</dd></div>
+          <div><dt>Mark vs spot</dt><dd id="oBasis">–</dd></div>
+          <div><dt>Funding per interval</dt><dd id="oFund">–</dd></div>
+          <div><dt>Funding, annualised</dt><dd id="oFundA">–</dd></div>
+          <div><dt>Perp forward at expiry</dt><dd id="oFwd">–</dd></div>
+          <div><dt>Funding on delta hedge, per day</dt><dd id="oHedge">–</dd></div>
+        </dl>
+      </section>
+
+      <div class="two">
+        <section class="panel card">
+          <div class="card-head"><h2>Value against perp price</h2>
+            <div class="legend"><span><i class="s1"></i>This model</span><span><i class="s2"></i>Plain Black</span><span><i class="ref"></i>Exercise value</span></div></div>
+          <div class="chart" id="c1"></div>
+          <details><summary>Show as table</summary><div class="tbl" id="t1"></div></details>
+        </section>
+        <section class="panel card" id="smileCard">
+          <div class="card-head"><h2>Implied volatility by strike</h2>
+            <div class="legend"><span><i class="s1"></i>Model smile</span><span><i class="ref"></i>Input volatility</span></div></div>
+          <div class="chart" id="c2"></div>
+          <p class="foot">The Black volatility a venue would have to quote at each strike to match this model's price.</p>
+        </section>
+      </div>
+
+      <section class="panel notes">
+        <h2>What the model assumes</h2>
+        <ol>
+          <li><b>Perp fair value.</b> Funding accrues continuously at <code>κ(F − S) + ιS</code>, with <code>κ = 1 / funding interval</code>. No arbitrage then gives <code>F = S(κ − ι)/(κ − (r − q))</code>.</li>
+          <li><b>Perp drift.</b> Because the perp tracks spot, its risk-neutral forward is <code>F·e^((r−q)T)</code>. It is not a martingale like a dated future, so Black-76 with the mark as forward is slightly off.</li>
+          <li><b>Diffusion.</b> Spot is lognormal with constant volatility between jumps. No stochastic volatility, so the smile comes only from jumps.</li>
+          <li><b>Jumps.</b> Merton's model: Poisson arrivals, lognormal sizes, drift compensated so the forward is unchanged. Jump risk is priced as if diversifiable.</li>
+          <li><b>Market hours.</b> Variance accrues per hour, and a closed hour carries a fixed fraction of an open hour's. The input volatility is calibrated so a full week matches its calendar-time value. Holidays are ignored.</li>
+          <li><b>Everlasting options.</b> Daily-style funding of mark minus payoff makes the price <code>Σ 2^(−i) · C(i·Δ)</code>, a weighted basket of European options one funding period apart.</li>
+          <li><b>Settlement.</b> Linear USD-margined perp, premium paid up front in USD, European exercise against the perp mark, no fees, no liquidation or oracle risk, flat rates.</li>
+        </ol>
+      </section>
+    </div>
+  </div>
+</div>
+
+<script id="math">
+// ---------- pricing core (no DOM) ----------
+function Ncdf(x){
+  const t=1/(1+0.2316419*Math.abs(x)), d=0.3989422804014327*Math.exp(-x*x/2);
+  const p=d*t*(0.319381530+t*(-0.356563782+t*(1.781477937+t*(-1.821255978+t*1.330274429))));
+  return x>0?1-p:p;
+}
+// undiscounted Black on a forward, v = total variance
+function black(f,K,v,cp){
+  if(!(v>1e-14)) return Math.max(cp*(f-K),0);
+  const s=Math.sqrt(v), d1=(Math.log(f/K)+v/2)/s, d2=d1-s;
+  return cp*(f*Ncdf(cp*d1)-K*Ncdf(cp*d2));
+}
+// h = hours since Monday 00:00 ET
+function isOpen(sess,h){
+  h=((h%168)+168)%168; const d=Math.floor(h/24), t=h-d*24;
+  if(sess==='equity') return d<5&&t>=9.5&&t<16;
+  if(sess==='fx'){ if(d===6) return t>=18; if(d===5) return false; if(d===4) return t<17; return true; }
+  return true;
+}
+const STEP=0.25, weekOpen={};
+function openHoursPerWeek(sess){
+  if(weekOpen[sess]==null){ let o=0; for(let h=0;h<168;h+=STEP) if(isOpen(sess,h+STEP/2)) o+=STEP; weekOpen[sess]=o; }
+  return weekOpen[sess];
+}
+// variance-clock time in years for a horizon of `hours` calendar hours
+function effYears(p,hours){
+  if(p.sess==='247'||p.w>=1) return hours/8760;
+  const key=hours; if(p._c&&p._c.has(key)) return p._c.get(key);
+  const Wo=openHoursPerWeek(p.sess), denom=Wo+p.w*(168-Wo);
+  const weeks=Math.floor(hours/168), rem=hours-weeks*168;
+  let Ho=0,Hc=0;
+  for(let x=0;x<rem;x+=STEP){ const dt=Math.min(STEP,rem-x); if(isOpen(p.sess,p.h0+x+dt/2)) Ho+=dt; else Hc+=dt; }
+  const tau=(weeks+(denom>0?(Ho+p.w*Hc)/denom:0))*168/8760;
+  if(p._c) p._c.set(key,tau);
+  return tau;
+}
+// European option on the perp mark F. plain=true ignores jumps and market hours.
+function euro(p,F,K,hours,sigma,cp,plain){
+  const T=hours/8760, b=p.r-p.q, df=Math.exp(-p.r*T);
+  if(plain) return df*black(F*Math.exp(b*T),K,sigma*sigma*T,cp);
+  const V=sigma*sigma*effYears(p,hours);
+  if(!(p.lam>0)||(p.dJ===0&&p.muJ===0)) return df*black(F*Math.exp(b*T),K,V,cp);
+  const m=p.muJ+p.dJ*p.dJ/2, k=Math.exp(m)-1, lt=p.lam*T;
+  const nMax=Math.min(400,Math.ceil(lt+10*Math.sqrt(lt)+20));
+  let pn=Math.exp(-lt), sum=0;
+  for(let n=0;n<=nMax;n++){
+    if(n>0) pn*=lt/n;
+    sum+=pn*black(F*Math.exp((b-p.lam*k)*T+n*m),K,V+n*p.dJ*p.dJ,cp);
+  }
+  return df*sum;
+}
+function price(p,F,K,sigma,cp,plain,hoursOverride){
+  if(p.style==='ever'){ let s=0,wgt=1; for(let i=1;i<=60;i++){ wgt/=2; s+=wgt*euro(p,F,K,i*p.everH,sigma,cp,plain); } return s; }
+  return euro(p,F,K,hoursOverride!=null?hoursOverride:p.hours,sigma,cp,plain);
+}
+function fairPerp(S,r,q,iota,fiHours){ const kap=8760/fiHours; return S*(kap-iota)/(kap-(r-q)); }
+// Black vol on calendar time that reproduces `px`
+function impliedVol(px,F,K,T,r,q,cp){
+  const f=F*Math.exp((r-q)*T), df=Math.exp(-r*T);
+  if(!(T>0)||px<=df*Math.max(cp*(f-K),0)+1e-12) return NaN;
+  let lo=1e-4,hi=8; if(df*black(f,K,hi*hi*T,cp)<px) return NaN;
+  for(let i=0;i<60;i++){ const mid=(lo+hi)/2; if(df*black(f,K,mid*mid*T,cp)<px) lo=mid; else hi=mid; }
+  return (lo+hi)/2;
+}
+</script>
+<script>
+const $=id=>document.getElementById(id);
+const PRESETS={
+  btc:{S:100000,K:105000,days:30,sigma:50,r:4,q:0,fi:8,iota:10.95,sess:'247',dow:2,hour:10,w:12,lam:8,muJ:-3,dJ:7,unit:'BTC'},
+  eth:{S:3500,K:3700,days:30,sigma:65,r:4,q:0,fi:8,iota:10.95,sess:'247',dow:2,hour:10,w:12,lam:10,muJ:-4,dJ:9,unit:'ETH'},
+  stock:{S:200,K:205,days:7,sigma:35,r:4,q:0.5,fi:1,iota:0,sess:'equity',dow:3,hour:15,w:12,lam:4,muJ:0,dJ:6,unit:'share'},
+  gold:{S:4000,K:4100,days:14,sigma:17,r:4,q:0,fi:1,iota:0,sess:'fx',dow:4,hour:12,w:10,lam:2,muJ:0,dJ:2,unit:'oz'}
+};
+let unit='BTC';
+function applyPreset(name){
+  const p=PRESETS[name]; unit=p.unit;
+  for(const k of ['S','K','days','sigma','r','q','fi','iota','sess','dow','hour','w','lam','muJ','dJ']) $(k).value=p[k];
+  $('useFair').checked=true;
+  document.querySelectorAll('#presets button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.p===name));
+  recalc();
+}
+const num=id=>{const v=parseFloat($(id).value); return isFinite(v)?v:0;};
+function fmt(x){
+  if(!isFinite(x)) return '–';
+  const a=Math.abs(x), d=a>=1000?2:a>=10?2:a>=1?3:4;
+  return x.toLocaleString('en-US',{minimumFractionDigits:d,maximumFractionDigits:d});
+}
+const usd=x=>isFinite(x)?(x<0?'−$':'$')+fmt(Math.abs(x)):'–';
+const pct=(x,d=2)=>isFinite(x)?(x*100).toFixed(d).replace('-','−')+'%':'–';
+
+function read(){
+  const p={
+    cp:$('cpPut').checked?-1:1, style:$('stEver').checked?'ever':'euro',
+    K:num('K'), hours:Math.max(0,num('days'))*24, everH:Math.max(0.25,num('everH')), sigma:num('sigma')/100,
+    S:num('S'), r:num('r')/100, q:num('q')/100, fi:Math.max(0.01,num('fi')), iota:num('iota')/100,
+    sess:$('sess').value, h0:num('dow')*24+num('hour'), w:Math.min(1,Math.max(0,num('w')/100)),
+    lam:num('lam'), muJ:num('muJ')/100, dJ:num('dJ')/100, _c:new Map()
+  };
+  return p;
+}
+
+function recalc(){
+  const p=read();
+  const ever=p.style==='ever', closedMkt=p.sess!=='247';
+  $('fDays').hidden=ever; $('fEver').hidden=!ever; $('smileCard').hidden=ever;
+  document.querySelectorAll('.sessOnly').forEach(e=>e.hidden=!closedMkt);
+  const fair=fairPerp(p.S,p.r,p.q,p.iota,p.fi);
+  const useFair=$('useFair').checked; $('mark').disabled=useFair;
+  if(useFair) $('mark').value=+fair.toPrecision(8);
+  const F=useFair?fair:num('mark'), K=p.K, sg=p.sigma, cp=p.cp;
+  if(!(F>0&&K>0&&p.S>0)){ $('oPrice').textContent='–'; $('qDesc').textContent='Enter a positive spot, mark and strike.'; return; }
+
+  const P=price(p,F,K,sg,cp,false), P0=price(p,F,K,sg,cp,true);
+  const h=0.01, up=price(p,F*(1+h),K,sg,cp), dn=price(p,F*(1-h),K,sg,cp);
+  const delta=(up-dn)/(2*F*h), gamma1=(up-2*P+dn)/(F*h)/(h/0.01); // change in delta for a 1% move
+  const vega=(price(p,F,K,sg+0.01,cp)-price(p,F,K,Math.max(0,sg-0.01),cp))/2;
+  const T=p.hours/8760, kap=8760/p.fi;
+  const fundA=kap*(F/p.S-1)+p.iota;
+
+  $('qDesc').innerHTML=(ever?'Everlasting ':'European ')+(cp>0?'call':'put')+', strike '+usd(K)+(ever?', funded every '+p.everH+'h':', '+num('days')+' days')+' · per 1 '+unit;
+  $('oPrice').textContent=usd(P); $('oPct').textContent=pct(P/F)+' of mark';
+  $('oDelta').textContent=delta.toFixed(4).replace('-','−');
+  $('oGamma').textContent=gamma1.toFixed(4).replace('-','−');
+  $('oVega').textContent=usd(vega);
+  if(ever){
+    $('oTheta').innerHTML='none<small>no expiry; holder pays funding instead</small>';
+    $('oIv').textContent='–';
+    $('oClock').innerHTML='';
+  }else{
+    const hrs2=Math.max(0,p.hours-24);
+    $('oTheta').textContent=p.hours>0?usd(price(p,F,K,sg,cp,false,hrs2)-P):'–';
+    const iv=impliedVol(P,F,K,T,p.r,p.q,cp);
+    $('oIv').innerHTML=isFinite(iv)?pct(iv,1)+'<small>input '+pct(sg,1)+'</small>':'–';
+    const te=effYears(p,p.hours)*365;
+    $('oClock').innerHTML=closedMkt?'<span class="pill">Vol clock: '+te.toFixed(2)+' of '+num('days')+' calendar days</span>':'<span class="pill">Vol clock runs 24/7</span>';
+  }
+  $('oPlain').innerHTML=usd(P0)+'<small>model is '+(P>=P0?'+':'−')+usd(Math.abs(P-P0)).replace('−','')+'</small>';
+  $('oFair').textContent=usd(fair);
+  $('oBasis').textContent=((F/p.S-1)*1e4).toFixed(2).replace('-','−')+' bp';
+  $('oFund').innerHTML=pct(fundA/kap,4)+'<small>longs '+(fundA>=0?'pay':'receive')+'</small>';
+  $('oFundA').textContent=pct(fundA);
+  $('oFwd').textContent=ever?'–':usd(F*Math.exp((p.r-p.q)*T));
+  const hf=delta*F*fundA/365;
+  $('oHedge').innerHTML=usd(hf)+'<small>long option, '+(delta>=0?'short':'long')+' perp</small>';
+
+  // chart 1: value vs perp price
+  const xs=[],a=[],b=[],c=[];
+  for(let i=0;i<=80;i++){ const x=F*(0.6+0.01*i); xs.push(x); a.push(price(p,x,K,sg,cp,false)); b.push(price(p,x,K,sg,cp,true)); c.push(Math.max(cp*(x-K),0)); }
+  drawChart($('c1'),xs,[{name:'Exercise value',y:c,ref:true},{name:'Plain Black',y:b,col:'--s2'},{name:'This model',y:a,col:'--s1'}],usd,usd,'Perp price');
+  let rows='<table><tr><th>Perp price</th><th>This model</th><th>Plain Black</th><th>Exercise value</th></tr>';
+  for(let i=0;i<=80;i+=10) rows+='<tr><td>'+usd(xs[i])+'</td><td>'+usd(a[i])+'</td><td>'+usd(b[i])+'</td><td>'+usd(c[i])+'</td></tr>';
+  $('t1').innerHTML=rows+'</table>';
+
+  // chart 2: smile
+  if(!ever){
+    const ks=[],iv=[],flat=[], fwd=F*Math.exp((p.r-p.q)*T);
+    for(let i=0;i<=40;i++){ const k=F*(0.7+0.015*i), side=k<fwd?-1:1; ks.push(k); iv.push(impliedVol(euro(p,F,k,p.hours,sg,side,false),F,k,T,p.r,p.q,side)); flat.push(sg); }
+    drawChart($('c2'),ks,[{name:'Input volatility',y:flat,ref:true},{name:'Model smile',y:iv,col:'--s1'}],usd,v=>pct(v,1),'Strike');
+  }
+}
+
+function niceTicks(lo,hi,n){
+  const span=hi-lo||1, raw=span/n, mag=Math.pow(10,Math.floor(Math.log10(raw))), r=raw/mag;
+  const st=(r<1.5?1:r<3.5?2:r<7.5?5:10)*mag, out=[];
+  for(let v=Math.ceil(lo/st)*st;v<=hi+st*1e-9;v+=st) out.push(v);
+  return out;
+}
+function drawChart(el,xs,series,xf,yf,xLabel){
+  const W=Math.max(280,el.clientWidth||520), H=260, m={l:62,r:12,t:10,b:38};
+  let ymin=Infinity,ymax=-Infinity;
+  series.forEach(s=>s.y.forEach(v=>{ if(isFinite(v)){ ymin=Math.min(ymin,v); ymax=Math.max(ymax,v);} }));
+  if(!isFinite(ymin)){ el.innerHTML='<p class="foot">No value to plot for these inputs.</p>'; return; }
+  if(ymin>=0&&ymin<ymax*0.5) ymin=0;
+  if(ymax-ymin<1e-9){ ymax=ymin+Math.abs(ymin||1)*0.1; ymin-=Math.abs(ymin||1)*0.1; }
+  const pad=(ymax-ymin)*0.06; ymax+=pad; if(ymin!==0) ymin-=pad;
+  const x0=xs[0],x1=xs[xs.length-1];
+  const X=v=>m.l+(v-x0)/(x1-x0)*(W-m.l-m.r), Y=v=>H-m.b-(v-ymin)/(ymax-ymin)*(H-m.t-m.b);
+  let s='<svg viewBox="0 0 '+W+' '+H+'" width="'+W+'" height="'+H+'" role="img" aria-label="'+series.map(q=>q.name).join(', ')+' by '+xLabel+'">';
+  niceTicks(ymin,ymax,5).forEach(t=>{ s+='<line x1="'+m.l+'" x2="'+(W-m.r)+'" y1="'+Y(t)+'" y2="'+Y(t)+'" style="stroke:var(--grid)" stroke-width="1"/><text x="'+(m.l-8)+'" y="'+(Y(t)+4)+'" text-anchor="end">'+yf(t)+'</text>'; });
+  niceTicks(x0,x1,W<420?3:5).forEach(t=>{ s+='<text x="'+X(t)+'" y="'+(H-m.b+16)+'" text-anchor="middle">'+xf(t)+'</text>'; });
+  s+='<line x1="'+m.l+'" x2="'+(W-m.r)+'" y1="'+(H-m.b)+'" y2="'+(H-m.b)+'" style="stroke:var(--line)" stroke-width="1"/>';
+  s+='<text x="'+(m.l+(W-m.l-m.r)/2)+'" y="'+(H-4)+'" text-anchor="middle">'+xLabel+'</text>';
+  series.forEach(q=>{
+    let d='',pen=false;
+    q.y.forEach((v,i)=>{ if(isFinite(v)){ d+=(pen?'L':'M')+X(xs[i]).toFixed(1)+' '+Y(v).toFixed(1); pen=true; } else pen=false; });
+    s+='<path d="'+d+'" fill="none" stroke-width="'+(q.ref?1.5:2)+'" stroke-linejoin="round" '+(q.ref?'stroke-dasharray="4 4" style="stroke:var(--muted)"':'style="stroke:var('+q.col+')"')+'/>';
+  });
+  s+='<g class="hov" visibility="hidden"><line y1="'+m.t+'" y2="'+(H-m.b)+'" style="stroke:var(--muted)" stroke-width="1"/>';
+  series.forEach(q=>{ s+='<circle r="4" stroke-width="2" style="fill:'+(q.ref?'var(--muted)':'var('+q.col+')')+';stroke:var(--surface)"/>'; });
+  s+='</g><rect x="'+m.l+'" y="'+m.t+'" width="'+(W-m.l-m.r)+'" height="'+(H-m.t-m.b)+'" fill="transparent"/></svg><div class="tip" hidden></div>';
+  el.innerHTML=s;
+  const svg=el.querySelector('svg'), g=svg.querySelector('.hov'), tip=el.querySelector('.tip'), dots=g.querySelectorAll('circle'), vl=g.querySelector('line');
+  const move=e=>{
+    const r=svg.getBoundingClientRect(), px=(e.clientX-r.left)*W/r.width;
+    let i=Math.round((px-m.l)/(W-m.l-m.r)*(xs.length-1)); i=Math.max(0,Math.min(xs.length-1,i));
+    const cx=X(xs[i]); vl.setAttribute('x1',cx); vl.setAttribute('x2',cx); g.setAttribute('visibility','visible');
+    let html='<b>'+xLabel+' '+xf(xs[i])+'</b>';
+    series.slice().reverse().forEach(q=>{ html+='<div><span><i style="background:'+(q.ref?'var(--muted)':'var('+q.col+')')+'"></i>'+q.name+'</span>'+(isFinite(q.y[i])?yf(q.y[i]):'–')+'</div>'; });
+    series.forEach((q,j)=>{ const v=q.y[i]; dots[j].setAttribute('visibility',isFinite(v)?'inherit':'hidden'); if(isFinite(v)){ dots[j].setAttribute('cx',cx); dots[j].setAttribute('cy',Y(v)); } });
+    tip.innerHTML=html; tip.hidden=false;
+    const sc=r.width/W, tw=tip.offsetWidth, left=cx*sc+12+tw>r.width?cx*sc-12-tw:cx*sc+12;
+    tip.style.transform='translate('+Math.max(0,left)+'px,'+(m.t*sc+4)+'px)';
+  };
+  svg.addEventListener('pointermove',move); svg.addEventListener('pointerdown',move);
+  svg.addEventListener('pointerleave',()=>{ g.setAttribute('visibility','hidden'); tip.hidden=true; });
+}
+
+$('presets').addEventListener('click',e=>{ const b=e.target.closest('button'); if(b) applyPreset(b.dataset.p); });
+$('form').addEventListener('input',e=>{ if(e.target.id==='S'||e.target.id==='sess') document.querySelectorAll('#presets button').forEach(b=>b.setAttribute('aria-pressed','false')); recalc(); });
+$('form').addEventListener('submit',e=>e.preventDefault());
+let rz; window.addEventListener('resize',()=>{ clearTimeout(rz); rz=setTimeout(recalc,120); });
+applyPreset('btc');
+</script>
+
+</body>
+</html>
