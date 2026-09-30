@@ -32,3 +32,7 @@ See [backtest/](backtest/) for tests against Deribit BTC option data. In short: 
 ## Edge search
 
 See [edge/](edge/) for a search for an edge in 0DTE options and Kalshi prediction markets. The model's own signals did not survive out of sample; a model-free favorite-longshot rule on Kalshi's BTC contracts did (2.7¢ per contract after fees in 2026 as a taker, 4.65¢ with resting orders, t = 6.2 and 8.4), with tail risk and unknown capacity. The de-biased market price forecasts outcomes better than any model that ignores it.
+
+## Retail survey
+
+See [edge2/](edge2/) for a trade-level survey of where retail loses across every Kalshi and Polymarket category (2021 to 2026): takers lose 4% of every dollar on Kalshi, concentrated in longshots priced a week or more from resolution (55–80% of stake lost), while short-dated crypto contracts are efficient on both platforms.

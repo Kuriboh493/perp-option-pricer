@@ -178,4 +178,20 @@ Reading this:
 3. **Sports is where the money is, but as a market maker, not a picker**: $101M of maker gross on Kalshi in 2025, mostly spread capture on main lines with large single-event swings. Longshot selling in sports (1.6¢ a contract on $205M) is the retail-facing slice.
 4. Favourites above 90¢ are fairly priced on Kalshi and slightly *cheap* on Polymarket (takers earn 2.6–3.4% on 80–95¢). The [../edge/](../edge/) result (favourites on Kalshi BTC daily earning 2.7–4.7¢ four hours out) is a quote-level, short-horizon version of the same bias.
 
-(The 2026 execution tests on Kalshi's hourly/15-minute series and Polymarket's minute-level windows follow once those samples finish downloading.)
+## 2026 quote-level tests on the short-dated crypto markets
+
+These use live quotes and minute prices rather than settled trades, with the short-horizon volatility model from `volfc2.py` (seasonal HAR per asset, fitted before August 2026) as the probability model. Rules are picked on the first part of each sample and judged on the rest.
+
+**Polymarket hourly "Bitcoin Up or Down" windows** (`polymarket_edge.py`; 1,499 windows sampled every 4 hours, October 2025 to May 2026 so far; test period from April 2026):
+
+- Calibration at the quoted price is close to fair at every bucket except 35–65¢ (buyers lose 4–8%) and 80–90¢ (buyers earn 3%). The favourite rule that worked on Kalshi does not survive here: −1.1¢ per contract out of sample.
+- The model beats the market only in the last two minutes (Brier 0.051 vs 0.058 at 60 s), and a "trade when the model disagrees by 20¢" rule made 26¢ a contract in training. That is a stale-print artifact: filled at the next printed trade instead of the last one, it drops to 4¢ in training and 1.3¢ out of sample (16 trades, t = 0.1).
+- **Polymarket daily windows** (285): the only survivor is buying the ≥ 95¢ favourite 15 minutes before close, +1.5¢ per contract out of sample on 19 trades (t = 5.6): real but too small to matter.
+
+**Kalshi ETH daily 5pm contracts** (`kalshi_recent_edge.py`; 52 events, August–September 2026, minute quotes): the market's mid beats the model at every lead from 50 minutes to 2 minutes; the favourite rule made +2.8¢ in September on 44 trades (t = 0.95). Kalshi's hourly ETH/SOL/XRP events carry trades but no standing two-sided quotes at the hour marks, so they cannot be tested this way. The 15-minute BTC series and the S&P hourly series were still downloading when this was written and are not included.
+
+The conclusion matches the trade-level surveys: short-dated crypto contracts are efficient; a pricing model does not beat them, and whatever bias exists is in the far-dated longshots.
+
+## Limitations
+
+Categories on Kalshi come from the series API; on Polymarket from slug keywords, so "other" is a grab-bag. Maker gains are gross; Kalshi charges makers 1.75% on flagged series since April 2025 and Polymarket pays makers rebates. "Maker" means whoever took the other side, mostly professionals. Time to close uses the market's listed end date, which Polymarket sometimes sets a few hours off. Survey figures are historical averages, not tradable quotes: capacity and fills are unknown, and several pools depend on a few large events.

@@ -152,12 +152,12 @@ if __name__ == "__main__":
             grid = [g for g in grid if g[4].get("n", 0) >= 30 and g[4].get("t") is not None]
             grid.sort(key=lambda g: -g[4]["t"])
             k["train_top"] = [dict(rule=g[0], lead_min=g[1], mode=g[2], param=g[3], **g[4]) for g in grid[:6]]
-            for name in ("fav", "model"):
+            for rule in ("fav", "model"):
                 for mode in ("taker", "join"):
-                    g = next((g for g in grid if g[0] == name and g[2] == mode), None)
+                    g = next((g for g in grid if g[0] == rule and g[2] == mode), None)
                     if g:
-                        fn = (lambda r: pnl(r, fav_p(r, g[3]), 0.0, mode) if fav_p(r, g[3]) is not None else None) if name == "fav" else (lambda r: pnl(r, r["emp"], g[3], mode))
-                        k[f"test_{name}_{mode}"] = dict(lead_min=g[1], param=g[3], train=g[4], test=stats([(r["day"], v) for r in te if r["L"] == g[1] and (v := fn(r)) is not None]))
+                        fn = (lambda r, g=g, mode=mode: pnl(r, fav_p(r, g[3]), 0.0, mode) if fav_p(r, g[3]) is not None else None) if rule == "fav" else (lambda r, g=g, mode=mode: pnl(r, r["emp"], g[3], mode))
+                        k[f"test_{rule}_{mode}"] = dict(lead_min=g[1], param=g[3], train=g[4], test=stats([(r["day"], v) for r in te if r["L"] == g[1] and (v := fn(r)) is not None]))
             res[name] = k
     print(json.dumps(res, indent=1, default=str))
     json.dump(res, open(os.path.join(HERE, "results_kalshi_recent.json"), "w"), indent=1, default=str)
