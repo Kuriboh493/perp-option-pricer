@@ -1,0 +1,1287 @@
+{
+ "total": {
+  "trades": 419030.0,
+  "dollars": 61599327.75061199,
+  "taker_ret_pct": 0.19181008032644892,
+  "maker_gross_usd": -118153.7200390014
+ },
+ "by_year": [
+  {
+   "year": 2023.0,
+   "trades": 17032.0,
+   "dollars": 3689915.32,
+   "taker_ret_pct": 12.56,
+   "maker_cents_per_contract": -5.42,
+   "maker_gross_usd": -463469.8
+  },
+  {
+   "year": 2024.0,
+   "trades": 41590.0,
+   "dollars": 22591488.39,
+   "taker_ret_pct": -1.62,
+   "maker_cents_per_contract": 0.82,
+   "maker_gross_usd": 365293.41
+  },
+  {
+   "year": 2025.0,
+   "trades": 360408.0,
+   "dollars": 35317924.04,
+   "taker_ret_pct": 0.06,
+   "maker_cents_per_contract": -0.03,
+   "maker_gross_usd": -19977.32
+  }
+ ],
+ "by_price": [
+  {
+   "price_bucket": "95-99",
+   "trades": 51670.0,
+   "dollars": 15353335.0,
+   "taker_ret_pct": 0.44,
+   "maker_cents_per_contract": -0.43,
+   "maker_gross_usd": -67446.74
+  },
+  {
+   "price_bucket": "50-65",
+   "trades": 45858.0,
+   "dollars": 14736412.23,
+   "taker_ret_pct": -1.0,
+   "maker_cents_per_contract": 0.53,
+   "maker_gross_usd": 146957.59
+  },
+  {
+   "price_bucket": "35-50",
+   "trades": 46151.0,
+   "dollars": 12915642.75,
+   "taker_ret_pct": -2.12,
+   "maker_cents_per_contract": 0.99,
+   "maker_gross_usd": 273703.92
+  },
+  {
+   "price_bucket": "90-95",
+   "trades": 19734.0,
+   "dollars": 6308922.44,
+   "taker_ret_pct": 6.33,
+   "maker_cents_per_contract": -5.85,
+   "maker_gross_usd": -399474.67
+  },
+  {
+   "price_bucket": "65-80",
+   "trades": 29895.0,
+   "dollars": 4630982.44,
+   "taker_ret_pct": -2.4,
+   "maker_cents_per_contract": 1.72,
+   "maker_gross_usd": 111222.82
+  },
+  {
+   "price_bucket": "80-90",
+   "trades": 23882.0,
+   "dollars": 4060866.47,
+   "taker_ret_pct": 6.18,
+   "maker_cents_per_contract": -5.26,
+   "maker_gross_usd": -250794.75
+  },
+  {
+   "price_bucket": "20-35",
+   "trades": 34029.0,
+   "dollars": 2267388.27,
+   "taker_ret_pct": 21.5,
+   "maker_cents_per_contract": -5.98,
+   "maker_gross_usd": -487419.05
+  },
+  {
+   "price_bucket": "10-20",
+   "trades": 26736.0,
+   "dollars": 721230.95,
+   "taker_ret_pct": -33.61,
+   "maker_cents_per_contract": 4.64,
+   "maker_gross_usd": 242383.97
+  },
+  {
+   "price_bucket": "05-10",
+   "trades": 24223.0,
+   "dollars": 401779.05,
+   "taker_ret_pct": -58.09,
+   "maker_cents_per_contract": 4.2,
+   "maker_gross_usd": 233406.95
+  },
+  {
+   "price_bucket": "00-05",
+   "trades": 116852.0,
+   "dollars": 202768.14,
+   "taker_ret_pct": -39.11,
+   "maker_cents_per_contract": 0.48,
+   "maker_gross_usd": 79306.23
+  }
+ ],
+ "by_category": [
+  {
+   "category": "entertainment",
+   "trades": 7246.0,
+   "dollars": 202473.35,
+   "taker_ret_pct": -7.84,
+   "maker_cents_per_contract": 2.54,
+   "maker_gross_usd": 15869.68
+  },
+  {
+   "category": "tech",
+   "trades": 12909.0,
+   "dollars": 545189.98,
+   "taker_ret_pct": -1.19,
+   "maker_cents_per_contract": 0.51,
+   "maker_gross_usd": 6493.82
+  },
+  {
+   "category": "crypto",
+   "trades": 105228.0,
+   "dollars": 8248484.36,
+   "taker_ret_pct": -0.94,
+   "maker_cents_per_contract": 0.46,
+   "maker_gross_usd": 77301.77
+  },
+  {
+   "category": "politics",
+   "trades": 104473.0,
+   "dollars": 34076385.63,
+   "taker_ret_pct": -0.26,
+   "maker_cents_per_contract": 0.13,
+   "maker_gross_usd": 88546.26
+  },
+  {
+   "category": "sports",
+   "trades": 72928.0,
+   "dollars": 9247919.17,
+   "taker_ret_pct": 0.1,
+   "maker_cents_per_contract": -0.05,
+   "maker_gross_usd": -8940.52
+  },
+  {
+   "category": "weather",
+   "trades": 10439.0,
+   "dollars": 261205.88,
+   "taker_ret_pct": 0.12,
+   "maker_cents_per_contract": -0.05,
+   "maker_gross_usd": -310.32
+  },
+  {
+   "category": "finance",
+   "trades": 13651.0,
+   "dollars": 2109912.91,
+   "taker_ret_pct": 0.95,
+   "maker_cents_per_contract": -0.47,
+   "maker_gross_usd": -20052.83
+  },
+  {
+   "category": "other",
+   "trades": 92156.0,
+   "dollars": 6907756.49,
+   "taker_ret_pct": 4.01,
+   "maker_cents_per_contract": -1.66,
+   "maker_gross_usd": -277061.58
+  }
+ ],
+ "by_category_price": [
+  {
+   "category": "sports",
+   "price_bucket": "50-65",
+   "trades": 13189.0,
+   "dollars": 2013877.69,
+   "taker_ret_pct": -29.72,
+   "maker_cents_per_contract": 17.03,
+   "maker_gross_usd": 598533.97
+  },
+  {
+   "category": "politics",
+   "price_bucket": "35-50",
+   "trades": 14049.0,
+   "dollars": 9464585.13,
+   "taker_ret_pct": -5.77,
+   "maker_cents_per_contract": 2.82,
+   "maker_gross_usd": 545968.19
+  },
+  {
+   "category": "other",
+   "price_bucket": "65-80",
+   "trades": 6329.0,
+   "dollars": 666460.03,
+   "taker_ret_pct": -40.72,
+   "maker_cents_per_contract": 28.64,
+   "maker_gross_usd": 271410.41
+  },
+  {
+   "category": "politics",
+   "price_bucket": "65-80",
+   "trades": 4804.0,
+   "dollars": 628681.29,
+   "taker_ret_pct": -27.03,
+   "maker_cents_per_contract": 19.48,
+   "maker_gross_usd": 169923.32
+  },
+  {
+   "category": "crypto",
+   "price_bucket": "10-20",
+   "trades": 8504.0,
+   "dollars": 237343.21,
+   "taker_ret_pct": -69.22,
+   "maker_cents_per_contract": 9.78,
+   "maker_gross_usd": 164283.21
+  },
+  {
+   "category": "crypto",
+   "price_bucket": "35-50",
+   "trades": 9366.0,
+   "dollars": 681148.47,
+   "taker_ret_pct": -23.76,
+   "maker_cents_per_contract": 9.98,
+   "maker_gross_usd": 161843.58
+  },
+  {
+   "category": "crypto",
+   "price_bucket": "20-35",
+   "trades": 10089.0,
+   "dollars": 545772.6,
+   "taker_ret_pct": -27.43,
+   "maker_cents_per_contract": 7.44,
+   "maker_gross_usd": 149694.96
+  },
+  {
+   "category": "politics",
+   "price_bucket": "05-10",
+   "trades": 6975.0,
+   "dollars": 188883.3,
+   "taker_ret_pct": -66.11,
+   "maker_cents_per_contract": 4.71,
+   "maker_gross_usd": 124878.14
+  },
+  {
+   "category": "sports",
+   "price_bucket": "95-99",
+   "trades": 9375.0,
+   "dollars": 2154995.41,
+   "taker_ret_pct": -5.2,
+   "maker_cents_per_contract": 5.15,
+   "maker_gross_usd": 112037.82
+  },
+  {
+   "category": "politics",
+   "price_bucket": "80-90",
+   "trades": 4426.0,
+   "dollars": 1071545.96,
+   "taker_ret_pct": -8.49,
+   "maker_cents_per_contract": 7.28,
+   "maker_gross_usd": 90971.3
+  },
+  {
+   "category": "sports",
+   "price_bucket": "10-20",
+   "trades": 4032.0,
+   "dollars": 123444.1,
+   "taker_ret_pct": -72.06,
+   "maker_cents_per_contract": 9.72,
+   "maker_gross_usd": 88954.11
+  },
+  {
+   "category": "crypto",
+   "price_bucket": "05-10",
+   "trades": 4592.0,
+   "dollars": 72263.46,
+   "taker_ret_pct": -90.56,
+   "maker_cents_per_contract": 6.69,
+   "maker_gross_usd": 65440.78
+  },
+  {
+   "category": "other",
+   "price_bucket": "00-05",
+   "trades": 32569.0,
+   "dollars": 68133.22,
+   "taker_ret_pct": -90.26,
+   "maker_cents_per_contract": 1.42,
+   "maker_gross_usd": 61494.09
+  },
+  {
+   "category": "finance",
+   "price_bucket": "35-50",
+   "trades": 1090.0,
+   "dollars": 200185.66,
+   "taker_ret_pct": -24.36,
+   "maker_cents_per_contract": 10.51,
+   "maker_gross_usd": 48762.3
+  },
+  {
+   "category": "politics",
+   "price_bucket": "00-05",
+   "trades": 25941.0,
+   "dollars": 70415.37,
+   "taker_ret_pct": -67.31,
+   "maker_cents_per_contract": 0.71,
+   "maker_gross_usd": 47396.35
+  },
+  {
+   "category": "sports",
+   "price_bucket": "20-35",
+   "trades": 6999.0,
+   "dollars": 632973.35,
+   "taker_ret_pct": -7.44,
+   "maker_cents_per_contract": 2.13,
+   "maker_gross_usd": 47097.59
+  },
+  {
+   "category": "tech",
+   "price_bucket": "35-50",
+   "trades": 735.0,
+   "dollars": 47623.13,
+   "taker_ret_pct": -88.14,
+   "maker_cents_per_contract": 36.8,
+   "maker_gross_usd": 41974.49
+  },
+  {
+   "category": "finance",
+   "price_bucket": "10-20",
+   "trades": 1057.0,
+   "dollars": 49116.8,
+   "taker_ret_pct": -78.18,
+   "maker_cents_per_contract": 10.33,
+   "maker_gross_usd": 38398.06
+  },
+  {
+   "category": "finance",
+   "price_bucket": "05-10",
+   "trades": 892.0,
+   "dollars": 37960.57,
+   "taker_ret_pct": -86.52,
+   "maker_cents_per_contract": 7.02,
+   "maker_gross_usd": 32845.29
+  },
+  {
+   "category": "other",
+   "price_bucket": "10-20",
+   "trades": 5966.0,
+   "dollars": 103955.47,
+   "taker_ret_pct": -30.72,
+   "maker_cents_per_contract": 4.26,
+   "maker_gross_usd": 31933.81
+  },
+  {
+   "category": "crypto",
+   "price_bucket": "00-05",
+   "trades": 33094.0,
+   "dollars": 31420.91,
+   "taker_ret_pct": -98.05,
+   "maker_cents_per_contract": 1.38,
+   "maker_gross_usd": 30808.58
+  },
+  {
+   "category": "tech",
+   "price_bucket": "20-35",
+   "trades": 503.0,
+   "dollars": 27196.54,
+   "taker_ret_pct": -95.68,
+   "maker_cents_per_contract": 23.27,
+   "maker_gross_usd": 26022.93
+  },
+  {
+   "category": "other",
+   "price_bucket": "05-10",
+   "trades": 6762.0,
+   "dollars": 55295.22,
+   "taker_ret_pct": -41.63,
+   "maker_cents_per_contract": 2.75,
+   "maker_gross_usd": 23019.8
+  },
+  {
+   "category": "entertainment",
+   "price_bucket": "35-50",
+   "trades": 596.0,
+   "dollars": 19459.99,
+   "taker_ret_pct": -86.55,
+   "maker_cents_per_contract": 38.59,
+   "maker_gross_usd": 16842.9
+  },
+  {
+   "category": "weather",
+   "price_bucket": "20-35",
+   "trades": 1216.0,
+   "dollars": 12890.23,
+   "taker_ret_pct": -62.8,
+   "maker_cents_per_contract": 16.99,
+   "maker_gross_usd": 8094.46
+  },
+  {
+   "category": "tech",
+   "price_bucket": "10-20",
+   "trades": 1011.0,
+   "dollars": 9930.5,
+   "taker_ret_pct": -79.09,
+   "maker_cents_per_contract": 11.36,
+   "maker_gross_usd": 7853.88
+  },
+  {
+   "category": "tech",
+   "price_bucket": "05-10",
+   "trades": 1147.0,
+   "dollars": 7714.49,
+   "taker_ret_pct": -97.21,
+   "maker_cents_per_contract": 7.17,
+   "maker_gross_usd": 7499.49
+  },
+  {
+   "category": "finance",
+   "price_bucket": "00-05",
+   "trades": 3399.0,
+   "dollars": 7912.28,
+   "taker_ret_pct": -93.52,
+   "maker_cents_per_contract": 0.96,
+   "maker_gross_usd": 7399.66
+  },
+  {
+   "category": "finance",
+   "price_bucket": "20-35",
+   "trades": 1413.0,
+   "dollars": 37985.23,
+   "taker_ret_pct": -19.35,
+   "maker_cents_per_contract": 4.89,
+   "maker_gross_usd": 7348.79
+  },
+  {
+   "category": "entertainment",
+   "price_bucket": "65-80",
+   "trades": 442.0,
+   "dollars": 11256.59,
+   "taker_ret_pct": -51.83,
+   "maker_cents_per_contract": 38.4,
+   "maker_gross_usd": 5833.77
+  },
+  {
+   "category": "entertainment",
+   "price_bucket": "80-90",
+   "trades": 203.0,
+   "dollars": 27791.82,
+   "taker_ret_pct": -18.89,
+   "maker_cents_per_contract": 16.15,
+   "maker_gross_usd": 5250.66
+  },
+  {
+   "category": "tech",
+   "price_bucket": "00-05",
+   "trades": 4409.0,
+   "dollars": 4754.16,
+   "taker_ret_pct": -92.2,
+   "maker_cents_per_contract": 1.31,
+   "maker_gross_usd": 4383.24
+  },
+  {
+   "category": "weather",
+   "price_bucket": "00-05",
+   "trades": 3657.0,
+   "dollars": 2816.04,
+   "taker_ret_pct": -94.5,
+   "maker_cents_per_contract": 1.04,
+   "maker_gross_usd": 2661.19
+  },
+  {
+   "category": "weather",
+   "price_bucket": "35-50",
+   "trades": 588.0,
+   "dollars": 5443.47,
+   "taker_ret_pct": -45.83,
+   "maker_cents_per_contract": 18.05,
+   "maker_gross_usd": 2494.49
+  },
+  {
+   "category": "entertainment",
+   "price_bucket": "90-95",
+   "trades": 612.0,
+   "dollars": 24149.73,
+   "taker_ret_pct": -9.98,
+   "maker_cents_per_contract": 9.21,
+   "maker_gross_usd": 2410.28
+  },
+  {
+   "category": "weather",
+   "price_bucket": "10-20",
+   "trades": 672.0,
+   "dollars": 2155.33,
+   "taker_ret_pct": -68.0,
+   "maker_cents_per_contract": 9.39,
+   "maker_gross_usd": 1465.63
+  },
+  {
+   "category": "entertainment",
+   "price_bucket": "00-05",
+   "trades": 2340.0,
+   "dollars": 1559.16,
+   "taker_ret_pct": -78.85,
+   "maker_cents_per_contract": 0.55,
+   "maker_gross_usd": 1229.47
+  },
+  {
+   "category": "weather",
+   "price_bucket": "05-10",
+   "trades": 682.0,
+   "dollars": 1405.41,
+   "taker_ret_pct": -81.14,
+   "maker_cents_per_contract": 5.35,
+   "maker_gross_usd": 1140.41
+  },
+  {
+   "category": "weather",
+   "price_bucket": "90-95",
+   "trades": 251.0,
+   "dollars": 8782.93,
+   "taker_ret_pct": 7.72,
+   "maker_cents_per_contract": -7.16,
+   "maker_gross_usd": -678.24
+  },
+  {
+   "category": "entertainment",
+   "price_bucket": "95-99",
+   "trades": 1298.0,
+   "dollars": 70408.86,
+   "taker_ret_pct": 2.17,
+   "maker_cents_per_contract": -2.13,
+   "maker_gross_usd": -1530.1
+  }
+ ],
+ "by_ttc": [
+  {
+   "ttc": ">7d",
+   "trades": 292399.0,
+   "dollars": 52099845.1,
+   "taker_ret_pct": 0.05,
+   "maker_cents_per_contract": -0.02,
+   "maker_gross_usd": -25850.95
+  },
+  {
+   "ttc": "1-7d",
+   "trades": 87833.0,
+   "dollars": 6166185.42,
+   "taker_ret_pct": 1.13,
+   "maker_cents_per_contract": -0.53,
+   "maker_gross_usd": -69834.21
+  },
+  {
+   "ttc": "6-24h",
+   "trades": 23815.0,
+   "dollars": 1919680.08,
+   "taker_ret_pct": 3.36,
+   "maker_cents_per_contract": -1.73,
+   "maker_gross_usd": -64563.93
+  },
+  {
+   "ttc": "1-6h",
+   "trades": 11734.0,
+   "dollars": 1046377.16,
+   "taker_ret_pct": 3.21,
+   "maker_cents_per_contract": -1.55,
+   "maker_gross_usd": -33607.77
+  },
+  {
+   "ttc": "<1h",
+   "trades": 3249.0,
+   "dollars": 367239.99,
+   "taker_ret_pct": -20.61,
+   "maker_cents_per_contract": 9.47,
+   "maker_gross_usd": 75703.14
+  }
+ ],
+ "by_category_ttc": [
+  {
+   "category": "politics",
+   "ttc": ">7d",
+   "trades": 97150.0,
+   "dollars": 33500906.79,
+   "taker_ret_pct": -0.42,
+   "maker_cents_per_contract": 0.22,
+   "maker_gross_usd": 140999.28
+  },
+  {
+   "category": "crypto",
+   "ttc": "1-7d",
+   "trades": 26244.0,
+   "dollars": 1893543.03,
+   "taker_ret_pct": -3.82,
+   "maker_cents_per_contract": 1.89,
+   "maker_gross_usd": 72291.95
+  },
+  {
+   "category": "other",
+   "ttc": "<1h",
+   "trades": 262.0,
+   "dollars": 112891.32,
+   "taker_ret_pct": -49.86,
+   "maker_cents_per_contract": 26.74,
+   "maker_gross_usd": 56285.04
+  },
+  {
+   "category": "entertainment",
+   "ttc": ">7d",
+   "trades": 5486.0,
+   "dollars": 120626.33,
+   "taker_ret_pct": -29.68,
+   "maker_cents_per_contract": 9.93,
+   "maker_gross_usd": 35803.6
+  },
+  {
+   "category": "sports",
+   "ttc": ">7d",
+   "trades": 52808.0,
+   "dollars": 6445859.23,
+   "taker_ret_pct": -0.51,
+   "maker_cents_per_contract": 0.26,
+   "maker_gross_usd": 32633.44
+  },
+  {
+   "category": "sports",
+   "ttc": "1-6h",
+   "trades": 1001.0,
+   "dollars": 143322.16,
+   "taker_ret_pct": -13.54,
+   "maker_cents_per_contract": 6.37,
+   "maker_gross_usd": 19399.36
+  },
+  {
+   "category": "politics",
+   "ttc": "6-24h",
+   "trades": 909.0,
+   "dollars": 36627.39,
+   "taker_ret_pct": -48.41,
+   "maker_cents_per_contract": 17.27,
+   "maker_gross_usd": 17733.13
+  },
+  {
+   "category": "crypto",
+   "ttc": "<1h",
+   "trades": 1680.0,
+   "dollars": 135101.35,
+   "taker_ret_pct": -10.25,
+   "maker_cents_per_contract": 4.19,
+   "maker_gross_usd": 13841.64
+  },
+  {
+   "category": "sports",
+   "ttc": "<1h",
+   "trades": 320.0,
+   "dollars": 100643.14,
+   "taker_ret_pct": -6.42,
+   "maker_cents_per_contract": 3.13,
+   "maker_gross_usd": 6457.52
+  },
+  {
+   "category": "tech",
+   "ttc": "6-24h",
+   "trades": 65.0,
+   "dollars": 3636.45,
+   "taker_ret_pct": -95.59,
+   "maker_cents_per_contract": 26.41,
+   "maker_gross_usd": 3476.04
+  },
+  {
+   "category": "crypto",
+   "ttc": "1-6h",
+   "trades": 6817.0,
+   "dollars": 626370.21,
+   "taker_ret_pct": -0.33,
+   "maker_cents_per_contract": 0.17,
+   "maker_gross_usd": 2098.04
+  },
+  {
+   "category": "tech",
+   "ttc": "1-7d",
+   "trades": 115.0,
+   "dollars": 4965.83,
+   "taker_ret_pct": -30.38,
+   "maker_cents_per_contract": 7.31,
+   "maker_gross_usd": 1508.38
+  },
+  {
+   "category": "tech",
+   "ttc": ">7d",
+   "trades": 12724.0,
+   "dollars": 536565.6,
+   "taker_ret_pct": -0.28,
+   "maker_cents_per_contract": 0.12,
+   "maker_gross_usd": 1508.3
+  },
+  {
+   "category": "weather",
+   "ttc": "1-6h",
+   "trades": 2767.0,
+   "dollars": 64108.53,
+   "taker_ret_pct": -2.3,
+   "maker_cents_per_contract": 0.96,
+   "maker_gross_usd": 1473.6
+  },
+  {
+   "category": "weather",
+   "ttc": "<1h",
+   "trades": 847.0,
+   "dollars": 14203.35,
+   "taker_ret_pct": -4.82,
+   "maker_cents_per_contract": 1.61,
+   "maker_gross_usd": 685.15
+  },
+  {
+   "category": "weather",
+   "ttc": "1-7d",
+   "trades": 671.0,
+   "dollars": 12456.95,
+   "taker_ret_pct": -4.28,
+   "maker_cents_per_contract": 1.97,
+   "maker_gross_usd": 533.09
+  },
+  {
+   "category": "weather",
+   "ttc": "6-24h",
+   "trades": 2776.0,
+   "dollars": 39047.66,
+   "taker_ret_pct": 1.16,
+   "maker_cents_per_contract": -0.38,
+   "maker_gross_usd": -451.82
+  },
+  {
+   "category": "politics",
+   "ttc": "<1h",
+   "trades": 123.0,
+   "dollars": 3349.22,
+   "taker_ret_pct": 26.99,
+   "maker_cents_per_contract": -12.51,
+   "maker_gross_usd": -904.1
+  },
+  {
+   "category": "politics",
+   "ttc": "1-6h",
+   "trades": 469.0,
+   "dollars": 55488.46,
+   "taker_ret_pct": 3.42,
+   "maker_cents_per_contract": -1.69,
+   "maker_gross_usd": -1895.14
+  },
+  {
+   "category": "entertainment",
+   "ttc": "6-24h",
+   "trades": 63.0,
+   "dollars": 43488.78,
+   "taker_ret_pct": 4.52,
+   "maker_cents_per_contract": -3.27,
+   "maker_gross_usd": -1964.55
+  },
+  {
+   "category": "weather",
+   "ttc": ">7d",
+   "trades": 3378.0,
+   "dollars": 131389.39,
+   "taker_ret_pct": 1.94,
+   "maker_cents_per_contract": -0.92,
+   "maker_gross_usd": -2550.33
+  },
+  {
+   "category": "crypto",
+   "ttc": ">7d",
+   "trades": 55647.0,
+   "dollars": 4274745.05,
+   "taker_ret_pct": 0.09,
+   "maker_cents_per_contract": -0.04,
+   "maker_gross_usd": -3728.33
+  },
+  {
+   "category": "finance",
+   "ttc": "1-7d",
+   "trades": 546.0,
+   "dollars": 50761.41,
+   "taker_ret_pct": 12.71,
+   "maker_cents_per_contract": -6.57,
+   "maker_gross_usd": -6449.98
+  },
+  {
+   "category": "crypto",
+   "ttc": "6-24h",
+   "trades": 14840.0,
+   "dollars": 1318724.73,
+   "taker_ret_pct": 0.55,
+   "maker_cents_per_contract": -0.28,
+   "maker_gross_usd": -7201.53
+  },
+  {
+   "category": "sports",
+   "ttc": "1-7d",
+   "trades": 17425.0,
+   "dollars": 2232527.83,
+   "taker_ret_pct": 0.45,
+   "maker_cents_per_contract": -0.2,
+   "maker_gross_usd": -9948.74
+  },
+  {
+   "category": "finance",
+   "ttc": ">7d",
+   "trades": 13093.0,
+   "dollars": 2058946.41,
+   "taker_ret_pct": 0.66,
+   "maker_cents_per_contract": -0.33,
+   "maker_gross_usd": -13578.35
+  },
+  {
+   "category": "entertainment",
+   "ttc": "1-7d",
+   "trades": 1671.0,
+   "dollars": 37056.31,
+   "taker_ret_pct": 46.94,
+   "maker_cents_per_contract": -8.63,
+   "maker_gross_usd": -17395.83
+  },
+  {
+   "category": "other",
+   "ttc": "6-24h",
+   "trades": 3783.0,
+   "dollars": 152557.24,
+   "taker_ret_pct": 12.24,
+   "maker_cents_per_contract": -5.01,
+   "maker_gross_usd": -18674.12
+  },
+  {
+   "category": "other",
+   "ttc": "1-7d",
+   "trades": 35339.0,
+   "dollars": 1454860.29,
+   "taker_ret_pct": 2.95,
+   "maker_cents_per_contract": -1.32,
+   "maker_gross_usd": -42986.17
+  },
+  {
+   "category": "other",
+   "ttc": "1-6h",
+   "trades": 659.0,
+   "dollars": 156641.33,
+   "taker_ret_pct": 34.95,
+   "maker_cents_per_contract": -17.01,
+   "maker_gross_usd": -54747.76
+  }
+ ],
+ "top_families_for_makers_2025": [
+  {
+   "family": "will-the-florida-panthers-win-thestanley",
+   "category": "sports",
+   "dollars_2025": 99349,
+   "taker_ret_2025_pct": -80.2,
+   "maker_gross_2025_usd": 79679,
+   "taker_ret_2024_pct": null,
+   "dollars_2024": null
+  },
+  {
+   "family": "uel-tot-muntot",
+   "category": "other",
+   "dollars_2025": 100828,
+   "taker_ret_2025_pct": -72.93,
+   "maker_gross_2025_usd": 73534,
+   "taker_ret_2024_pct": null,
+   "dollars_2024": null
+  },
+  {
+   "family": "will-lee-jae-myung-winof-the-vote-in-the",
+   "category": "politics",
+   "dollars_2025": 519640,
+   "taker_ret_2025_pct": -13.53,
+   "maker_gross_2025_usd": 70310,
+   "taker_ret_2024_pct": null,
+   "dollars_2024": null
+  },
+  {
+   "family": "will-the-minnesota-timberwolves-win-the-",
+   "category": "other",
+   "dollars_2025": 85952,
+   "taker_ret_2025_pct": -62.7,
+   "maker_gross_2025_usd": 53889,
+   "taker_ret_2024_pct": null,
+   "dollars_2024": null
+  },
+  {
+   "family": "nhl-fla-car",
+   "category": "sports",
+   "dollars_2025": 298031,
+   "taker_ret_2025_pct": -16.18,
+   "maker_gross_2025_usd": 48215,
+   "taker_ret_2024_pct": null,
+   "dollars_2024": null
+  },
+  {
+   "family": "nhl-edm-dal",
+   "category": "sports",
+   "dollars_2025": 271678,
+   "taker_ret_2025_pct": -17.33,
+   "maker_gross_2025_usd": 47077,
+   "taker_ret_2024_pct": null,
+   "dollars_2024": null
+  },
+  {
+   "family": "will-powell-say-inflationtimes-during-ju",
+   "category": "finance",
+   "dollars_2025": 48304,
+   "taker_ret_2025_pct": -94.97,
+   "maker_gross_2025_usd": 45876,
+   "taker_ret_2024_pct": null,
+   "dollars_2024": null
+  },
+  {
+   "family": "will-marco-francis-win-theseychelles-pre",
+   "category": "politics",
+   "dollars_2025": 46819,
+   "taker_ret_2025_pct": -95.87,
+   "maker_gross_2025_usd": 44886,
+   "taker_ret_2024_pct": null,
+   "dollars_2024": null
+  },
+  {
+   "family": "will-darren-criss-win-the-tony-for-best-",
+   "category": "other",
+   "dollars_2025": 39806,
+   "taker_ret_2025_pct": -99.54,
+   "maker_gross_2025_usd": 39625,
+   "taker_ret_2024_pct": null,
+   "dollars_2024": null
+  },
+  {
+   "family": "will-girls-band-cry-win-crunchyrolls-bes",
+   "category": "other",
+   "dollars_2025": 37578,
+   "taker_ret_2025_pct": -98.1,
+   "maker_gross_2025_usd": 36864,
+   "taker_ret_2024_pct": null,
+   "dollars_2024": null
+  },
+  {
+   "family": "will-jd-vance-say-tariff-during-bitcoine",
+   "category": "crypto",
+   "dollars_2025": 33926,
+   "taker_ret_2025_pct": -97.87,
+   "maker_gross_2025_usd": 33205,
+   "taker_ret_2024_pct": null,
+   "dollars_2024": null
+  },
+  {
+   "family": "will-andrnico-rodrguez-win-thebolivia-pr",
+   "category": "politics",
+   "dollars_2025": 31569,
+   "taker_ret_2025_pct": -99.44,
+   "maker_gross_2025_usd": 31393,
+   "taker_ret_2024_pct": null,
+   "dollars_2024": null
+  },
+  {
+   "family": "vieira-vs-chiasson",
+   "category": "sports",
+   "dollars_2025": 32463,
+   "taker_ret_2025_pct": -94.45,
+   "maker_gross_2025_usd": 30661,
+   "taker_ret_2024_pct": null,
+   "dollars_2024": null
+  },
+  {
+   "family": "will-the-us-agree-to-a-trade-deal-with-i",
+   "category": "other",
+   "dollars_2025": 32913,
+   "taker_ret_2025_pct": -89.89,
+   "maker_gross_2025_usd": 29585,
+   "taker_ret_2024_pct": null,
+   "dollars_2024": null
+  },
+  {
+   "family": "will-tyrese-haliburton-win-eastern-confe",
+   "category": "other",
+   "dollars_2025": 28381,
+   "taker_ret_2025_pct": -99.12,
+   "maker_gross_2025_usd": 28131,
+   "taker_ret_2024_pct": null,
+   "dollars_2024": null
+  },
+  {
+   "family": "will-shai-gilgeous-alexander-win-thenba-",
+   "category": "sports",
+   "dollars_2025": 55338,
+   "taker_ret_2025_pct": -49.05,
+   "maker_gross_2025_usd": 27144,
+   "taker_ret_2024_pct": null,
+   "dollars_2024": null
+  },
+  {
+   "family": "russia-x-ukraine-ceasefire-before-july",
+   "category": "politics",
+   "dollars_2025": 232921,
+   "taker_ret_2025_pct": -11.13,
+   "maker_gross_2025_usd": 25930,
+   "taker_ret_2024_pct": null,
+   "dollars_2024": null
+  },
+  {
+   "family": "will-audra-mcdonald-win-the-tony-for-bes",
+   "category": "other",
+   "dollars_2025": 25351,
+   "taker_ret_2025_pct": -99.66,
+   "maker_gross_2025_usd": 25264,
+   "taker_ret_2024_pct": null,
+   "dollars_2024": null
+  },
+  {
+   "family": "will-the-san-franciscoers-win-the-nfc-we",
+   "category": "other",
+   "dollars_2025": 24931,
+   "taker_ret_2025_pct": -100.0,
+   "maker_gross_2025_usd": 24931,
+   "taker_ret_2024_pct": null,
+   "dollars_2024": null
+  },
+  {
+   "family": "will-magnus-carlsen-win-thechesscom-clas",
+   "category": "other",
+   "dollars_2025": 34725,
+   "taker_ret_2025_pct": -71.66,
+   "maker_gross_2025_usd": 24883,
+   "taker_ret_2024_pct": null,
+   "dollars_2024": null
+  },
+  {
+   "family": "will-bitcoin-reachk-in-may",
+   "category": "crypto",
+   "dollars_2025": 2153634,
+   "taker_ret_2025_pct": -1.15,
+   "maker_gross_2025_usd": 24677,
+   "taker_ret_2024_pct": null,
+   "dollars_2024": null
+  },
+  {
+   "family": "will-ethereum-hitby-december",
+   "category": "crypto",
+   "dollars_2025": 111518,
+   "taker_ret_2025_pct": -21.76,
+   "maker_gross_2025_usd": 24270,
+   "taker_ret_2024_pct": null,
+   "dollars_2024": null
+  },
+  {
+   "family": "nba-ind-nyk",
+   "category": "sports",
+   "dollars_2025": 1608656,
+   "taker_ret_2025_pct": -1.5,
+   "maker_gross_2025_usd": 24066,
+   "taker_ret_2024_pct": null,
+   "dollars_2024": null
+  },
+  {
+   "family": "mlb-laa-oak",
+   "category": "sports",
+   "dollars_2025": 212749,
+   "taker_ret_2025_pct": -10.96,
+   "maker_gross_2025_usd": 23307,
+   "taker_ret_2024_pct": null,
+   "dollars_2024": null
+  },
+  {
+   "family": "will-zootopiabe-the-top-grossing-movie-o",
+   "category": "entertainment",
+   "dollars_2025": 26645,
+   "taker_ret_2025_pct": -86.65,
+   "maker_gross_2025_usd": 23089,
+   "taker_ret_2024_pct": null,
+   "dollars_2024": null
+  }
+ ],
+ "longshot_taker_ret_by_category_year": [
+  {
+   "category": "crypto",
+   "year": "2025",
+   "trades": 37249.0,
+   "dollars": 99958.93,
+   "taker_ret_pct": -92.56,
+   "maker_cents_per_contract": 3.02,
+   "maker_gross_usd": 92523.91
+  },
+  {
+   "category": "other",
+   "year": "2023",
+   "trades": 1506.0,
+   "dollars": 53415.24,
+   "taker_ret_pct": -96.44,
+   "maker_cents_per_contract": 3.41,
+   "maker_gross_usd": 51514.12
+  },
+  {
+   "category": "other",
+   "year": "2025",
+   "trades": 36319.0,
+   "dollars": 67218.82,
+   "taker_ret_pct": -52.95,
+   "maker_cents_per_contract": 1.02,
+   "maker_gross_usd": 35589.4
+  },
+  {
+   "category": "politics",
+   "year": "2025",
+   "trades": 27664.0,
+   "dollars": 230567.27,
+   "taker_ret_pct": -72.56,
+   "maker_cents_per_contract": 2.42,
+   "maker_gross_usd": 167292.9
+  },
+  {
+   "category": "sports",
+   "year": "2025",
+   "trades": 13053.0,
+   "dollars": 51172.84,
+   "taker_ret_pct": 186.82,
+   "maker_cents_per_contract": -4.59,
+   "maker_gross_usd": -95599.76
+  }
+ ],
+ "favourite_taker_ret_by_category_year": [
+  {
+   "category": "crypto",
+   "year": "2023",
+   "trades": 76.0,
+   "dollars": 59476.38,
+   "taker_ret_pct": 5.29,
+   "maker_cents_per_contract": -5.0,
+   "maker_gross_usd": -3146.05
+  },
+  {
+   "category": "crypto",
+   "year": "2024",
+   "trades": 234.0,
+   "dollars": 50028.85,
+   "taker_ret_pct": 2.91,
+   "maker_cents_per_contract": -2.82,
+   "maker_gross_usd": -1453.36
+  },
+  {
+   "category": "crypto",
+   "year": "2025",
+   "trades": 12220.0,
+   "dollars": 2757372.32,
+   "taker_ret_pct": 3.39,
+   "maker_cents_per_contract": -3.28,
+   "maker_gross_usd": -93544.24
+  },
+  {
+   "category": "entertainment",
+   "year": "2025",
+   "trades": 1862.0,
+   "dollars": 66559.52,
+   "taker_ret_pct": -2.63,
+   "maker_cents_per_contract": 2.55,
+   "maker_gross_usd": 1748.27
+  },
+  {
+   "category": "finance",
+   "year": "2023",
+   "trades": 233.0,
+   "dollars": 101450.64,
+   "taker_ret_pct": 5.4,
+   "maker_cents_per_contract": -5.12,
+   "maker_gross_usd": -5478.32
+  },
+  {
+   "category": "finance",
+   "year": "2024",
+   "trades": 125.0,
+   "dollars": 138110.87,
+   "taker_ret_pct": 4.41,
+   "maker_cents_per_contract": -4.22,
+   "maker_gross_usd": -6088.15
+  },
+  {
+   "category": "finance",
+   "year": "2025",
+   "trades": 2203.0,
+   "dollars": 1069891.31,
+   "taker_ret_pct": 2.85,
+   "maker_cents_per_contract": -2.75,
+   "maker_gross_usd": -30490.07
+  },
+  {
+   "category": "other",
+   "year": "2023",
+   "trades": 1069.0,
+   "dollars": 613435.66,
+   "taker_ret_pct": 3.17,
+   "maker_cents_per_contract": -3.05,
+   "maker_gross_usd": -19470.9
+  },
+  {
+   "category": "other",
+   "year": "2024",
+   "trades": 575.0,
+   "dollars": 201158.82,
+   "taker_ret_pct": -0.35,
+   "maker_cents_per_contract": 0.35,
+   "maker_gross_usd": 703.72
+  },
+  {
+   "category": "other",
+   "year": "2025",
+   "trades": 14640.0,
+   "dollars": 2214560.61,
+   "taker_ret_pct": 1.19,
+   "maker_cents_per_contract": -1.16,
+   "maker_gross_usd": -26460.93
+  },
+  {
+   "category": "politics",
+   "year": "2023",
+   "trades": 465.0,
+   "dollars": 486570.68,
+   "taker_ret_pct": 2.48,
+   "maker_cents_per_contract": -2.42,
+   "maker_gross_usd": -12074.44
+  },
+  {
+   "category": "politics",
+   "year": "2024",
+   "trades": 3523.0,
+   "dollars": 2219677.02,
+   "taker_ret_pct": 0.64,
+   "maker_cents_per_contract": -0.63,
+   "maker_gross_usd": -14195.11
+  },
+  {
+   "category": "politics",
+   "year": "2025",
+   "trades": 18066.0,
+   "dollars": 8778491.14,
+   "taker_ret_pct": 3.97,
+   "maker_cents_per_contract": -3.8,
+   "maker_gross_usd": -348606.95
+  },
+  {
+   "category": "sports",
+   "year": "2024",
+   "trades": 772.0,
+   "dollars": 404417.75,
+   "taker_ret_pct": 0.84,
+   "maker_cents_per_contract": -0.83,
+   "maker_gross_usd": -3386.16
+  },
+  {
+   "category": "sports",
+   "year": "2025",
+   "trades": 10278.0,
+   "dollars": 2036473.6,
+   "taker_ret_pct": -5.31,
+   "maker_cents_per_contract": 5.21,
+   "maker_gross_usd": 108178.77
+  },
+  {
+   "category": "tech",
+   "year": "2025",
+   "trades": 2856.0,
+   "dollars": 217140.12,
+   "taker_ret_pct": 4.18,
+   "maker_cents_per_contract": -4.01,
+   "maker_gross_usd": -9074.87
+  },
+  {
+   "category": "weather",
+   "year": "2025",
+   "trades": 1885.0,
+   "dollars": 161661.78,
+   "taker_ret_pct": 1.28,
+   "maker_cents_per_contract": -1.26,
+   "maker_gross_usd": -2069.06
+  }
+ ]
+}

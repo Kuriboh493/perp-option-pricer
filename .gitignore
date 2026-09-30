@@ -2,3 +2,4 @@ backtest/data/
 __pycache__/
 .venv/
 edge/data/
+edge2/data/
