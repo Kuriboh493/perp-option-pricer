@@ -1,0 +1,138 @@
+{
+ "running_hours": 0.0,
+ "universe_latest": {
+  "kalshi/Climate and Weather": 1,
+  "kalshi/Companies": 1,
+  "kalshi/Economics": 26,
+  "kalshi/Elections": 27,
+  "kalshi/Entertainment": 31,
+  "kalshi/Politics": 20,
+  "kalshi/Science and Technology": 14,
+  "pm/finance": 2,
+  "pm/other": 12,
+  "pm/politics": 14
+ },
+ "longshot_buying_observed": {
+  "kalshi": {
+   "dollars_per_day": 2554284,
+   "contracts_per_day": 29731140,
+   "trades": 286
+  },
+  "pm": {
+   "dollars_per_day": 235738,
+   "contracts_per_day": 3899835,
+   "trades": 229
+  }
+ },
+ "markets_with_longshot_buys": {
+  "kalshi": 47,
+  "pm": 16
+ },
+ "book_latest": {
+  "kalshi": {
+   "avg_ask_size_at_touch": 6768,
+   "avg_ask_depth_to_20c": 55704,
+   "avg_spread_cents": 1.9
+  },
+  "pm": {
+   "avg_ask_size_at_touch": 45982,
+   "avg_ask_depth_to_20c": 250857,
+   "avg_spread_cents": 0.7
+  }
+ },
+ "paper_orders": {
+  "kalshi/improve": {
+   "placed": 53,
+   "filled": 0,
+   "fill_rate": 0.0,
+   "avg_hours_to_fill": null
+  },
+  "kalshi/join": {
+   "placed": 120,
+   "filled": 0,
+   "fill_rate": 0.0,
+   "avg_hours_to_fill": null
+  },
+  "pm/improve": {
+   "placed": 1,
+   "filled": 0,
+   "fill_rate": 0.0,
+   "avg_hours_to_fill": null
+  },
+  "pm/join": {
+   "placed": 28,
+   "filled": 0,
+   "fill_rate": 0.0,
+   "avg_hours_to_fill": null
+  }
+ },
+ "partially_filled_live_orders": {},
+ "adverse_selection_mid_move_1h_after_fill_cents": {
+  "n": 0,
+  "mean": null,
+  "share_up": null
+ },
+ "positions": {},
+ "top_markets_by_longshot_buying": [
+  {
+   "platform": "kalshi",
+   "market": "CONTROLH-2026-R",
+   "dollars": 1462,
+   "trades": 25
+  },
+  {
+   "platform": "kalshi",
+   "market": "KXBLUEWAVECOMBO-27FEB",
+   "dollars": 491,
+   "trades": 3
+  },
+  {
+   "platform": "kalshi",
+   "market": "KXLLM1-26DEC31-OAI",
+   "dollars": 388,
+   "trades": 48
+  },
+  {
+   "platform": "kalshi",
+   "market": "KXDANCINGWITHTHESTARS-26DEC31-AGLE",
+   "dollars": 370,
+   "trades": 9
+  },
+  {
+   "platform": "kalshi",
+   "market": "KXBALANCEPOWERCOMBO-27FEB-RR",
+   "dollars": 349,
+   "trades": 8
+  },
+  {
+   "platform": "kalshi",
+   "market": "KXCODINGMODEL-26DEC-GOOG",
+   "dollars": 338,
+   "trades": 12
+  },
+  {
+   "platform": "kalshi",
+   "market": "KXAKCRUDEOIL-27MAR01-T153.607",
+   "dollars": 323,
+   "trades": 9
+  },
+  {
+   "platform": "kalshi",
+   "market": "KXHIVISITORS-27JAN31-T9.6",
+   "dollars": 207,
+   "trades": 5
+  },
+  {
+   "platform": "kalshi",
+   "market": "KXCODINGMODEL-26DEC-OPEN",
+   "dollars": 189,
+   "trades": 16
+  },
+  {
+   "platform": "pm",
+   "market": "0xa467b14d51f01b957109d9cbb1d6c124fab2a089d52ed8f471d23c2812e743b7",
+   "dollars": 149,
+   "trades": 193
+  }
+ ]
+}
