@@ -1,5 +1,5 @@
 """Summarise the paper-trading recorder: universe, capacity (longshot buying per day), fill rates and time to fill,
-adverse selection after fills, and realised P&L on resolved positions."""
+adverse selection after fills, realised P&L on resolved positions, and the BTC daily favourites strategy."""
 import json, os, sqlite3, datetime as dt
 import numpy as np
 
@@ -32,5 +32,24 @@ out["adverse_selection_mid_move_1h_after_fill_cents"] = dict(n=len(adv), mean=ro
 pos = q("SELECT platform, COUNT(*), SUM(size*price), SUM(CASE WHEN result IS NOT NULL THEN 1 ELSE 0 END), SUM(pnl), SUM(CASE WHEN result=side THEN 1 ELSE 0 END) FROM positions GROUP BY 1")
 out["positions"] = {p: dict(opened=n, premium_collected_usd=round(prem or 0), resolved=r or 0, realised_pnl_usd=round(pnl or 0), longshots_that_hit=h or 0) for p, n, prem, r, pnl, h in pos}
 out["top_markets_by_longshot_buying"] = [dict(platform=p, market=m, dollars=round(d), trades=n) for p, m, d, n in q("SELECT platform, market, SUM(size*price), COUNT(*) FROM trades WHERE taker_buys_longshot=1 AND price<=0.20 GROUP BY 1,2 ORDER BY 3 DESC LIMIT 10")]
+# ---- strategy 2: BTC daily favourites (backtest, 2026 out of sample: 2.7c/contract taker, 4.65c join, ~76% join fill rate)
+has_strategy = any(r[1] == "strategy" for r in q("PRAGMA table_info(orders)"))
+if has_strategy:
+    ev = q("SELECT COUNT(*), SUM(markets) FROM btc_events")[0]
+    j = q("SELECT COUNT(*), SUM(status='filled'), SUM(status='expired'), SUM(status='live') FROM orders WHERE strategy='btc_fav'")[0]
+    btc = dict(events_traded=ev[0] or 0, strikes_signalled=ev[1] or 0,
+               join_orders=dict(placed=j[0] or 0, filled=j[1] or 0, expired=j[2] or 0, live=j[3] or 0,
+                                fill_rate=round((j[1] or 0) / ((j[1] or 0) + (j[2] or 0)), 3) if (j[1] or 0) + (j[2] or 0) else None))
+    for kind in ("taker", "join"):
+        r = q("SELECT COUNT(*), SUM(result IS NOT NULL), SUM(pnl), SUM(CASE WHEN result IS NOT NULL THEN size END), SUM(result=side), AVG(price) FROM positions WHERE strategy='btc_fav' AND kind=?", kind)[0]
+        btc[kind] = dict(positions=r[0] or 0, resolved=r[1] or 0, realised_pnl_usd=round(r[2] or 0, 2),
+                         cents_per_contract=round(100 * (r[2] or 0) / r[3], 2) if r[3] else None,
+                         win_rate=round((r[4] or 0) / r[1], 3) if r[1] else None, avg_price=round(r[5], 3) if r[5] else None)
+    daily = q("SELECT date(opened_ts, 'unixepoch'), kind, SUM(pnl) FROM positions WHERE strategy='btc_fav' AND result IS NOT NULL GROUP BY 1, 2 ORDER BY 1")
+    btc["daily_pnl_usd"] = [dict(day=d, kind=k, pnl=round(v, 2)) for d, k, v in daily]
+    btc["backtest_reference"] = dict(taker_cents=2.7, join_cents=4.65, win_rate=0.97)
+    out["btc_favourites"] = btc
+    out["positions"] = {p: dict(opened=n, premium_collected_usd=round(prem or 0), resolved=r or 0, realised_pnl_usd=round(pnl or 0), longshots_that_hit=h or 0)
+                        for p, n, prem, r, pnl, h in q("SELECT platform, COUNT(*), SUM(size*price), SUM(CASE WHEN result IS NOT NULL THEN 1 ELSE 0 END), SUM(pnl), SUM(CASE WHEN result=side THEN 1 ELSE 0 END) FROM positions WHERE strategy='longshot' GROUP BY 1")}
 print(json.dumps(out, indent=1))
 json.dump(out, open(os.path.join(HERE, "results_recorder.json"), "w"), indent=1)

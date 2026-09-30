@@ -1,6 +1,13 @@
-# Live paper-trading recorder: far-dated longshots
+# Live paper-trading recorder
 
-Measures the two things the trade surveys cannot: whether resting offers on far-dated longshots get lifted, and how much of that flow exists. Reads only public endpoints; sends no orders.
+Paper-trades the two strategies from this research live, to measure what backtests cannot: real fill rates, available size, and P&L as positions resolve. Reads only public endpoints; sends no orders.
+
+| Strategy | Rule | What it measures |
+|---|---|---|
+| Far-dated longshots | Rest offers on the 3–20¢ side of markets 7–180 days from resolution (from [../retail-survey/](../retail-survey/)) | Whether offers get lifted, how much flow exists |
+| BTC daily favourites | At 1pm ET, rest a bid on the favourite side of every Kalshi "Bitcoin above $X at 5pm" strike within 3% of spot quoted beyond 80/20, and record the taker alternative (from [../kalshi-btc/](../kalshi-btc/)) | Live fill rate and ¢/contract against the backtest's 2.7¢ taker / 4.65¢ resting |
+
+## Far-dated longshots
 
 Every five minutes `recorder.py`:
 
@@ -9,6 +16,12 @@ Every five minutes `recorder.py`:
 3. pulls new trades and records whether the taker bought the longshot side;
 4. advances two virtual offers per market of 100 contracts each, one joining the best ask and one a tick inside it, with a queue model: printed buys at or above the offer price first consume the size that was ahead, then fill the order;
 5. checks resolutions for filled positions and books the P&L (a short longshot keeps the premium when it loses, pays `1 − p` when it hits).
+
+## BTC daily favourites
+
+Once a day, in the first cycle at or after four hours before the 5pm ET close, `btc_place` reads the day's KXBTCD strikes and Coinbase spot. For every strike within 3% of spot whose mid is at least 80¢ or at most 20¢ it records two 100-contract paper trades on the favourite side: a *taker* buy at the ask (charged Kalshi's taker fee) and a *resting* buy at the best bid, queued behind the size already there. `btc_advance` fills resting bids from printed trades where takers sold the favourite at or below the bid, and cancels whatever is left after an hour, matching the backtest. Positions settle when Kalshi resolves the contract, usually minutes after the close.
+
+## Running it
 
 State is `data/recorder.db` (SQLite: universe, snapshots, trades, orders, fills, positions) and `data/recorder.log`.
 

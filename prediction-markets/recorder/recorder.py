@@ -4,8 +4,9 @@ Every cycle it (1) refreshes the universe of open markets resolving 7-180 days o
 3-20 cents in the target categories, (2) snapshots each market's order book, (3) pulls new trades, (4) advances virtual
 resting offers on the longshot side (one joining the best ask, one a tick inside it) using a queue-position model fed by
 the printed trades, and (5) records resolutions for filled positions. No orders are sent anywhere; only public endpoints
-are read. State lives in data/recorder.db (SQLite); run report.py for fills, capacity and P&L."""
-import json, os, re, sqlite3, sys, time, urllib.request, urllib.error, datetime as dt
+are read. A second strategy runs alongside: favourites on Kalshi's daily BTC contracts four hours before the 5pm ET close
+(btc_place / btc_advance). State lives in data/recorder.db (SQLite); run report.py for fills, capacity and P&L."""
+import json, math, os, re, sqlite3, sys, time, urllib.request, urllib.error, datetime as dt
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 DB = os.path.join(HERE, "data", "recorder.db")
@@ -17,7 +18,10 @@ PRICE_LO, PRICE_HI = 0.03, 0.20
 PER_PLATFORM, ORDER_SIZE, MAX_POSITIONS = 120, 100, 5
 KALSHI_CATS = {"Economics", "Politics", "Elections", "Entertainment", "Companies", "World", "Science and Technology", "Mentions", "Health", "Social", "Transportation", "Climate and Weather"}
 PM_EXCLUDE = re.compile(r"bitcoin|btc|ethereum|\beth\b|solana|\bsol\b|xrp|doge|crypto|up-or-down|updown|\bnba\b|\bnfl\b|\bmlb\b|\bnhl\b|\bufc\b|\bmma\b|soccer|premier-league|la-liga|serie-a|bundesliga|champions|\bvs\b|-vs-|spread|tennis|golf|pga|super-bowl|world-series|stanley|playoffs|ncaa|cricket|rugby|boxing|esports|counter-strike|dota|league-of-legends|valorant|f1-|grand-prix|win-on-|beat-")
-_last = {"kalshi": 0.0, "pm": 0.0}
+_last = {"kalshi": 0.0, "pm": 0.0, "cb": 0.0}
+# Strategy 2: favourites on Kalshi's daily BTC contracts (tested out of sample in ../kalshi-btc/)
+BTC_LEAD_S, BTC_WINDOW_S, BTC_ORDER_LIFE_S = 4 * 3600, 1800, 3600
+BTC_WIDTH, BTC_FAV = 0.03, 0.80
 
 
 def log(msg):
@@ -60,7 +64,14 @@ def db():
     CREATE TABLE IF NOT EXISTS fills(order_id INT, ts INT, price REAL, size REAL);
     CREATE TABLE IF NOT EXISTS positions(id INTEGER PRIMARY KEY, platform TEXT, market TEXT, side TEXT, price REAL, size REAL, opened_ts INT, result TEXT, pnl REAL, resolved_ts INT);
     CREATE TABLE IF NOT EXISTS cursors(platform TEXT, market TEXT, last_ts INT, PRIMARY KEY(platform, market));
+    CREATE TABLE IF NOT EXISTS btc_events(event TEXT PRIMARY KEY, placed_ts INT, close_ts INT, spot REAL, markets INT);
     """)
+    for table, col, decl in (("orders", "strategy", "TEXT DEFAULT 'longshot'"), ("positions", "strategy", "TEXT DEFAULT 'longshot'"),
+                             ("positions", "kind", "TEXT"), ("positions", "fee", "REAL DEFAULT 0")):
+        try:
+            con.execute(f"ALTER TABLE {table} ADD COLUMN {col} {decl}")
+        except sqlite3.OperationalError:
+            pass                                          # column already exists
     return con
 
 
@@ -191,7 +202,7 @@ def pm_trades(u, since_ts):
 
 # ---------- paper orders ----------
 def place_orders(con, u, book, now):
-    live = con.execute("SELECT kind FROM orders WHERE platform=? AND market=? AND status='live'", (u["platform"], u["market"])).fetchall()
+    live = con.execute("SELECT kind FROM orders WHERE platform=? AND market=? AND status='live' AND strategy='longshot'", (u["platform"], u["market"])).fetchall()
     have = {k for (k,) in live}
     npos = con.execute("SELECT COUNT(*) FROM positions WHERE platform=? AND market=?", (u["platform"], u["market"])).fetchone()[0]
     if npos >= MAX_POSITIONS:
@@ -206,7 +217,7 @@ def place_orders(con, u, book, now):
 
 
 def advance_orders(con, u, new_trades):
-    orders = con.execute("SELECT id, price, remaining, queue_ahead, placed_ts FROM orders WHERE platform=? AND market=? AND status='live'", (u["platform"], u["market"])).fetchall()
+    orders = con.execute("SELECT id, price, remaining, queue_ahead, placed_ts FROM orders WHERE platform=? AND market=? AND status='live' AND strategy='longshot'", (u["platform"], u["market"])).fetchall()
     for oid, price, remaining, queue, placed in orders:
         for t in sorted(new_trades, key=lambda x: x["ts"]):
             if t["ts"] < placed or not t["taker_buys_longshot"] or t["price"] < price - 1e-9:
@@ -244,10 +255,110 @@ def resolve_positions(con, now):
 
 
 def settle(con, platform, market, result, now):
-    for pid, side, price, size in con.execute("SELECT id, side, price, size FROM positions WHERE platform=? AND market=? AND result IS NULL", (platform, market)).fetchall():
-        pnl = size * (price if result != side else -(1 - price))     # short the longshot: keep the premium if it loses
+    for pid, side, price, size, strategy, fee in con.execute("SELECT id, side, price, size, strategy, COALESCE(fee, 0) FROM positions WHERE platform=? AND market=? AND result IS NULL", (platform, market)).fetchall():
+        if strategy == "btc_fav":                                     # long the favourite: collect 1 - p if it wins
+            pnl = size * ((1 - price) if result == side else -price) - fee
+        else:                                                         # short the longshot: keep the premium if it loses
+            pnl = size * (price if result != side else -(1 - price))
         con.execute("UPDATE positions SET result=?, pnl=?, resolved_ts=? WHERE id=?", (result, pnl, now, pid))
     con.execute("UPDATE orders SET status='closed' WHERE platform=? AND market=? AND status='live'", (platform, market))
+
+
+# ---------- strategy 2: BTC daily favourites ----------
+def btc_spot():
+    r = get("https://api.exchange.coinbase.com/products/BTC-USD/ticker", "cb", 0.3)
+    try:
+        return float(r["price"])
+    except (TypeError, KeyError, ValueError):
+        return None
+
+
+def btc_event(now):
+    """Today's 5pm ET KXBTCD event (or tomorrow's once today's has closed)."""
+    from zoneinfo import ZoneInfo
+    et = dt.datetime.fromtimestamp(now, ZoneInfo("America/New_York"))
+    day = et.date() if et.hour < 17 else et.date() + dt.timedelta(days=1)
+    return f"KXBTCD-{day.strftime('%y%b%d').upper()}17"
+
+
+def taker_fee(p):
+    return math.ceil(round(0.07 * ORDER_SIZE * p * (1 - p) * 100, 6)) / 100   # dollars for the whole order
+
+
+def btc_place(con, now, force_event=None):
+    """At close - 4h, rest a buy of the favourite side at its best bid on every quoted strike within 3% of spot
+    whose mid is beyond 80/20, and record the taker alternative (buy at the ask now) for comparison."""
+    ev = force_event or btc_event(now)
+    if con.execute("SELECT 1 FROM btc_events WHERE event=?", (ev,)).fetchone():
+        return
+    r = kget(f"/markets?event_ticker={ev}&limit=300")
+    ms = [m for m in (r or {}).get("markets", []) if m.get("strike_type") == "greater" and m.get("status") in ("active", "open")]
+    if not ms:
+        return
+    close = int(dt.datetime.fromisoformat(ms[0]["close_time"].replace("Z", "+00:00")).timestamp())
+    if not force_event and not (close - BTC_LEAD_S <= now < close - BTC_LEAD_S + BTC_WINDOW_S):
+        return
+    spot = btc_spot()
+    if not spot:
+        return
+    n = 0
+    for m in ms:
+        try:
+            k, yb, ya = float(m["floor_strike"]), float(m["yes_bid_dollars"]), float(m["yes_ask_dollars"])
+            ybs, yas = float(m.get("yes_bid_size_fp") or 0), float(m.get("yes_ask_size_fp") or 0)
+        except (KeyError, TypeError, ValueError):
+            continue
+        if abs(math.log(k / spot)) > BTC_WIDTH or not (0.01 <= yb < ya <= 0.99):
+            continue
+        mid = (yb + ya) / 2
+        if mid >= BTC_FAV:
+            side, bid, ask, queue = "yes", yb, ya, ybs
+        elif mid <= 1 - BTC_FAV:
+            side, bid, ask, queue = "no", round(1 - ya, 4), round(1 - yb, 4), yas
+        else:
+            continue
+        con.execute("INSERT INTO orders(platform,market,side,kind,price,size,remaining,queue_ahead,placed_ts,status,strategy) VALUES('kalshi',?,?,'join',?,?,?,?,?,'live','btc_fav')",
+                    (m["ticker"], side, bid, ORDER_SIZE, ORDER_SIZE, queue, now))
+        con.execute("INSERT INTO positions(platform,market,side,price,size,opened_ts,strategy,kind,fee) VALUES('kalshi',?,?,?,?,?,'btc_fav','taker',?)",
+                    (m["ticker"], side, ask, ORDER_SIZE, now, taker_fee(ask)))
+        n += 1
+    con.execute("INSERT INTO btc_events VALUES(?,?,?,?,?)", (ev, now, close, spot, n))
+    con.commit()
+    log(f"btc favourites: {ev} spot {spot:,.0f}, {n} strikes beyond 80/20, {(close - now) / 3600:.2f}h before close")
+
+
+def btc_advance(con, now):
+    """Fill resting favourite bids from printed trades (sellers of the favourite hitting bids at or below our price,
+    after the size that was ahead of us); cancel what is left an hour after placement."""
+    rows = con.execute("SELECT id, market, side, price, remaining, queue_ahead, placed_ts FROM orders WHERE strategy='btc_fav' AND status='live'").fetchall()
+    for oid, market, side, price, remaining, queue, placed in rows:
+        r = kget(f"/markets/trades?ticker={market}&limit=1000&min_ts={placed}")
+        trades = []
+        for t in (r or {}).get("trades", []):
+            ts = int(dt.datetime.fromisoformat(t["created_time"].replace("Z", "+00:00")).timestamp())
+            if ts < placed or ts > placed + BTC_ORDER_LIFE_S:
+                continue
+            sells_fav = t.get("taker_side") != side               # a taker buying the other side is selling ours
+            px = float(t["yes_price_dollars"]) if side == "yes" else float(t["no_price_dollars"])
+            if sells_fav and px <= price + 1e-9:
+                trades.append((ts, float(t.get("count_fp") or 0), t["trade_id"]))
+        filled_ts = None
+        q, rem = queue, remaining
+        for ts, qty, _ in sorted(trades):
+            take = min(qty, q); q -= take; qty -= take
+            if qty > 0:
+                rem -= min(qty, rem)
+                if rem <= 1e-9:
+                    filled_ts = ts
+                    break
+        if filled_ts:
+            con.execute("UPDATE orders SET status='filled', filled_ts=?, remaining=0, queue_ahead=0 WHERE id=?", (filled_ts, oid))
+            con.execute("INSERT INTO fills(order_id, ts, price, size) VALUES(?,?,?,?)", (oid, filled_ts, price, ORDER_SIZE))
+            con.execute("INSERT INTO positions(platform,market,side,price,size,opened_ts,strategy,kind,fee) VALUES('kalshi',?,?,?,?,?,'btc_fav','join',0)",
+                        (market, side, price, ORDER_SIZE, filled_ts))
+        elif now > placed + BTC_ORDER_LIFE_S:
+            con.execute("UPDATE orders SET status='expired', remaining=?, queue_ahead=? WHERE id=?", (rem, q, oid))
+    con.commit()
 
 
 # ---------- main loop ----------
@@ -292,6 +403,8 @@ def main():
                 con.commit()
                 log(f"universe: {sum(u['platform']=='kalshi' for u in universe)} kalshi + {sum(u['platform']=='pm' for u in universe)} polymarket markets")
             t0 = time.time()
+            btc_place(con, now)
+            btc_advance(con, now)
             cycle(con, universe, now)
             resolve_positions(con, now)
             live = con.execute("SELECT COUNT(*) FROM orders WHERE status='live'").fetchone()[0]
