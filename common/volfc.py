@@ -3,7 +3,7 @@ Fitted only on hourly Deribit index data from 2022-01-01 to 2025-02-28, before e
 import os, sys, datetime as dt
 import numpy as np
 
-sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "backtest"))
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "perps", "backtest"))
 from data import load_hourly, ms, HOUR
 
 FIT_FROM, FIT_TO = ms(dt.date(2022, 1, 1)), ms(dt.date(2025, 3, 1))

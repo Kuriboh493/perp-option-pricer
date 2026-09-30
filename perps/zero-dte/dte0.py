@@ -5,7 +5,7 @@ import json, os, sys, datetime as dt
 import numpy as np
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, os.path.join(HERE, "..", "backtest"))
+sys.path.insert(0, os.path.join(HERE, "..", "backtest")); sys.path.insert(0, os.path.join(HERE, "..", "..", "common"))
 from model import black, bates
 from data import load_hourly, ms, HOUR
 from volfc import forecast_vol

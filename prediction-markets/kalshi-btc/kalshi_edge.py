@@ -7,7 +7,7 @@ import numpy as np
 from scipy.special import ndtr
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, os.path.join(HERE, "..", "backtest"))
+sys.path.insert(0, os.path.join(HERE, "..", "..", "perps", "backtest")); sys.path.insert(0, os.path.join(HERE, "..", "..", "common"))
 from model import bates, cf_grid
 from data import load_hourly
 from volfc import forecast_var, standardized_returns

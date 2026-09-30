@@ -8,7 +8,7 @@ from scipy.optimize import minimize
 from scipy.special import ndtr, expit, logit
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, os.path.join(HERE, "..", "backtest"))
+sys.path.insert(0, os.path.join(HERE, "..", "..", "perps", "backtest")); sys.path.insert(0, os.path.join(HERE, "..", "..", "common"))
 import kalshi_edge as K
 from volfc import forecast_var, SEAS, bucket, R2, TS, POS
 from data import load_hourly, ms, HOUR

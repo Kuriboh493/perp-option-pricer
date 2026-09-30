@@ -66,7 +66,7 @@ def db():
 
 # ---------- universe ----------
 def kalshi_categories():
-    path = os.path.join(HERE, "..", "edge2", "data", "kalshi_series.json")
+    path = os.path.join(HERE, "..", "retail-survey", "data", "kalshi_series.json")
     return json.load(open(path)) if os.path.exists(path) else {}
 
 

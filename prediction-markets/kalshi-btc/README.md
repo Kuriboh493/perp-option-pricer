@@ -1,26 +1,23 @@
-# Edge search: 0DTE options and prediction markets
+# Kalshi daily BTC contracts with quotes
 
-A search for a trading edge in two short-horizon BTC markets, using the pricer's model and a seasonal volatility forecast. Rules were chosen on March–December 2025 and judged only on January–September 2026.
+A search for a trading edge in Kalshi's daily "Bitcoin above $X at 5pm ET" contracts, using quotes, the pricer's model and the seasonal volatility forecast in [../../common/volfc.py](../../common/volfc.py). The 0DTE options test that shared this code now lives in [../../perps/zero-dte/](../../perps/zero-dte/). Rules were chosen on March–December 2025 and judged only on January–September 2026.
 
 **Result:** the model did not produce an edge that survived costs and out-of-sample testing. One model-free effect did: Kalshi's BTC contracts overprice longshots and underprice favorites.
 
 ## Run it
 
 ```
-python -m venv .venv && .venv/bin/pip install -r requirements.txt
-.venv/bin/python ../backtest/fetch_data.py   # hourly Deribit index, perp and funding (shared with the backtest)
-.venv/bin/python fetch_0dte.py               # Deribit option trades 02:00-04:00 UTC
-.venv/bin/python fetch_kalshi.py             # Kalshi KXBTCD quotes, paced for the rate limit (about an hour)
-.venv/bin/python volfc.py                    # volatility forecast diagnostics
-.venv/bin/python dte0.py                     # 0DTE test
-.venv/bin/python kalshi_edge.py              # prediction-market test
-.venv/bin/python favorite_rule.py            # stress test of the rule that survived
-.venv/bin/python fetch_kalshi2.py fetch_dvol.py   # retry data: full candles (high/low/trades) and Deribit DVOL
-.venv/bin/python kalshi_v2.py                # retry: resting orders, de-biased market, DVOL, blend
-.venv/bin/python favorite_maker.py           # stress test of the favourite rule executed with resting orders
+../../.venv/bin/python ../../perps/backtest/fetch_data.py   # hourly Deribit index, perp and funding (shared with the backtest)
+../../.venv/bin/python fetch_kalshi.py             # Kalshi KXBTCD quotes, paced for the rate limit (about an hour)
+../../.venv/bin/python volfc.py                    # volatility forecast diagnostics
+../../.venv/bin/python kalshi_edge.py              # prediction-market test
+../../.venv/bin/python favorite_rule.py            # stress test of the rule that survived
+../../.venv/bin/python fetch_kalshi2.py fetch_dvol.py   # retry data: full candles (high/low/trades) and Deribit DVOL
+../../.venv/bin/python kalshi_v2.py                # retry: resting orders, de-biased market, DVOL, blend
+../../.venv/bin/python favorite_maker.py           # stress test of the favourite rule executed with resting orders
 ```
 
-## Volatility forecast (`volfc.py`)
+## Volatility forecast (`../../common/volfc.py`)
 
 Hour-of-day × weekday/weekend seasonality times a HAR level (1-day, 7-day and 30-day realized variance), with a rolling 90-day bias correction. Fitted on 2022-01 to 2025-02 only. Out of sample it beats a trailing 24-hour estimate at 1–6 hour horizons (6-hour correlation with realized variance 0.48 vs 0.37). US-open hours carry up to 2.7× average variance; early weekend hours 0.2–0.3×.
 
@@ -45,14 +42,6 @@ About 24,000 quoted prices over 577 days, strikes within 3% of spot, traded at t
 **Risks:** it wins about 97% of the time for about 3¢ and pays about 94¢ per contract, so a fast multi-percent BTC move produces large losses. Order-book depth is not in the data, so capacity is unknown. The effect was weaker in 2025 and may close.
 
 **The model's own rules failed.** The best 2025 rule (pricer jump model, 1 hour before close, trade when it disagrees with the quote by 4¢ or more) made 10.9¢ per contract in training and −4.1¢ in 2026 (t = −2.1). In 2026 only the empirical-returns probability scored better than the market mid (Brier 0.070 vs 0.071). Taking the favorite trade only when that model agrees raised profit to 3.2¢ per contract, but that filter was chosen after seeing the test data.
-
-## 0DTE options on Deribit (`dte0.py`)
-
-At 03:00 UTC each day, the 5-hour at-the-money straddle into the 08:00 UTC expiry, traded unhedged. Costs are measured from trades against mark price.
-
-- Selling earned about 10% of premium before costs in both halves.
-- Measured costs are about 15% of premium (median 6.2% paid over mark, plus about 9% in exchange fees), so no rule survives when paying the spread.
-- **Exploratory:** if filled at the mark price, selling only when the market is at least 30% above the model's value made +$97 per day in 2026 (t = 2.3, 107 days). Profit rose with stricter cutoffs in both halves, but the cutoff was chosen after seeing the test data and fills at the mark are not guaranteed.
 
 ## Retry: resting orders and better probabilities (`kalshi_v2.py`, `favorite_maker.py`)
 

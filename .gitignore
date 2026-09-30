@@ -1,6 +1,5 @@
-backtest/data/
 __pycache__/
 .venv/
-edge/data/
-edge2/data/
-recorder/data/
+*/data/
+*/*/data/
+.DS_Store

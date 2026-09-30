@@ -6,13 +6,13 @@
   <key>ProgramArguments</key>
   <array>
     <string>/private/tmp/claude-501/-Users-noahsolomon/fa08fd89-378d-49b1-86f7-27b4f80358c7/scratchpad/venv/bin/python</string>
-    <string>/Users/noahsolomon/perp-option-pricer/recorder/recorder.py</string>
+    <string>/Users/noahsolomon/perp-option-pricer/prediction-markets/recorder/recorder.py</string>
   </array>
-  <key>WorkingDirectory</key><string>/Users/noahsolomon/perp-option-pricer/recorder</string>
+  <key>WorkingDirectory</key><string>/Users/noahsolomon/perp-option-pricer/prediction-markets/recorder</string>
   <key>RunAtLoad</key><true/>
   <key>KeepAlive</key><true/>
   <key>ThrottleInterval</key><integer>60</integer>
-  <key>StandardOutPath</key><string>/Users/noahsolomon/perp-option-pricer/recorder/data/launchd.out</string>
-  <key>StandardErrorPath</key><string>/Users/noahsolomon/perp-option-pricer/recorder/data/launchd.err</string>
+  <key>StandardOutPath</key><string>/Users/noahsolomon/perp-option-pricer/prediction-markets/recorder/data/launchd.out</string>
+  <key>StandardErrorPath</key><string>/Users/noahsolomon/perp-option-pricer/prediction-markets/recorder/data/launchd.err</string>
 </dict>
 </plist>

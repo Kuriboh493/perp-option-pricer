@@ -3,7 +3,7 @@ Strikes are chosen from the Deribit index six hours before the close, so the sel
 import json, os, sys, time, threading, urllib.request, urllib.error, datetime as dt
 from concurrent.futures import ThreadPoolExecutor
 
-sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "backtest"))
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "perps", "backtest"))
 from data import load_hourly, HOUR
 
 API = "https://api.elections.kalshi.com/trade-api/v2"

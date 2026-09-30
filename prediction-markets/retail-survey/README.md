@@ -1,22 +1,20 @@
-# Where does retail lose in event contracts?
+# Retail survey: every trade on Kalshi and Polymarket
 
-A search across Kalshi and Polymarket, all categories, for segments where retail takers systematically overpay, using every recorded trade rather than a model. Companion to [../edge/](../edge/), which tested one crypto series with quotes and execution.
+A search across Kalshi and Polymarket, all categories, for segments where retail takers systematically overpay, using every recorded trade rather than a model. Companions: [../kalshi-btc/](../kalshi-btc/) tests one series with quotes and execution; [../short-dated-crypto/](../short-dated-crypto/) tests the newer hourly and 15-minute markets; [../recorder/](../recorder/) measures fills live.
 
 Data: the [Becker prediction-market dataset](https://github.com/jon-becker/prediction-market-analysis) (every Kalshi trade and Polymarket on-chain fill, 2021 to January 2026, 36 GB), plus samples pulled from the Kalshi and Polymarket APIs for 2026. The downloaded data is not committed; `fetch_*.py` and the survey scripts recreate everything.
 
 ## Run it
 
 ```
-python -m venv .venv && .venv/bin/pip install numpy scipy pandas pyarrow
-curl -o data/becker.tar.zst https://s3.jbecker.dev/data.tar.zst
+curl -o data/becker.tar.zst https://s3.jbecker.dev/data.tar.zst          # 36 GB
 mkdir -p data/becker && tar --use-compress-program=unzstd -xf data/becker.tar.zst -C data/becker data/kalshi data/polymarket/markets data/polymarket/trades data/polymarket/blocks
-.venv/bin/python kalshi_survey.py && .venv/bin/python kalshi_survey_report.py      # every Kalshi trade, ~1.5 h
-.venv/bin/python kalshi_events_scan.py && .venv/bin/python kalshi_events_report.py # event-level risk view, ~1.5 h
-.venv/bin/python pm_survey.py && .venv/bin/python pm_survey_report.py              # every Polymarket fill, ~1 h
-.venv/bin/python fetch_prices.py fetch_1m.py fetch_btc_1m.py fetch_dvol.py        # spot prices for the model tests
-.venv/bin/python fetch_kalshi_recent.py && .venv/bin/python kalshi_recent_edge.py  # Kalshi hourly/15-minute series, Aug-Sep 2026
-.venv/bin/python fetch_polymarket.py && .venv/bin/python polymarket_edge.py        # Polymarket Up/Down windows with minute prices
+../../.venv/bin/python kalshi_survey.py && ../../.venv/bin/python kalshi_survey_report.py      # every Kalshi trade, ~1.5 h
+../../.venv/bin/python kalshi_events_scan.py && ../../.venv/bin/python kalshi_events_report.py # event-level risk view, ~1.5 h
+../../.venv/bin/python pm_survey.py && ../../.venv/bin/python pm_survey_report.py              # every Polymarket fill, ~1 h
 ```
+
+`kalshi_survey.py` also needs `data/kalshi_series.json`, the series-to-category map from Kalshi's `/series` endpoint (the first run of the recorder or the snippet in the git history rebuilds it).
 
 ## Kalshi: every trade, 2021 to January 2026
 
@@ -133,7 +131,7 @@ Short-dated longshots (the crypto Up/Down windows, in-game sports) are priced ab
 | Sports longshots (< 20¢) | **+39%** | −5% | **+11%** | $50.5M | $2.5M | top-5 markets 97% |
 | All longshots < 10¢ | −21% | −37% | −9% | $88.4M | $32.5M | top market 13% |
 
-Finance and politics longshots lose in every year; sports and crypto longshots on Polymarket flip sign between years (a few big upsets pay them), so they are not a pool to sell blindly. The crypto Up/Down families (15-minute, hourly, daily) net to zero for takers on $1.3B: those markets are efficient on average, which matches the quote-level tests in [../edge/](../edge/).
+Finance and politics longshots lose in every year; sports and crypto longshots on Polymarket flip sign between years (a few big upsets pay them), so they are not a pool to sell blindly. The crypto Up/Down families (15-minute, hourly, daily) net to zero for takers on $1.3B: those markets are efficient on average, which matches the quote-level tests in [../kalshi-btc/](../kalshi-btc/) and [../short-dated-crypto/](../short-dated-crypto/).
 
 ## The common thread: longshots priced weeks out
 
@@ -174,23 +172,9 @@ Reading this:
 ## What this says about a strategy
 
 1. The cleanest retail-eating trade on both platforms is **selling long-dated longshots**: post offers at 5–20¢ on "will X happen by [date]" contracts a week or more from resolution, in economics, politics and entertainment, where buyers lose 55–80% of stake. It is lumpy (few events, occasional 5–10× payouts against you), capital is locked until resolution, and on Kalshi you compete with professional makers for the fill; Polymarket makers pay no fee and earn rebates.
-2. **Short-dated crypto markets are efficient.** Polymarket's Up/Down families net to zero for takers on $1.3B, and the model-vs-market tests in this folder and in [../edge/](../edge/) confirm it at the quote level. Do not expect a pricing model to beat them.
+2. **Short-dated crypto markets are efficient.** Polymarket's Up/Down families net to zero for takers on $1.3B, and the tests in [../kalshi-btc/](../kalshi-btc/) and [../short-dated-crypto/](../short-dated-crypto/) confirm it at the quote level. Do not expect a pricing model to beat them.
 3. **Sports is where the money is, but as a market maker, not a picker**: $101M of maker gross on Kalshi in 2025, mostly spread capture on main lines with large single-event swings. Longshot selling in sports (1.6¢ a contract on $205M) is the retail-facing slice.
-4. Favourites above 90¢ are fairly priced on Kalshi and slightly *cheap* on Polymarket (takers earn 2.6–3.4% on 80–95¢). The [../edge/](../edge/) result (favourites on Kalshi BTC daily earning 2.7–4.7¢ four hours out) is a quote-level, short-horizon version of the same bias.
-
-## 2026 quote-level tests on the short-dated crypto markets
-
-These use live quotes and minute prices rather than settled trades, with the short-horizon volatility model from `volfc2.py` (seasonal HAR per asset, fitted before August 2026) as the probability model. Rules are picked on the first part of each sample and judged on the rest.
-
-**Polymarket hourly "Bitcoin Up or Down" windows** (`polymarket_edge.py`; 1,499 windows sampled every 4 hours, October 2025 to May 2026 so far; test period from April 2026):
-
-- Calibration at the quoted price is close to fair at every bucket except 35–65¢ (buyers lose 4–8%) and 80–90¢ (buyers earn 3%). The favourite rule that worked on Kalshi does not survive here: −1.1¢ per contract out of sample.
-- The model beats the market only in the last two minutes (Brier 0.051 vs 0.058 at 60 s), and a "trade when the model disagrees by 20¢" rule made 26¢ a contract in training. That is a stale-print artifact: filled at the next printed trade instead of the last one, it drops to 4¢ in training and 1.3¢ out of sample (16 trades, t = 0.1).
-- **Polymarket daily windows** (285): the only survivor is buying the ≥ 95¢ favourite 15 minutes before close, +1.5¢ per contract out of sample on 19 trades (t = 5.6): real but too small to matter.
-
-**Kalshi ETH daily 5pm contracts** (`kalshi_recent_edge.py`; 52 events, August–September 2026, minute quotes): the market's mid beats the model at every lead from 50 minutes to 2 minutes; the favourite rule made +2.8¢ in September on 44 trades (t = 0.95). Kalshi's hourly ETH/SOL/XRP events carry trades but no standing two-sided quotes at the hour marks, so they cannot be tested this way. The 15-minute BTC series and the S&P hourly series were still downloading when this was written and are not included.
-
-The conclusion matches the trade-level surveys: short-dated crypto contracts are efficient; a pricing model does not beat them, and whatever bias exists is in the far-dated longshots.
+4. Favourites above 90¢ are fairly priced on Kalshi and slightly *cheap* on Polymarket (takers earn 2.6–3.4% on 80–95¢). The [../kalshi-btc/](../kalshi-btc/) result (favourites on Kalshi BTC daily earning 2.7–4.7¢ four hours out) is a quote-level, short-horizon version of the same bias.
 
 ## Limitations
 

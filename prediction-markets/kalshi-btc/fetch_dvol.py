@@ -1,6 +1,6 @@
 """Deribit DVOL (30-day implied vol index) hourly, as a market-implied volatility input."""
 import json, os, sys, datetime as dt
-sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "backtest"))
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "perps", "backtest"))
 from fetch_data import get, ms
 
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "dvol.json")
