@@ -135,4 +135,47 @@ Short-dated longshots (the crypto Up/Down windows, in-game sports) are priced ab
 
 Finance and politics longshots lose in every year; sports and crypto longshots on Polymarket flip sign between years (a few big upsets pay them), so they are not a pool to sell blindly. The crypto Up/Down families (15-minute, hourly, daily) net to zero for takers on $1.3B: those markets are efficient on average, which matches the quote-level tests in [../edge/](../edge/).
 
-(Sections on event-level risk for Kalshi and the 2026 execution tests follow once those runs finish.)
+## The common thread: longshots priced weeks out
+
+On both platforms the longshot overpricing grows with time to resolution. Kalshi 2025, non-sports longshots, taker loss before fees:
+
+| Time to close | < 5¢ | 5–10¢ | 10–20¢ |
+|---|---|---|---|
+| < 1 h | −15% | −18% | −6% |
+| 1–6 h | −39% | −47% | −36% |
+| 6–24 h | −62% | −53% | −26% |
+| 1–7 d | −73% | −79% | −57% |
+| > 7 d | −75% | −80% | −70% |
+
+Polymarket shows the same gradient (above). A contract priced at 5–20¢ with a week or more to run loses its buyer 55–80% of the stake on Kalshi and 35–55% on Polymarket. Sports is the exception where even the final hour is bad for longshot buyers (Kalshi sports 5–20¢ inside an hour: −18% to −31%, on $74M).
+
+## Event-level risk of the Kalshi pools (`kalshi_events_report.py`)
+
+The pools above are attractive on average; the question is how lumpy. From the event × month scan, since January 2024:
+
+| Pool | Events | Maker gross | Months positive | Monthly t | Worst month | Top event's share | Top-5 share |
+|---|---|---|---|---|---|---|---|
+| Economics longshots | 613 | $11.6M (5.1¢/contract) | 19/23 | 2.8 | −$39k | 33% (Sep 2025 Fed) | 83% |
+| Politics + Elections longshots | 1,406 | $27.9M (3.9¢) | 19/23 | 1.9 | −$243k | 20% (2024 presidential) | 58% |
+| Sports longshots (5–20¢) | 13,490 | $28.1M (1.6¢) | 8/12 | 1.9 | −$1.6M | 15% | 37% |
+| Crypto longshots | 19,820 | $1.7M (1.1¢) | 17/21 | 3.1 | −$124k | 5% | 18% |
+| Weather, all prices | 4,509 | $3.0M (1.1¢) | 20/23 | 2.7 | −$14k | 4% | 14% |
+| Mentions | 510 | $2.3M (2.0¢) | 8/11 | 2.6 | −$18k | 9% | 21% |
+| Entertainment longshots | 2,662 | $1.3M (1.6¢) | 21/23 | 2.2 | −$110k | 17% | 48% |
+| BTC daily (KXBTCD), all prices | 5,414 | $4.0M (0.9¢) | 13/14 | 4.7 | −$49k | 5% | 11% |
+| Sports main lines 50–80¢ | 15,491 | $49.9M (1.3¢) | 9/12 | 1.7 | −$7.0M | 21% | 83% |
+
+Reading this:
+
+- **The most consistent pools are the diversified ones**: BTC daily (13 of 14 months, t = 4.7), weather (20 of 23), crypto longshots (17 of 21). They are also the smallest in dollars.
+- **Economics and politics longshots pay the most per contract but come from few events.** The Economics pool's worst event was the September 2024 Fed meeting, when the 50 bp cut that longshot buyers held actually happened (−$189k for makers). Five events make 83% of the gain.
+- **Sports longshots are a positive-expectation, high-variance business.** A single upset (Pacers–Thunder game 5, June 2025) cost makers $4.9M against a $28M total; four months of twelve were losing. Sports main lines are ordinary market-making: makers lose in 58% of events and live on the spread.
+
+## What this says about a strategy
+
+1. The cleanest retail-eating trade on both platforms is **selling long-dated longshots**: post offers at 5–20¢ on "will X happen by [date]" contracts a week or more from resolution, in economics, politics and entertainment, where buyers lose 55–80% of stake. It is lumpy (few events, occasional 5–10× payouts against you), capital is locked until resolution, and on Kalshi you compete with professional makers for the fill; Polymarket makers pay no fee and earn rebates.
+2. **Short-dated crypto markets are efficient.** Polymarket's Up/Down families net to zero for takers on $1.3B, and the model-vs-market tests in this folder and in [../edge/](../edge/) confirm it at the quote level. Do not expect a pricing model to beat them.
+3. **Sports is where the money is, but as a market maker, not a picker**: $101M of maker gross on Kalshi in 2025, mostly spread capture on main lines with large single-event swings. Longshot selling in sports (1.6¢ a contract on $205M) is the retail-facing slice.
+4. Favourites above 90¢ are fairly priced on Kalshi and slightly *cheap* on Polymarket (takers earn 2.6–3.4% on 80–95¢). The [../edge/](../edge/) result (favourites on Kalshi BTC daily earning 2.7–4.7¢ four hours out) is a quote-level, short-horizon version of the same bias.
+
+(The 2026 execution tests on Kalshi's hourly/15-minute series and Polymarket's minute-level windows follow once those samples finish downloading.)

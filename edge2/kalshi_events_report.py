@@ -49,5 +49,6 @@ if __name__ == "__main__":
     json.dump(out, open(os.path.join(HERE, "results_kalshi_pools.json"), "w"), indent=1)
     for name, r in out.items():
         print(f"\n### {name}: events {r['events']}, ${r['dollars']:,.0f} staked, maker gross ${r['maker_gross']:,.0f} ({r['maker_cents_per_contract']:.2f}c/contract)")
-        print(f"   top event share {r['share_from_top_event']:.0%} ({r['top_event']}), top-5 share {r['share_from_top5_events']:.0%}, months positive {r['months_positive']}, monthly t {r['monthly_t']:.2f}, worst month ${r['worst_month_usd']:,.0f}, median month ${r['median_month_usd']:,.0f}")
+        mt = f"{r['monthly_t']:.2f}" if r['monthly_t'] is not None else "n/a"
+        print(f"   top event share {r['share_from_top_event']:.0%} ({r['top_event']}), top-5 share {r['share_from_top5_events']:.0%}, months positive {r['months_positive']}, monthly t {mt}, worst month ${r['worst_month_usd']:,.0f}, median month ${r['median_month_usd']:,.0f}")
         print(f"   events where makers lost: {r['events_with_maker_loss_pct']:.0f}%; worst events {r['worst_events'][:3]}")
