@@ -5,7 +5,7 @@
   <key>Label</key><string>com.noahsolomon.longshot-recorder</string>
   <key>ProgramArguments</key>
   <array>
-    <string>/private/tmp/claude-501/-Users-noahsolomon/fa08fd89-378d-49b1-86f7-27b4f80358c7/scratchpad/venv/bin/python</string>
+    <string>/Users/noahsolomon/perp-option-pricer/.venv/bin/python</string>
     <string>/Users/noahsolomon/perp-option-pricer/prediction-markets/recorder/recorder.py</string>
   </array>
   <key>WorkingDirectory</key><string>/Users/noahsolomon/perp-option-pricer/prediction-markets/recorder</string>
