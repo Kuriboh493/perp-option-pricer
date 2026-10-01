@@ -41,4 +41,6 @@ Scripts are run from their own folder with that interpreter. The pricer is a sin
 - The pricer's own signals never beat market prices; a de-biased market price forecast outcomes better than any model that ignored the market.
 - One quote-level edge survived out of sample: taking the favourite side of Kalshi's daily BTC contracts four hours before close, 2.7¢ per contract as a taker and about 4.7¢ with resting orders, with crash risk and unknown capacity.
 
+Whether these returns are genuine edge or payment for tail risk is worked through in [prediction-markets/edge-or-premium.md](prediction-markets/edge-or-premium.md).
+
 This is research, not investment advice.

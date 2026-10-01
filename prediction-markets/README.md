@@ -9,6 +9,8 @@ Four studies of Kalshi and Polymarket, from broad to narrow.
 | [short-dated-crypto/](short-dated-crypto/) | Are the newer hourly, 15-minute and Polymarket Up/Down crypto markets mispriced? | No. They are efficient at the quote level; an apparent last-minute edge on Polymarket vanishes under a latency-aware fill. |
 | [recorder/](recorder/) | Do resting offers on far-dated longshots actually fill, and how much flow is there? | Measuring live: a paper-trading recorder snapshots books and trades every five minutes and simulates resting offers on ~150 markets. |
 
+**Is any of this real edge, or just the volatility risk premium?** See [edge-or-premium.md](edge-or-premium.md): taking the ask on BTC favourites is the volatility premium; resting orders add about 2¢ of genuine edge; far-dated longshots look like real mispricing.
+
 Fees used throughout: Kalshi taker 7% of `p(1−p)` per contract, maker 0 on plain series and 1.75% on flagged ones; Polymarket crypto taker 7% of `p(1−p)`, makers 0.
 
 Literature that shaped the tests: Burgi, Deng & Whelan, [Makers or Takers: The Economics of the Kalshi Prediction Market](https://www2.gwu.edu/~forcpgm/2026-001.pdf) (2026); Cardozo & Rivero-Wildemauwe, [The Favorite–Longshot Bias in Prediction Markets: Evidence from Polymarket](https://arxiv.org/abs/2609.12878) (2026); Becker, [prediction-market-analysis dataset](https://github.com/jon-becker/prediction-market-analysis).
