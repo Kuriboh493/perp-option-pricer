@@ -15,6 +15,7 @@ A search for a trading edge in Kalshi's daily "Bitcoin above $X at 5pm ET" contr
 ../../.venv/bin/python fetch_kalshi2.py fetch_dvol.py   # retry data: full candles (high/low/trades) and Deribit DVOL
 ../../.venv/bin/python kalshi_v2.py                # retry: resting orders, de-biased market, DVOL, blend
 ../../.venv/bin/python favorite_maker.py           # stress test of the favourite rule executed with resting orders
+../../.venv/bin/python fetch_deribit_afternoon.py && ../../.venv/bin/python tail_test.py   # edge vs tail-risk compensation
 ```
 
 ## Volatility forecast (`../../common/volfc.py`)
@@ -72,6 +73,23 @@ Resting instead of crossing turns the model rules from losers into small, thinly
 | Worst day / max drawdown | −$363 / −$549 | −$327 / −$428 | −$181 / −$313 |
 
 All 20 neighbouring settings (1–6h, cutoffs 5–30¢) are profitable as join, t = 4.8 to 10.5; all nine months of 2026 are positive (0.9¢ in January to 8.8¢ in March). Adverse selection is present but mild: quotes that fill win 96.7% of the time, those that do not fill win 100%. Filtering on the de-biased probability changes nothing, because it agrees with the rule on every quote.
+
+## Is it an edge or tail-risk compensation? (`tail_test.py`)
+
+Every favourites-rule trade (3,491 on 533 days, 2025–2026) was priced against the Deribit options market at the same moment: the smile of the first Deribit expiry after the Kalshi close, fitted from option trades in the preceding hour (`fetch_deribit_afternoon.py`) and rescaled to the four-hour Kalshi window with the hour-of-week variance clock. That risk-neutral probability already includes whatever options traders charge for tail risk, so each trade's profit splits into the part the options market also earns (tail-risk compensation) and the part where Kalshi is cheaper than options (mispricing).
+
+| All trades | Price paid | Options-implied | Won | Profit | = Tail compensation | + Kalshi cheaper than options |
+|---|---|---|---|---|---|---|
+| Taker (buy at the ask) | 94.2¢ | 93.7¢ | 96.6% | 2.04¢ (t = 5.1) | 2.87¢ (t = 7.2) | −0.83¢ |
+| Resting (buy at the bid, when filled) | 91.1¢ | 93.1¢ | 95.5% | 4.35¢ (t = 7.1) | 2.33¢ (t = 3.9) | +2.02¢ (t = 22) |
+
+- **The taker edge is tail-risk compensation.** Kalshi's ask is at or slightly above what the options market charges, and the options market itself underprices these favourites (it priced 85.8% favourites that won 90.3% of the time, 92.7% ones that won 96.9%): that is the short-horizon variance risk premium option sellers earn. With flat time instead of the variance clock the split moves to 1.42¢ tail + 0.62¢ mispricing, so the genuine part of the taker edge is somewhere between −0.8¢ and +0.6¢.
+- **Resting orders add a genuine edge of about 2¢ a contract**: filled bids sit 2¢ below the options market's fair value on 86% of trades. That is a liquidity-provision return (being paid the spread, with adverse-selection risk), not tail risk.
+- **The premium is two-sided.** Favourites that lose in rallies earn nearly as much as those that lose in crashes (2026 taker: 2.43¢ vs 2.97¢; resting: 4.34¢ vs 4.97¢), so it is a volatility premium rather than crash insurance specifically.
+
+Hedging the tail on Deribit would cost the same premium the trade earns, so a hedged taker position loses about 0.8¢ and a hedged resting position keeps about 2¢ before Deribit's costs, which are large for replicating a small digital. The practical reading: take the trade only with resting orders, and size it as a short-volatility position that will give back weeks of gains on a day BTC moves 3–4% in a few hours.
+
+The longshot pool passes the equivalent test for event contracts (there is no options market to benchmark against, so the question is whether the risk is systematic): monthly maker P&L across seven longshot categories is barely correlated (mostly −0.3 to +0.3), an equal-risk mix earned a monthly Sharpe of 1.11 against 1.34 if fully independent, and a 57–80% loss for buyers is far too large to be a premium for diversifiable event risk. The exception is politics, whose monthly P&L moved with BTC (correlation 0.52 over 18 months), largely because of November 2024.
 
 ## Limitations
 

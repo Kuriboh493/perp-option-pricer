@@ -1,0 +1,248 @@
+{
+ "2025": {
+  "taker": {
+   "n": 1370,
+   "days": 277,
+   "avg_price_c": 93.94,
+   "avg_options_prob_c": 92.6,
+   "realised_win_rate_c": 95.4,
+   "total_c": 1.07,
+   "total_t": 1.4759305811292884,
+   "tail_compensation_c": 2.8,
+   "tail_t": 3.8642459701678527,
+   "mispricing_vs_options_c": -1.72,
+   "mispricing_t": -15.356436235011607,
+   "share_of_trades_kalshi_cheaper": 0.279
+  },
+  "join": {
+   "n": 393,
+   "days": 196,
+   "avg_price_c": 87.39,
+   "avg_options_prob_c": 90.44,
+   "realised_win_rate_c": 90.84,
+   "total_c": 3.45,
+   "total_t": 1.7805617042617325,
+   "tail_compensation_c": 0.4,
+   "tail_t": 0.2056692858149882,
+   "mispricing_vs_options_c": 3.05,
+   "mispricing_t": 17.539531324332415,
+   "share_of_trades_kalshi_cheaper": 0.896
+  },
+  "taker_flat_time_robustness": {
+   "n": 1370,
+   "days": 277,
+   "avg_price_c": 93.94,
+   "avg_options_prob_c": 94.48,
+   "realised_win_rate_c": 95.4,
+   "total_c": 1.07,
+   "total_t": 1.4759305811292884,
+   "tail_compensation_c": 0.92,
+   "tail_t": 1.2687022822306013,
+   "mispricing_vs_options_c": 0.15,
+   "mispricing_t": 1.548913505901258,
+   "share_of_trades_kalshi_cheaper": 0.648
+  },
+  "taker_yes_side": {
+   "n": 663,
+   "days": 262,
+   "avg_price_c": 94.03,
+   "avg_options_prob_c": 92.39,
+   "realised_win_rate_c": 95.32,
+   "total_c": 0.91,
+   "total_t": 0.7881506871816585,
+   "tail_compensation_c": 2.93,
+   "tail_t": 2.531541962160537,
+   "mispricing_vs_options_c": -2.02,
+   "mispricing_t": -15.62168501592078,
+   "share_of_trades_kalshi_cheaper": 0.226
+  },
+  "taker_no_side": {
+   "n": 707,
+   "days": 261,
+   "avg_price_c": 93.86,
+   "avg_options_prob_c": 92.8,
+   "realised_win_rate_c": 95.47,
+   "total_c": 1.22,
+   "total_t": 1.222250429575395,
+   "tail_compensation_c": 2.67,
+   "tail_t": 2.6724886082412276,
+   "mispricing_vs_options_c": -1.45,
+   "mispricing_t": -12.149188759478884,
+   "share_of_trades_kalshi_cheaper": 0.328
+  }
+ },
+ "2026": {
+  "taker": {
+   "n": 2121,
+   "days": 256,
+   "avg_price_c": 94.34,
+   "avg_options_prob_c": 94.44,
+   "realised_win_rate_c": 97.36,
+   "total_c": 2.66,
+   "total_t": 5.822224645753426,
+   "tail_compensation_c": 2.92,
+   "tail_t": 6.423333325625624,
+   "mispricing_vs_options_c": -0.26,
+   "mispricing_t": -3.3488985142519194,
+   "share_of_trades_kalshi_cheaper": 0.575
+  },
+  "join": {
+   "n": 1615,
+   "days": 255,
+   "avg_price_c": 92.03,
+   "avg_options_prob_c": 93.79,
+   "realised_win_rate_c": 96.59,
+   "total_c": 4.57,
+   "total_t": 7.906909795409495,
+   "tail_compensation_c": 2.8,
+   "tail_t": 4.924698565646887,
+   "mispricing_vs_options_c": 1.77,
+   "mispricing_t": 17.920945727630773,
+   "share_of_trades_kalshi_cheaper": 0.845
+  },
+  "taker_flat_time_robustness": {
+   "n": 2121,
+   "days": 256,
+   "avg_price_c": 94.34,
+   "avg_options_prob_c": 95.62,
+   "realised_win_rate_c": 97.36,
+   "total_c": 2.66,
+   "total_t": 5.822224645753426,
+   "tail_compensation_c": 1.74,
+   "tail_t": 3.880038276307278,
+   "mispricing_vs_options_c": 0.92,
+   "mispricing_t": 8.564547205302107,
+   "share_of_trades_kalshi_cheaper": 0.788
+  },
+  "taker_yes_side": {
+   "n": 1069,
+   "days": 245,
+   "avg_price_c": 94.45,
+   "avg_options_prob_c": 94.29,
+   "realised_win_rate_c": 97.75,
+   "total_c": 2.95,
+   "total_t": 4.72443720009904,
+   "tail_compensation_c": 3.46,
+   "tail_t": 5.547273171633813,
+   "mispricing_vs_options_c": -0.51,
+   "mispricing_t": -5.78943317200903,
+   "share_of_trades_kalshi_cheaper": 0.51
+  },
+  "taker_no_side": {
+   "n": 1052,
+   "days": 252,
+   "avg_price_c": 94.23,
+   "avg_options_prob_c": 94.59,
+   "realised_win_rate_c": 96.96,
+   "total_c": 2.36,
+   "total_t": 3.50672613413723,
+   "tail_compensation_c": 2.36,
+   "tail_t": 3.508804412088686,
+   "mispricing_vs_options_c": -0.0,
+   "mispricing_t": -0.014299114986679476,
+   "share_of_trades_kalshi_cheaper": 0.642
+  }
+ },
+ "all": {
+  "taker": {
+   "n": 3491,
+   "days": 533,
+   "avg_price_c": 94.19,
+   "avg_options_prob_c": 93.72,
+   "realised_win_rate_c": 96.59,
+   "total_c": 2.04,
+   "total_t": 5.071379694995174,
+   "tail_compensation_c": 2.87,
+   "tail_t": 7.226776599939185,
+   "mispricing_vs_options_c": -0.83,
+   "mispricing_t": -12.304652019288294,
+   "share_of_trades_kalshi_cheaper": 0.459
+  },
+  "join": {
+   "n": 2008,
+   "days": 451,
+   "avg_price_c": 91.12,
+   "avg_options_prob_c": 93.13,
+   "realised_win_rate_c": 95.47,
+   "total_c": 4.35,
+   "total_t": 7.1283435382890685,
+   "tail_compensation_c": 2.33,
+   "tail_t": 3.8826425995298277,
+   "mispricing_vs_options_c": 2.02,
+   "mispricing_t": 22.373401370049127,
+   "share_of_trades_kalshi_cheaper": 0.855
+  },
+  "taker_flat_time_robustness": {
+   "n": 3491,
+   "days": 533,
+   "avg_price_c": 94.19,
+   "avg_options_prob_c": 95.17,
+   "realised_win_rate_c": 96.59,
+   "total_c": 2.04,
+   "total_t": 5.071379694995174,
+   "tail_compensation_c": 1.42,
+   "tail_t": 3.592373588997755,
+   "mispricing_vs_options_c": 0.62,
+   "mispricing_t": 7.802094524178712,
+   "share_of_trades_kalshi_cheaper": 0.733
+  },
+  "taker_yes_side": {
+   "n": 1732,
+   "days": 507,
+   "avg_price_c": 94.29,
+   "avg_options_prob_c": 93.57,
+   "realised_win_rate_c": 96.82,
+   "total_c": 2.17,
+   "total_t": 3.6698886317493784,
+   "tail_compensation_c": 3.26,
+   "tail_t": 5.533688776545144,
+   "mispricing_vs_options_c": -1.09,
+   "mispricing_t": -14.32909269297364,
+   "share_of_trades_kalshi_cheaper": 0.401
+  },
+  "taker_no_side": {
+   "n": 1759,
+   "days": 513,
+   "avg_price_c": 94.08,
+   "avg_options_prob_c": 93.87,
+   "realised_win_rate_c": 96.36,
+   "total_c": 1.9,
+   "total_t": 3.339173787663802,
+   "tail_compensation_c": 2.49,
+   "tail_t": 4.37398563530855,
+   "mispricing_vs_options_c": -0.58,
+   "mispricing_t": -7.861278360667427,
+   "share_of_trades_kalshi_cheaper": 0.516
+  }
+ },
+ "options_calibration": [
+  {
+   "options_prob": "0.80-0.90",
+   "n": 774,
+   "avg_options_prob": 0.8578,
+   "realised": 0.9031,
+   "avg_kalshi_taker": 0.8729
+  },
+  {
+   "options_prob": "0.90-0.95",
+   "n": 779,
+   "avg_options_prob": 0.9271,
+   "realised": 0.9692,
+   "avg_kalshi_taker": 0.9344
+  },
+  {
+   "options_prob": "0.95-0.98",
+   "n": 904,
+   "avg_options_prob": 0.9669,
+   "realised": 0.99,
+   "avg_kalshi_taker": 0.9697
+  },
+  {
+   "options_prob": "0.98-1.00",
+   "n": 977,
+   "avg_options_prob": 0.9897,
+   "realised": 0.9939,
+   "avg_kalshi_taker": 0.9826
+  }
+ ]
+}
