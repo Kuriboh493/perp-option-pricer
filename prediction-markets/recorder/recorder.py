@@ -67,7 +67,8 @@ def db():
     CREATE TABLE IF NOT EXISTS btc_events(event TEXT PRIMARY KEY, placed_ts INT, close_ts INT, spot REAL, markets INT);
     """)
     for table, col, decl in (("orders", "strategy", "TEXT DEFAULT 'longshot'"), ("positions", "strategy", "TEXT DEFAULT 'longshot'"),
-                             ("positions", "kind", "TEXT"), ("positions", "fee", "REAL DEFAULT 0")):
+                             ("positions", "kind", "TEXT"), ("positions", "fee", "REAL DEFAULT 0"),
+                             ("fills", "trade_id", "TEXT"), ("fills", "trade_size", "REAL")):
         try:
             con.execute(f"ALTER TABLE {table} ADD COLUMN {col} {decl}")
         except sqlite3.OperationalError:
@@ -329,35 +330,35 @@ def btc_place(con, now, force_event=None):
 
 def btc_advance(con, now):
     """Fill resting favourite bids from printed trades (sellers of the favourite hitting bids at or below our price,
-    after the size that was ahead of us); cancel what is left an hour after placement."""
+    after the size that was ahead of us); cancel what is left an hour after placement. The queue rule lives in
+    btc_maker.replay_fills (through=False keeps the original behaviour). Fill timestamps keep sub-second precision,
+    each fill portion is recorded with the trade that caused it, and an order that expires partly filled books a
+    'join_partial' position for the filled quantity."""
+    from btc_maker import favourite_sell_trades, replay_fills
     rows = con.execute("SELECT id, market, side, price, remaining, queue_ahead, placed_ts FROM orders WHERE strategy='btc_fav' AND status='live'").fetchall()
     for oid, market, side, price, remaining, queue, placed in rows:
-        r = kget(f"/markets/trades?ticker={market}&limit=1000&min_ts={placed}")
-        trades = []
-        for t in (r or {}).get("trades", []):
-            ts = int(dt.datetime.fromisoformat(t["created_time"].replace("Z", "+00:00")).timestamp())
-            if ts < placed or ts > placed + BTC_ORDER_LIFE_S:
-                continue
-            sells_fav = t.get("taker_side") != side               # a taker buying the other side is selling ours
-            px = float(t["yes_price_dollars"]) if side == "yes" else float(t["no_price_dollars"])
-            if sells_fav and px <= price + 1e-9:
-                trades.append((ts, float(t.get("count_fp") or 0), t["trade_id"]))
-        filled_ts = None
-        q, rem = queue, remaining
-        for ts, qty, _ in sorted(trades):
-            take = min(qty, q); q -= take; qty -= take
-            if qty > 0:
-                rem -= min(qty, rem)
-                if rem <= 1e-9:
-                    filled_ts = ts
-                    break
-        if filled_ts:
+        r = kget(f"/markets/trades?ticker={market}&limit=1000&min_ts={int(placed)}")
+        trades = [dict(ts=dt.datetime.fromisoformat(t["created_time"].replace("Z", "+00:00")).timestamp(), taker_side=t.get("taker_side"),
+                       yes_price=float(t["yes_price_dollars"]), no_price=float(t["no_price_dollars"]), count=float(t.get("count_fp") or 0),
+                       trade_id=t["trade_id"]) for t in (r or {}).get("trades", [])]
+        hits = favourite_sell_trades(trades, side, price, placed, BTC_ORDER_LIFE_S)
+        portions, rem, q = replay_fills(hits, price, queue, remaining, through=False)
+        done = rem <= 1e-9
+        if not done and now <= placed + BTC_ORDER_LIFE_S:
+            continue                                                  # still resting: nothing is written until it fills or expires
+        for f in portions:
+            con.execute("INSERT INTO fills(order_id, ts, price, size, trade_id, trade_size) VALUES(?,?,?,?,?,?)", (oid, f["ts"], price, f["qty"], f["trade_id"], f["trade_size"]))
+        if done:
+            filled_ts = portions[-1]["ts"]
             con.execute("UPDATE orders SET status='filled', filled_ts=?, remaining=0, queue_ahead=0 WHERE id=?", (filled_ts, oid))
-            con.execute("INSERT INTO fills(order_id, ts, price, size) VALUES(?,?,?,?)", (oid, filled_ts, price, ORDER_SIZE))
             con.execute("INSERT INTO positions(platform,market,side,price,size,opened_ts,strategy,kind,fee) VALUES('kalshi',?,?,?,?,?,'btc_fav','join',0)",
                         (market, side, price, ORDER_SIZE, filled_ts))
-        elif now > placed + BTC_ORDER_LIFE_S:
+        else:
             con.execute("UPDATE orders SET status='expired', remaining=?, queue_ahead=? WHERE id=?", (rem, q, oid))
+            filled = remaining - rem
+            if filled > 1e-9:
+                con.execute("INSERT INTO positions(platform,market,side,price,size,opened_ts,strategy,kind,fee) VALUES('kalshi',?,?,?,?,?,'btc_fav','join_partial',0)",
+                            (market, side, price, filled, portions[-1]["ts"]))
     con.commit()
 
 

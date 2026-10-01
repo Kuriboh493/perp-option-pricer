@@ -1,0 +1,158 @@
+{
+ "orders": {
+  "placed": 0,
+  "finished": 0,
+  "fully_filled": 0,
+  "any_fill": 0,
+  "fill_rate_full": null,
+  "fill_rate_any": null,
+  "avg_qty_filled_per_filled_order": null,
+  "avg_queue_ahead_all": null,
+  "avg_queue_ahead_filled": null
+ },
+ "fills": 0,
+ "contracts_filled": 0,
+ "execution_edge": {
+  "n": 0
+ },
+ "spread_capture": {
+  "n": 0
+ },
+ "mispricing_vs_mid": {
+  "n": 0
+ },
+ "realized_pnl": {
+  "n": 0
+ },
+ "residual_to_settle": {
+  "n": 0
+ },
+ "markouts": {
+  "1s": {
+   "fill_markout": {
+    "n": 0
+   },
+   "mid_markout": {
+    "n": 0
+   },
+   "spot_move_bp": {
+    "n": 0
+   },
+   "net_maker_edge": {
+    "n": 0
+   },
+   "control_drift_random_c": null,
+   "control_drift_random_n": 0,
+   "control_drift_placement_c": null,
+   "control_drift_placement_n": 0,
+   "adverse_selection_c": null
+  },
+  "10s": {
+   "fill_markout": {
+    "n": 0
+   },
+   "mid_markout": {
+    "n": 0
+   },
+   "spot_move_bp": {
+    "n": 0
+   },
+   "net_maker_edge": {
+    "n": 0
+   },
+   "control_drift_random_c": null,
+   "control_drift_random_n": 0,
+   "control_drift_placement_c": null,
+   "control_drift_placement_n": 0,
+   "adverse_selection_c": null
+  },
+  "1m": {
+   "fill_markout": {
+    "n": 0
+   },
+   "mid_markout": {
+    "n": 0
+   },
+   "spot_move_bp": {
+    "n": 0
+   },
+   "net_maker_edge": {
+    "n": 0
+   },
+   "control_drift_random_c": null,
+   "control_drift_random_n": 0,
+   "control_drift_placement_c": null,
+   "control_drift_placement_n": 0,
+   "adverse_selection_c": null
+  },
+  "5m": {
+   "fill_markout": {
+    "n": 0
+   },
+   "mid_markout": {
+    "n": 0
+   },
+   "spot_move_bp": {
+    "n": 0
+   },
+   "net_maker_edge": {
+    "n": 0
+   },
+   "control_drift_random_c": null,
+   "control_drift_random_n": 0,
+   "control_drift_placement_c": null,
+   "control_drift_placement_n": 0,
+   "adverse_selection_c": null
+  },
+  "30m": {
+   "fill_markout": {
+    "n": 0
+   },
+   "mid_markout": {
+    "n": 0
+   },
+   "spot_move_bp": {
+    "n": 0
+   },
+   "net_maker_edge": {
+    "n": 0
+   },
+   "control_drift_random_c": null,
+   "control_drift_random_n": 0,
+   "control_drift_placement_c": null,
+   "control_drift_placement_n": 0,
+   "adverse_selection_c": null
+  }
+ },
+ "groups": {
+  "price_bucket": {},
+  "distance_sd": {},
+  "time_to_expiry": {},
+  "queue_ahead": {},
+  "filling_trade_size": {},
+  "prefill_btc_move": {}
+ },
+ "decomposition_30m": {
+  "measured": {
+   "realized_pnl_c": null,
+   "execution_edge_c": null,
+   "spread_capture_c": null,
+   "fv_minus_kalshi_mid_c": null,
+   "fill_markout_30m_c": null,
+   "control_drift_30m_c": null,
+   "residual_to_settlement_c": null
+  },
+  "inferred": {
+   "liquidity_premium_c": null,
+   "behavioral_mispricing_or_model_error_c": null,
+   "adverse_selection_c": null,
+   "variance_risk_premium_c": null
+  },
+  "notes": [
+   "Identity per fill: realized = spread capture + (FV - mid) + markout_30m + (settle - FV_30m). Exact for each fill.",
+   "Splitting markout_30m into adverse selection and drift uses the control average, not a per-fill quantity.",
+   "FV - mid mixes behavioral mispricing with fair-value model error (15h smile rescaled to the Kalshi window).",
+   "Variance risk premium = control drift + residual to settlement; the residual is very noisy per fill (binary payoff)."
+  ]
+ }
+}
