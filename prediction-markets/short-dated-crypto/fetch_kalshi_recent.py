@@ -31,7 +31,12 @@ def get(path):
 
 
 def num(x):
-    return None if x in (None, "") else float(x)
+    if x in (None, ""):
+        return None
+    try:
+        return float(str(x).replace(",", ""))           # some settlement values arrive formatted, e.g. "77,362.10"
+    except ValueError:
+        return None
 
 
 def events(series):
