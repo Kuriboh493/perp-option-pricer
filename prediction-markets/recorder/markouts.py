@@ -17,7 +17,7 @@ Usage:
   python markouts.py                      # analyse data/recorder.db + data/hf.db
   python markouts.py --fill-model through # re-derive fills from stored trades with the price-through rule
   python markouts.py --synthetic          # run the whole pipeline on synthetic data with known adverse selection
-Outputs: reports/markouts.md, reports/*.png, results_markouts.json, data/maker_fills.csv, table maker_fills in data/hf.db."""
+Outputs: reports/markouts.md, reports/*.png, results_markouts.json, data/maker_fills.csv, table maker_fills in data/maker_fills.db."""
 import csv, json, math, os, random, sqlite3, sys, datetime as dt
 from collections import defaultdict
 import numpy as np
@@ -430,7 +430,7 @@ def write_outputs(recs, res, files, args, hf_db, outdir, data_dir):
         keys = list(recs[0].keys())
         with open(os.path.join(data_dir, "maker_fills.csv"), "w", newline="") as f:
             w = csv.DictWriter(f, fieldnames=keys); w.writeheader(); w.writerows(recs)
-        con = sqlite3.connect(hf_db)
+        con = sqlite3.connect(os.path.join(data_dir, "maker_fills.db"), timeout=30)   # separate file: never contend with the live sampler
         con.execute("DROP TABLE IF EXISTS maker_fills")
         con.execute(f"CREATE TABLE maker_fills({', '.join(k + (' TEXT' if isinstance(recs[0][k], str) else ' REAL') for k in keys)})")
         con.executemany(f"INSERT INTO maker_fills VALUES({','.join('?' * len(keys))})", [[r[k] for k in keys] for r in recs])
