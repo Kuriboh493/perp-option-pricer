@@ -5,7 +5,7 @@ Two lines of work that started from one question, "can a pricing model beat the 
 | | What it is | Answer |
 |---|---|---|
 | [perps/](perps/) | A pricer for options on perpetual swaps (crypto and real-world assets), its Deribit backtest, and a 0DTE test | The model gives consistent prices and Greeks once fitted, but it is not a trading signal: no edge after costs on weekly, daily or 0DTE options. |
-| [prediction-markets/](prediction-markets/) | Where retail loses on Kalshi, Polymarket and DraftKings: every trade 2021–2026, quote-level tests on crypto contracts, a live paper-trading recorder, and every DKeX trade since June 2026 | Short-dated crypto contracts are efficient. The money is in longshots priced a week or more from resolution: buyers lose 55–80% of stake on Kalshi and 35–55% on Polymarket, every year, in economics and politics above all. On DraftKings' exchange the same money sits in combos: 19% of stake, marked up 2–2.7% per leg. |
+| [prediction-markets/](prediction-markets/) | Where retail loses on Kalshi, Polymarket and DraftKings: every trade 2021–2026, quote-level tests on crypto contracts, and a live paper-trading recorder; the DraftKings study moved to [draftkings-edge](https://github.com/Kuriboh493/draftkings-edge) | Short-dated crypto contracts are efficient. The money is in longshots priced a week or more from resolution: buyers lose 55–80% of stake on Kalshi and 35–55% on Polymarket, every year, in economics and politics above all. On DraftKings' exchange the same money sits in combos: 19% of stake, marked up 2–2.7% per leg. |
 | [common/](common/) | The BTC short-horizon volatility forecaster both sides use | |
 
 ## Map
@@ -20,7 +20,6 @@ prediction-markets/
   kalshi-btc/           Kalshi's daily BTC contracts with quotes: favourite-longshot rule, resting orders, de-biased market
   short-dated-crypto/   Kalshi hourly/15-minute series and Polymarket Up/Down windows with minute prices
   recorder/             live paper-trading recorder for the far-dated longshot pool (runs under launchd)
-  draftkings/           DraftKings: DKeX exchange trade survey, combo markup, sportsbook vs Pinnacle, Pick6, DFS
 common/
   volfc.py              seasonal HAR volatility forecast for BTC on Deribit hourly data
 ```
@@ -41,7 +40,7 @@ Scripts are run from their own folder with that interpreter. The pricer is a sin
 - Kalshi non-sports longshots (5–20¢) bought more than a week before resolution lose 57–80% of stake; inside the final hour, 6–18%.
 - The pricer's own signals never beat market prices; a de-biased market price forecast outcomes better than any model that ignored the market.
 - One quote-level edge survived out of sample: taking the favourite side of Kalshi's daily BTC contracts four hours before close, 2.7¢ per contract as a taker and about 4.7¢ with resting orders, with crash risk and unknown capacity.
-- On DraftKings' exchange (DKeX, every trade June–September 2026) single contracts are near fair but combo buyers lose 19% of stake ($22.8M to the makers in six weeks, every week positive): a 2–2.7% per-leg markup on top of fair legs, compounding to 24% on eight legs.
+- On DraftKings' exchange (DKeX, every trade June–September 2026; see [draftkings-edge](https://github.com/Kuriboh493/draftkings-edge)) single contracts are near fair but combo buyers lose 19% of stake ($22.8M to the makers in six weeks, every week positive): a 2–2.7% per-leg markup on top of fair legs, compounding to 24% on eight legs.
 
 Whether these returns are genuine edge or payment for tail risk is worked through in [prediction-markets/edge-or-premium.md](prediction-markets/edge-or-premium.md).
 
