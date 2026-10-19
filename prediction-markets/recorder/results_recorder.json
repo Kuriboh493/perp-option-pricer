@@ -1,96 +1,97 @@
 {
- "running_hours": 23.4,
- "trade_span_hours": 24.3,
+ "running_hours": 447.1,
+ "trade_span_hours": 447.6,
  "universe_latest": {
   "kalshi/Companies": 1,
-  "kalshi/Economics": 18,
-  "kalshi/Elections": 20,
-  "kalshi/Entertainment": 42,
+  "kalshi/Economics": 25,
+  "kalshi/Elections": 49,
+  "kalshi/Entertainment": 14,
   "kalshi/Politics": 26,
-  "kalshi/Science and Technology": 13,
-  "pm/other": 11,
-  "pm/politics": 13
+  "kalshi/Science and Technology": 5,
+  "pm/finance": 3,
+  "pm/other": 13,
+  "pm/politics": 19
  },
  "longshot_buying_observed": {
   "kalshi": {
-   "dollars_per_day": 102613,
-   "contracts_per_day": 1212681,
-   "trades": 3859
+   "dollars_per_day": 162867,
+   "contracts_per_day": 1746961,
+   "trades": 82888
   },
   "pm": {
-   "dollars_per_day": 132259,
-   "contracts_per_day": 1292639,
-   "trades": 2254
+   "dollars_per_day": 180459,
+   "contracts_per_day": 1779454,
+   "trades": 38341
   }
  },
  "markets_with_longshot_buys": {
-  "kalshi": 157,
-  "pm": 50
+  "kalshi": 671,
+  "pm": 196
  },
  "book_latest": {
   "kalshi": {
-   "avg_ask_size_at_touch": 5793,
-   "avg_ask_depth_to_20c": 50356,
-   "avg_spread_cents": 2.0
+   "avg_ask_size_at_touch": 32183,
+   "avg_ask_depth_to_20c": 74406,
+   "avg_spread_cents": 1.6
   },
   "pm": {
-   "avg_ask_size_at_touch": 45349,
-   "avg_ask_depth_to_20c": 315107,
-   "avg_spread_cents": 0.8
+   "avg_ask_size_at_touch": 83046,
+   "avg_ask_depth_to_20c": 257582,
+   "avg_spread_cents": 0.9
   }
  },
  "paper_orders": {
   "kalshi/improve": {
-   "placed": 228,
-   "filled": 96,
-   "fill_rate": 0.421,
-   "avg_hours_to_fill": 4.5
+   "placed": 1326,
+   "filled": 812,
+   "fill_rate": 0.612,
+   "avg_hours_to_fill": 28.0
   },
   "kalshi/join": {
-   "placed": 279,
-   "filled": 69,
-   "fill_rate": 0.247,
-   "avg_hours_to_fill": 5.3
+   "placed": 1433,
+   "filled": 649,
+   "fill_rate": 0.453,
+   "avg_hours_to_fill": 53.3
   },
   "pm/improve": {
-   "placed": 27,
-   "filled": 17,
-   "fill_rate": 0.63,
-   "avg_hours_to_fill": 2.4
+   "placed": 319,
+   "filled": 249,
+   "fill_rate": 0.781,
+   "avg_hours_to_fill": 6.7
   },
   "pm/join": {
-   "placed": 83,
-   "filled": 34,
-   "fill_rate": 0.41,
-   "avg_hours_to_fill": 4.7
+   "placed": 455,
+   "filled": 306,
+   "fill_rate": 0.673,
+   "avg_hours_to_fill": 28.8
   }
  },
  "partially_filled_live_orders": {
   "kalshi": {
-   "n": 60,
-   "avg_filled": 35.9
+   "n": 179,
+   "avg_filled": 35.1
   },
   "pm": {
-   "n": 5,
-   "avg_filled": 30.9
+   "n": 32,
+   "avg_filled": 31.0
   }
  },
  "adverse_selection_mid_move_1h_after_fill_cents": {
-  "n": 189,
-  "mean": -0.19,
-  "share_up": 0.35
+  "n": 1859,
+  "mean": 0.06,
+  "share_up": 0.47
  },
  "positions": {
   "kalshi": {
-   "opened": 158,
-   "premium_collected_usd": 1618,
-   "resolved": 1,
-   "realised_pnl_usd": 3,
-   "longshots_that_hit": 0
+   "opened": 1399,
+   "premium_collected_usd": 13470,
+   "resolved": 173,
+   "realised_pnl_usd": -400,
+   "longshots_that_hit": 19
   },
   "pm": {
-   "opened": 51,
-   "premium_collected_usd": 547,
+   "opened": 555,
+   "premium_collected_usd": 6476,
    "resolved": 0,
    "realised_pnl_usd": 0,
    "longshots_that_hit": 0
@@ -98,91 +99,91 @@
  },
  "top_markets_by_longshot_buying": [
   {
-   "platform": "pm",
-   "market": "0x5db999fad322cea2914535aae5517060c3f80ad6d8c0231cde2124a434d16846",
-   "dollars": 52859,
-   "trades": 92
-  },
-  {
    "platform": "kalshi",
    "market": "CONTROLH-2026-R",
-   "dollars": 38784,
-   "trades": 496
-  },
-  {
-   "platform": "pm",
-   "market": "0xc5eae79d1ffe716572353962eb926b1e3964c500a4880a7a94f58408218ee76b",
-   "dollars": 26191,
-   "trades": 39
+   "dollars": 1198819,
+   "trades": 14397
   },
   {
    "platform": "kalshi",
    "market": "KXBALANCEPOWERCOMBO-27FEB-RR",
-   "dollars": 15263,
-   "trades": 126
+   "dollars": 761070,
+   "trades": 3933
+  },
+  {
+   "platform": "pm",
+   "market": "0x5db999fad322cea2914535aae5517060c3f80ad6d8c0231cde2124a434d16846",
+   "dollars": 452487,
+   "trades": 1582
+  },
+  {
+   "platform": "pm",
+   "market": "0x12aa13b3da17ceae1b0a59b5d5b77121e91bb79b4bb0b52bf6543ed3f8d0953b",
+   "dollars": 328765,
+   "trades": 1004
+  },
+  {
+   "platform": "pm",
+   "market": "0xdf9bf27ee5757c55b44b8b9826ddc9ec3a8809aa3278634c45edbb7fc8f1a3e3",
+   "dollars": 326510,
+   "trades": 1548
   },
   {
    "platform": "kalshi",
    "market": "CONTROLH-2026-D",
-   "dollars": 14291,
-   "trades": 134
+   "dollars": 229577,
+   "trades": 5827
   },
   {
    "platform": "pm",
-   "market": "0x5c79dfde05559b79a9cb9f7c4187e4d49632dd042572ae676952f812732591cc",
-   "dollars": 8527,
-   "trades": 16
+   "market": "0xc5eae79d1ffe716572353962eb926b1e3964c500a4880a7a94f58408218ee76b",
+   "dollars": 212346,
+   "trades": 1330
   },
   {
-   "platform": "kalshi",
-   "market": "KXBIGBROTHER-26DEC31-TAY",
-   "dollars": 5968,
-   "trades": 486
+   "platform": "pm",
+   "market": "0x4e4f77e7dbf4cab666e9a1943674d7ae66348e862df03ea6f44b11eb95731928",
+   "dollars": 194729,
+   "trades": 1048
+  },
+  {
+   "platform": "pm",
+   "market": "0xd5d9fc47718bd553592d126b1fa5e87183d27f3936975b0c04cc0f2dec1f1bb4",
+   "dollars": 178815,
+   "trades": 1621
   },
   {
    "platform": "pm",
    "market": "0x1674c7a654ad25b68e9df7ac71e3711ecc5c86bde2063ceb8be586ea9c44f028",
-   "dollars": 5954,
-   "trades": 96
-  },
-  {
-   "platform": "pm",
-   "market": "0x8a5c0b5fc339f2dbaf584def66bcf8bff94d91f0250562e452782fed3d18f821",
-   "dollars": 4513,
-   "trades": 20
-  },
-  {
-   "platform": "kalshi",
-   "market": "KXLLM1-26DEC31-OAI",
-   "dollars": 3215,
-   "trades": 247
+   "dollars": 164348,
+   "trades": 1094
   }
  ],
  "btc_favourites": {
-  "events_traded": 1,
-  "strikes_signalled": 13,
+  "events_traded": 15,
+  "strikes_signalled": 156,
   "join_orders": {
-   "placed": 13,
-   "filled": 7,
-   "expired": 6,
+   "placed": 156,
+   "filled": 62,
+   "expired": 94,
    "live": 0,
-   "fill_rate": 0.538
+   "fill_rate": 0.397
   },
   "taker": {
-   "positions": 13,
-   "resolved": 13,
-   "realised_pnl_usd": 40.17,
-   "cents_per_contract": 3.09,
-   "win_rate": 1.0,
-   "avg_price": 0.967
+   "positions": 156,
+   "resolved": 156,
+   "realised_pnl_usd": 95.8,
+   "cents_per_contract": 0.61,
+   "win_rate": 0.968,
+   "avg_price": 0.959
   },
   "join": {
-   "positions": 7,
-   "resolved": 7,
-   "realised_pnl_usd": 32.0,
-   "cents_per_contract": 4.57,
-   "win_rate": 1.0,
-   "avg_price": 0.954
+   "positions": 62,
+   "resolved": 62,
+   "realised_pnl_usd": 71.0,
+   "cents_per_contract": 1.15,
+   "win_rate": 0.952,
+   "avg_price": 0.94
   },
   "daily_pnl_usd": [
    {
@@ -194,6 +195,166 @@
     "day": "2026-10-01",
     "kind": "taker",
     "pnl": 40.17
+   },
+   {
+    "day": "2026-10-02",
+    "kind": "join",
+    "pnl": -75.0
+   },
+   {
+    "day": "2026-10-02",
+    "kind": "taker",
+    "pnl": -77.61
+   },
+   {
+    "day": "2026-10-03",
+    "kind": "join",
+    "pnl": 11.0
+   },
+   {
+    "day": "2026-10-03",
+    "kind": "taker",
+    "pnl": 22.35
+   },
+   {
+    "day": "2026-10-04",
+    "kind": "join",
+    "pnl": 9.0
+   },
+   {
+    "day": "2026-10-04",
+    "kind": "taker",
+    "pnl": -68.19
+   },
+   {
+    "day": "2026-10-05",
+    "kind": "join",
+    "pnl": 15.0
+   },
+   {
+    "day": "2026-10-05",
+    "kind": "taker",
+    "pnl": 38.33
+   },
+   {
+    "day": "2026-10-06",
+    "kind": "join",
+    "pnl": 24.0
+   },
+   {
+    "day": "2026-10-06",
+    "kind": "taker",
+    "pnl": 40.17
+   },
+   {
+    "day": "2026-10-07",
+    "kind": "join",
+    "pnl": 36.0
+   },
+   {
+    "day": "2026-10-07",
+    "kind": "taker",
+    "pnl": 55.18
+   },
+   {
+    "day": "2026-10-08",
+    "kind": "join",
+    "pnl": -51.0
+   },
+   {
+    "day": "2026-10-08",
+    "kind": "join_partial",
+    "pnl": 0.09
+   },
+   {
+    "day": "2026-10-08",
+    "kind": "taker",
+    "pnl": -121.31
+   },
+   {
+    "day": "2026-10-10",
+    "kind": "join",
+    "pnl": 18.0
+   },
+   {
+    "day": "2026-10-10",
+    "kind": "join_partial",
+    "pnl": 0.27
+   },
+   {
+    "day": "2026-10-10",
+    "kind": "taker",
+    "pnl": 37.5
+   },
+   {
+    "day": "2026-10-11",
+    "kind": "join",
+    "pnl": 31.0
+   },
+   {
+    "day": "2026-10-11",
+    "kind": "taker",
+    "pnl": 27.08
+   },
+   {
+    "day": "2026-10-12",
+    "kind": "join",
+    "pnl": 21.0
+   },
+   {
+    "day": "2026-10-12",
+    "kind": "join_partial",
+    "pnl": 1.7
+   },
+   {
+    "day": "2026-10-12",
+    "kind": "taker",
+    "pnl": 45.91
+   },
+   {
+    "day": "2026-10-13",
+    "kind": "join",
+    "pnl": 25.0
+   },
+   {
+    "day": "2026-10-13",
+    "kind": "taker",
+    "pnl": 49.61
+   },
+   {
+    "day": "2026-10-14",
+    "kind": "join",
+    "pnl": 24.0
+   },
+   {
+    "day": "2026-10-14",
+    "kind": "taker",
+    "pnl": 57.14
+   },
+   {
+    "day": "2026-10-16",
+    "kind": "join",
+    "pnl": 24.0
+   },
+   {
+    "day": "2026-10-16",
+    "kind": "join_partial",
+    "pnl": 1.74
+   },
+   {
+    "day": "2026-10-16",
+    "kind": "taker",
+    "pnl": 21.45
+   },
+   {
+    "day": "2026-10-17",
+    "kind": "join",
+    "pnl": -73.0
+   },
+   {
+    "day": "2026-10-17",
+    "kind": "taker",
+    "pnl": -71.98
    }
   ],
   "backtest_reference": {
