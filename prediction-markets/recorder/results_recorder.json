@@ -1,68 +1,69 @@
 {
- "running_hours": 447.1,
- "trade_span_hours": 447.6,
+ "running_hours": 447.8,
+ "trade_span_hours": 448.7,
  "universe_latest": {
   "kalshi/Companies": 1,
-  "kalshi/Economics": 25,
+  "kalshi/Economics": 23,
   "kalshi/Elections": 49,
-  "kalshi/Entertainment": 14,
+  "kalshi/Entertainment": 15,
+  "kalshi/Mentions": 1,
   "kalshi/Politics": 26,
   "kalshi/Science and Technology": 5,
   "pm/finance": 3,
-  "pm/other": 13,
-  "pm/politics": 19
+  "pm/other": 14,
+  "pm/politics": 21
  },
  "longshot_buying_observed": {
   "kalshi": {
-   "dollars_per_day": 162867,
-   "contracts_per_day": 1746961,
-   "trades": 82888
+   "dollars_per_day": 162657,
+   "contracts_per_day": 1744647,
+   "trades": 83009
   },
   "pm": {
-   "dollars_per_day": 180459,
-   "contracts_per_day": 1779454,
-   "trades": 38341
+   "dollars_per_day": 186344,
+   "contracts_per_day": 1825934,
+   "trades": 38592
   }
  },
  "markets_with_longshot_buys": {
-  "kalshi": 671,
-  "pm": 196
+  "kalshi": 672,
+  "pm": 197
  },
  "book_latest": {
   "kalshi": {
-   "avg_ask_size_at_touch": 32183,
-   "avg_ask_depth_to_20c": 74406,
+   "avg_ask_size_at_touch": 34238,
+   "avg_ask_depth_to_20c": 76052,
    "avg_spread_cents": 1.6
   },
   "pm": {
-   "avg_ask_size_at_touch": 83046,
-   "avg_ask_depth_to_20c": 257582,
-   "avg_spread_cents": 0.9
+   "avg_ask_size_at_touch": 70515,
+   "avg_ask_depth_to_20c": 218272,
+   "avg_spread_cents": 0.8
   }
  },
  "paper_orders": {
   "kalshi/improve": {
-   "placed": 1326,
-   "filled": 812,
-   "fill_rate": 0.612,
+   "placed": 1327,
+   "filled": 813,
+   "fill_rate": 0.613,
    "avg_hours_to_fill": 28.0
   },
   "kalshi/join": {
-   "placed": 1433,
+   "placed": 1434,
    "filled": 649,
    "fill_rate": 0.453,
    "avg_hours_to_fill": 53.3
   },
   "pm/improve": {
-   "placed": 319,
-   "filled": 249,
-   "fill_rate": 0.781,
+   "placed": 322,
+   "filled": 251,
+   "fill_rate": 0.78,
    "avg_hours_to_fill": 6.7
   },
   "pm/join": {
-   "placed": 455,
+   "placed": 456,
    "filled": 306,
-   "fill_rate": 0.673,
+   "fill_rate": 0.671,
    "avg_hours_to_fill": 28.8
   }
  },
@@ -72,26 +73,26 @@
    "avg_filled": 35.1
   },
   "pm": {
-   "n": 32,
-   "avg_filled": 31.0
+   "n": 33,
+   "avg_filled": 30.5
   }
  },
  "adverse_selection_mid_move_1h_after_fill_cents": {
-  "n": 1859,
-  "mean": 0.06,
+  "n": 1864,
+  "mean": 0.05,
   "share_up": 0.47
  },
  "positions": {
   "kalshi": {
-   "opened": 1399,
-   "premium_collected_usd": 13470,
+   "opened": 1400,
+   "premium_collected_usd": 13477,
    "resolved": 173,
    "realised_pnl_usd": -400,
    "longshots_that_hit": 19
   },
   "pm": {
-   "opened": 555,
-   "premium_collected_usd": 6476,
+   "opened": 557,
+   "premium_collected_usd": 6498,
    "resolved": 0,
    "realised_pnl_usd": 0,
    "longshots_that_hit": 0
@@ -101,38 +102,38 @@
   {
    "platform": "kalshi",
    "market": "CONTROLH-2026-R",
-   "dollars": 1198819,
-   "trades": 14397
+   "dollars": 1200175,
+   "trades": 14421
   },
   {
    "platform": "kalshi",
    "market": "KXBALANCEPOWERCOMBO-27FEB-RR",
-   "dollars": 761070,
-   "trades": 3933
+   "dollars": 762272,
+   "trades": 3942
   },
   {
    "platform": "pm",
    "market": "0x5db999fad322cea2914535aae5517060c3f80ad6d8c0231cde2124a434d16846",
-   "dollars": 452487,
-   "trades": 1582
+   "dollars": 452497,
+   "trades": 1583
   },
   {
    "platform": "pm",
    "market": "0x12aa13b3da17ceae1b0a59b5d5b77121e91bb79b4bb0b52bf6543ed3f8d0953b",
-   "dollars": 328765,
-   "trades": 1004
+   "dollars": 395581,
+   "trades": 1020
   },
   {
    "platform": "pm",
    "market": "0xdf9bf27ee5757c55b44b8b9826ddc9ec3a8809aa3278634c45edbb7fc8f1a3e3",
-   "dollars": 326510,
-   "trades": 1548
+   "dollars": 366664,
+   "trades": 1599
   },
   {
    "platform": "kalshi",
    "market": "CONTROLH-2026-D",
-   "dollars": 229577,
-   "trades": 5827
+   "dollars": 229632,
+   "trades": 5845
   },
   {
    "platform": "pm",
@@ -143,14 +144,14 @@
   {
    "platform": "pm",
    "market": "0x4e4f77e7dbf4cab666e9a1943674d7ae66348e862df03ea6f44b11eb95731928",
-   "dollars": 194729,
-   "trades": 1048
+   "dollars": 194762,
+   "trades": 1053
   },
   {
    "platform": "pm",
    "market": "0xd5d9fc47718bd553592d126b1fa5e87183d27f3936975b0c04cc0f2dec1f1bb4",
-   "dollars": 178815,
-   "trades": 1621
+   "dollars": 178931,
+   "trades": 1639
   },
   {
    "platform": "pm",
